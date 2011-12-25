@@ -2,7 +2,11 @@ gravatar_url = (gravatar_id, size)->
   size ||= 140
   "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
 
-notify = (icon, title, message) ->
+notify = (gh_event) ->
+  {actor: {login, gravatar_id}, type} = gh_event
+  icon = gravatar_id && gravatar_url(gravatar_id)
+  title = type
+  message = login
   notification = webkitNotifications.createNotification(icon, title, message)
   notification.ondisplay = ->
     setTimeout(
@@ -19,4 +23,4 @@ socket.on 'connected', (data) ->
 
   socket.on 'gh_event pushed', (data) ->
     console.log(data)
-    notify(gravatar_url(data.actor?.gravatar_id), data.type, data.actor?.login)
+    notify(data)

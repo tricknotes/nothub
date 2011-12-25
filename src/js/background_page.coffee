@@ -66,8 +66,6 @@ notify = (gh_event) ->
 socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
 
 socket.on 'connected', (data) ->
-  console.log(data) # for debug
-
   socket.on 'gh_event pushed', (data) ->
     console.log(data)
     notify(data)

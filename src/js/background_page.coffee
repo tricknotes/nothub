@@ -8,43 +8,43 @@ gh_url = (path)->
 extract_info = (gh_event) ->
   {actor: {login, gravatar_id}, type, repo, payload} = gh_event
   icon = gravatar_id && gravatar_url(gravatar_id)
-  [title, message, url] = switch gh_event.type
+  [title, message, url] = switch type
     when 'CreateEvent'
-      switch gh_event.payload.ref_type
+      switch payload.ref_type
         when 'branch', 'tag'
-          [type, login, gh_url("#{gh_event.repo.name}/tree/#{gh_event.payload.ref}")]
+          [type, login, gh_url("#{repo.name}/tree/#{payload.ref}")]
         when 'repository'
-          [type, login, gh_url(gh_event.repo.name)]
+          [type, login, gh_url(repo.name)]
         else
-          console.log([gh_event.type, gh_event])
-          [type, login, gh_event.repo.name]
+          console.log([type, gh_event])
+          [type, login, repo.name]
     when 'WatchEvent'
-      [type, login, gh_url(gh_event.repo.name)]
+      [type, login, gh_url(repo.name)]
     when 'PushEvent'
-      [type, login, gh_url("#{gh_event.repo.name}/commit/#{gh_event.payload.head}")]
+      [type, login, gh_url("#{repo.name}/commit/#{payload.head}")]
     when 'ForkEvent'
-      [type, login, gh_event.payload.forkee.html_url]
+      [type, login, payload.forkee.html_url]
     when 'CommitCommentEvent'
-      [type, login, gh_event.payload.comment.html_url]
+      [type, login, payload.comment.html_url]
     when 'DeleteEvent'
       [type, login, gh_url()] # noop
     when 'GistEvent'
-      [type, login, gh_event.payload.gist.html_url]
+      [type, login, payload.gist.html_url]
     when 'GollumEvent'
-      [type, login, gh_event.payload.pages[0].html_url]
+      [type, login, payload.pages[0].html_url]
     when 'IssuesEvent'
-      [type, login, gh_event.payload.issue.html_url]
+      [type, login, payload.issue.html_url]
     when 'IssueCommentEvent'
-      [type, login, gh_event.payload.issue.html_url]
+      [type, login, payload.issue.html_url]
     when 'PullRequestEvent'
-      [type, login, gh_event.payload.pull_request.html_url]
+      [type, login, payload.pull_request.html_url]
     when 'FollowEvent'
-      [type, login, gh_event.payload.target.html_url]
+      [type, login, payload.target.html_url]
     when 'MemberEvent'
-      [type, login, gh_url(gh_event.repo.name)]
+      [type, login, gh_url(repo.name)]
     else
       # for debug
-      console.log([gh_event.type, gh_event])
+      console.log([type, gh_event])
       JSON.stringify(gh_event)
   {title, message, url, icon}
 

@@ -12,36 +12,92 @@ extract_info = (gh_event) ->
     when 'CreateEvent'
       switch payload.ref_type
         when 'branch', 'tag'
-          [type, login, gh_url("#{repo.name}/tree/#{payload.ref}")]
+          [
+            "#{payload.ref_type} created",
+            "#{login} created #{payload.ref_type} #{payload.ref} at '#{repo.name}'",
+            gh_url("#{repo.name}/tree/#{payload.ref}")
+          ]
         when 'repository'
-          [type, login, gh_url(repo.name)]
+          [
+            'Repository created',
+            "#{login} created repository '#{repo.name}'",
+            gh_url(repo.name)
+          ]
         else
           console.log([type, gh_event])
           [type, login, repo.name]
     when 'WatchEvent'
-      [type, login, gh_url(repo.name)]
+      [
+        "Watch started",
+        "#{login} started watching #{repo.name}",
+        gh_url(repo.name)
+      ]
     when 'PushEvent'
-      [type, login, gh_url("#{repo.name}/commit/#{payload.head}")]
+      [
+        "#{repo.name} was pushed",
+        "#{login} pushed to #{payload.ref} at #{repo.name}",
+        gh_url("#{repo.name}/commit/#{payload.head}")
+      ]
     when 'ForkEvent'
-      [type, login, payload.forkee.html_url]
+      [
+        "#{repo.name} was forked",
+        "#{login} forked #{repo.name}",
+        payload.forkee.html_url
+      ]
     when 'CommitCommentEvent'
-      [type, login, payload.comment.html_url]
+      [
+        "#{repo.name} was commented",
+        "#{login} commented on #{repo.name}",
+        payload.comment.html_url
+      ]
     when 'DeleteEvent'
-      [type, login, gh_url()] # noop
+      [
+        "#{repo.name} was deleted",
+        "#{login} deleted #{repo.name}",
+        gh_url() # noop
+      ]
     when 'GistEvent'
-      [type, login, payload.gist.html_url]
+      [
+        "Gist #{payload.action}",
+        "#{login} #{payload.action} gist: #{payload.gist.id}",
+        payload.gist.html_url
+      ]
     when 'GollumEvent'
-      [type, login, payload.pages[0].html_url]
+      [
+        "Wiki #{payload.pages[0].action}",
+        "#{login} #{payload.pages[0].action} the #{repo.name} wiki",
+        payload.pages[0].html_url
+      ]
     when 'IssuesEvent'
-      [type, login, payload.issue.html_url]
+      [
+        "Issue #{payload.action}",
+        "#{login} #{payload.action} issue #{payload.issue.number} on #{repo.name}",
+        payload.issue.html_url
+      ]
     when 'IssueCommentEvent'
-      [type, login, payload.issue.html_url]
+      [
+        "Issue commented",
+        "#{login} commented issue #{payload.issue.number} on #{repo.name}",
+        payload.issue.html_url
+      ]
     when 'PullRequestEvent'
-      [type, login, payload.pull_request.html_url]
+      [
+        "Pull request #{payload.action}",
+        "#{login} #{payload.action} pull request #{repo.name}",
+        payload.pull_request.html_url
+      ]
     when 'FollowEvent'
-      [type, login, payload.target.html_url]
+      [
+        "#{login} following",
+        "#{login} started following #{payload.target.name}",
+        payload.target.html_url
+      ]
     when 'MemberEvent'
-      [type, login, gh_url(repo.name)]
+      [
+        "Member #{payload.action}",
+        "#{login} #{payload.action} #{payload.member.login} to #{repo.name}",
+        gh_url(repo.name)
+      ]
     else
       # for debug
       console.log([type, gh_event])

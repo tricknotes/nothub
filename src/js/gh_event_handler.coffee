@@ -1,5 +1,9 @@
 GhEvent = (@title, @message, @url) ->
 
+gravatar_url = (gravatar_id, size)->
+  size ||= 140
+  "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
+
 gh_url = (path)->
   "https://github.com/#{path}"
 
@@ -122,11 +126,14 @@ GhEvent.handlers['MemberEvent'] = (gh_event) ->
   )
 
 GhEvent.create = (gh_event_data) ->
-  {type} = gh_event_data
+  {actor: {gravatar_id}, type} = gh_event_data
   handler = @handlers[type]
   unless handler
     console.log([type, gh_event_data])
     throw "Unknown event type: #{type}"
-  handler(gh_event_data)
+  gh_event = handler(gh_event_data)
+  icon = gravatar_id && gravatar_url(gravatar_id)
+  gh_event.icon = icon
+  gh_event
 
 @GhEvent = GhEvent

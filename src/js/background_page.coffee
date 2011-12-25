@@ -12,7 +12,7 @@ notify = (gh_event) ->
     setTimeout(
       ->
         notification.cancel()
-      , 5000
+      , 3000
     )
   notification.show()
 

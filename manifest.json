@@ -3,7 +3,7 @@
   , "description": "Notifier for GitHub event."
   , "version": "0.0.1"
   , "background_page": "dist/background_page.html"
-  , "premissions": [
+  , "permissions": [
       "notifications"
     , "http://www2049u.sakura.ne.jp:4000/"
   ]

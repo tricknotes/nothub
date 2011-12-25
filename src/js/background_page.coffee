@@ -5,51 +5,51 @@ gravatar_url = (gravatar_id, size)->
 gh_url = (path)->
   "https://github.com/#{path}"
 
-extract_url = (gh_event) ->
-  switch gh_event.type
+extract_info = (gh_event) ->
+  {actor: {login, gravatar_id}, type, repo, payload} = gh_event
+  icon = gravatar_id && gravatar_url(gravatar_id)
+  [title, message, url] = switch gh_event.type
     when 'CreateEvent'
       switch gh_event.payload.ref_type
         when 'branch', 'tag'
-          gh_url("#{gh_event.repo.name}/tree/#{gh_event.payload.ref}")
+          [type, login, gh_url("#{gh_event.repo.name}/tree/#{gh_event.payload.ref}")]
         when 'repository'
-          gh_url(gh_event.repo.name)
+          [type, login, gh_url(gh_event.repo.name)]
         else
           console.log([gh_event.type, gh_event])
-          gh_event.repo.name
+          [type, login, gh_event.repo.name]
     when 'WatchEvent'
-      gh_url(gh_event.repo.name)
+      [type, login, gh_url(gh_event.repo.name)]
     when 'PushEvent'
-      gh_url("#{gh_event.repo.name}/commit/#{gh_event.payload.head}")
+      [type, login, gh_url("#{gh_event.repo.name}/commit/#{gh_event.payload.head}")]
     when 'ForkEvent'
-      gh_event.payload.forkee.html_url
+      [type, login, gh_event.payload.forkee.html_url]
     when 'CommitCommentEvent'
-      gh_event.payload.comment.html_url
+      [type, login, gh_event.payload.comment.html_url]
     when 'DeleteEvent'
-      gh_url() # noop
+      [type, login, gh_url()] # noop
     when 'GistEvent'
-      gh_event.payload.gist.html_url
+      [type, login, gh_event.payload.gist.html_url]
     when 'GollumEvent'
-      gh_event.payload.pages[0].html_url
+      [type, login, gh_event.payload.pages[0].html_url]
     when 'IssuesEvent'
-      gh_event.payload.issue.html_url
+      [type, login, gh_event.payload.issue.html_url]
     when 'IssueCommentEvent'
-      gh_event.payload.issue.html_url
+      [type, login, gh_event.payload.issue.html_url]
     when 'PullRequestEvent'
-      gh_event.payload.pull_request.html_url
+      [type, login, gh_event.payload.pull_request.html_url]
     when 'FollowEvent'
-      gh_event.payload.target.html_url
+      [type, login, gh_event.payload.target.html_url]
     when 'MemberEvent'
-      gh_url(gh_event.repo.name)
+      [type, login, gh_url(gh_event.repo.name)]
     else
       # for debug
       console.log([gh_event.type, gh_event])
       JSON.stringify(gh_event)
+  {title, message, url, icon}
 
 notify = (gh_event) ->
-  {actor: {login, gravatar_id}, type} = gh_event
-  icon = gravatar_id && gravatar_url(gravatar_id)
-  title = type
-  message = login
+  {title, message, url, icon} = extract_info(gh_event)
   notification = webkitNotifications.createNotification(icon, title, message)
   notification.ondisplay = ->
     setTimeout(
@@ -58,7 +58,7 @@ notify = (gh_event) ->
       , 3000
     )
   notification.onclick = ->
-    window.open(extract_url(gh_event))
+    window.open(url)
     notification.cancel()
 
   notification.show()

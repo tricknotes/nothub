@@ -1,0 +1,10 @@
+{
+    "name": "gh-notification"
+  , "description": "Notifier for GitHub event."
+  , "version": "0.0.1"
+  , "background_page": "background_page.html"
+  , "premissions": [
+      "notifications"
+    , "http://www2049u.sakura.ne.jp:4000/"
+  ]
+}

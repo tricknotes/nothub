@@ -121,12 +121,12 @@ GhEvent.handlers['MemberEvent'] = (gh_event) ->
     gh_url(repo.name)
   )
 
-GhEvent.create = (gh_event) ->
-  {type} = gh_event
+GhEvent.create = (gh_event_data) ->
+  {type} = gh_event_data
   handler = @handlers[type]
   unless handler
-    console.log([type, gh_event])
+    console.log([type, gh_event_data])
     throw "Unknown event type: #{type}"
-  handler(gh_event)
+  handler(gh_event_data)
 
 @GhEvent = GhEvent

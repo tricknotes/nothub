@@ -151,6 +151,39 @@ GhEvent.add_type 'DownloadEvent'
   url: ->
     @gh_url(@repo.name)
 
+GhEvent.add_type 'ForkEvent'
+  title: ->
+    "Forked"
+  message: ->
+    "#{@actor.login} forken #{@repo.name}"
+  url: ->
+    @gh_url(@payload.forkee.html_url)
+
+###
+# TODO implement this
+GhEvent.add_type 'ForkApplyEvent'
+  title: ->
+    "Fork applyed"
+  message: ->
+  url: ->
+###
+
+GhEvent.add_type 'PublicEvent'
+  title: ->
+    "Open sourced"
+  message: ->
+    "#{@actor.login} open sourced #{@repo.name}"
+  url: ->
+    @gh_url(@repo.name)
+
+GhEvent.add_type 'TeamAddEvent'
+  title: ->
+    "Team added"
+  message: ->
+    "#{@actor.login} added #{@payload.user.login} to #{@payload.team.name}"
+  url: ->
+    @gh_url(@payload.team.name)
+
 GhEvent.create_by_type = (gh_event_data) ->
   {type} = gh_event_data
   event_type = @types[type]

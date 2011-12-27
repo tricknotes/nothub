@@ -1,139 +1,155 @@
-GhEvent = (@title, @message, @url) ->
-
-gravatar_url = (gravatar_id, size)->
-  size ||= 140
-  "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
-
-gh_url = (path)->
-  "https://github.com/#{path}"
-
-GhEvent.handlers = {}
-
-GhEvent.handlers['CreateEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  [title, message, path] = switch payload.ref_type
-    when 'branch', 'tag'
+class GhEvent
+  icon: (size) ->
+    size ||= 140
+    if gravatar_id = @actor?.gravatar_id
       [
-        "#{payload.ref_type} created",
-        "#{login} created #{payload.ref_type} #{payload.ref} at '#{repo.name}'",
-        "#{repo.name}/tree/#{payload.ref}"
-      ]
-    when 'repository'
-      [
-        'Repository created',
-        "#{login} created repository '#{repo.name}'",
-        repo.name
-      ]
+        "https://secure.gravatar.com/avatar/#{gravatar_id}"
+        "?s=#{size}"
+        "&d=https://a248.e.akamai.net/"
+        "assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
+      ].join('')
     else
-      console.log([type, gh_event])
-      throw "Unknown CreateEvent: #{payload.ref_type}"
-  new GhEvent(title, message, gh_url(path))
+      null
 
-GhEvent.handlers['WatchEvent'] = (gh_event) ->
-  {actor: {login}, repo} = gh_event
-  new GhEvent(
-    "Watch started"
-    "#{login} started watching #{repo.name}"
-    gh_url(repo.name)
-  )
-
-GhEvent.handlers['PushEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "#{repo.name} was pushed"
-    "#{login} pushed to #{payload.ref} at #{repo.name}"
-    gh_url("#{repo.name}/commit/#{payload.head}")
-  )
-
-GhEvent.handlers['ForkEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "#{repo.name} was forked"
-    "#{login} forked #{repo.name}"
-    payload.forkee.html_url
-  )
-
-GhEvent.handlers['CommitCommentEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "#{repo.name} was commented"
-    "#{login} commented on #{repo.name}"
-    payload.comment.html_url
-  )
-
-GhEvent.handlers['DeleteEvent'] = (gh_event) ->
-  {actor: {login}, repo} = gh_event
-  new GhEvent(
-    "#{repo.name} was deleted"
-    "#{login} deleted #{repo.name}"
-    gh_url() # noop
-  )
-
-GhEvent.handlers['GistEvent'] = (gh_event) ->
-  {actor: {login}, payload} = gh_event
-  new GhEvent(
-    "Gist #{payload.action}"
-    "#{login || 'Anonymous'} #{payload.action} gist: #{payload.gist.id}"
-    payload.gist.html_url
-  )
-
-GhEvent.handlers['GollumEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "Wiki #{payload.pages[0].action}"
-    "#{login} #{payload.pages[0].action} the #{repo.name} wiki"
-    payload.pages[0].html_url
-  )
-
-GhEvent.handlers['IssuesEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "Issue #{payload.action}"
-    "#{login} #{payload.action} issue #{payload.issue.number} on #{repo.name}"
-    payload.issue.html_url
-  )
-
-GhEvent.handlers['IssueCommentEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "Issue commented"
-    "#{login} commented issue #{payload.issue.number} on #{repo.name}"
-    payload.issue.html_url
-  )
-
-GhEvent.handlers['PullRequestEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "Pull request #{payload.action}"
-    "#{login} #{payload.action} pull request #{repo.name}"
-    payload.pull_request.html_url
-  )
-
-GhEvent.handlers['FollowEvent'] = (gh_event) ->
-  {actor: {login}, payload} = gh_event
-  new GhEvent(
-    "#{login} following"
-    "#{login} started following #{payload.target.name}"
-    payload.target.html_url
-  )
-
-GhEvent.handlers['MemberEvent'] = (gh_event) ->
-  {actor: {login}, repo, payload} = gh_event
-  new GhEvent(
-    "Member #{payload.action}"
-    "#{login} #{payload.action} #{payload.member.login} to #{repo.name}"
-    gh_url(repo.name)
-  )
+  gh_url: (path)->
+    "https://github.com/#{path}"
 
 GhEvent.create = (gh_event_data) ->
-  {actor: {gravatar_id}, type} = gh_event_data
-  handler = @handlers[type]
-  unless handler
+  gh_event = Object.create(gh_event_data)
+  for name, method of this.prototype
+    gh_event[name] = method
+  @apply(gh_event, [])
+  gh_event
+
+GhEvent.types = {}
+GhEvent.add_type = (type, methods) ->
+  Type = class @types[type] extends this
+
+  for name, method of methods
+    Type.prototype[name] = method
+  Type
+
+GhEvent.add_type 'CreateEvent'
+  title: ->
+    "#{@payload.ref_type} created"
+  message: ->
+    message = "#{@actor.login} created #{@payload.ref_type}"
+    unless @is_type_of_repository()
+      message += " #{@payload.ref} at"
+    message += "'#{@repo.name}'"
+    message
+  url: ->
+    path = @repo.name
+    unless @is_type_of_repository()
+      path += "/tree/#{@payload.ref}"
+    @gh_url(path)
+  is_type_of_repository: ->
+    ['branch', 'tag'].indexOf(@payload.ref_type) < 0
+
+GhEvent.add_type 'WatchEvent'
+  title: ->
+    "Watch started"
+  message: ->
+    "#{@actor.login} started watching #{@repo.name}"
+  url: ->
+    @gh_url(@repo.name)
+
+GhEvent.add_type 'PushEvent'
+  title: ->
+    "#{@repo.name} was pushed"
+  message: ->
+    "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
+  url: ->
+    @gh_url("#{@repo.name}/commit/#{@payload.head}")
+
+GhEvent.add_type 'ForkEvent'
+  title: ->
+    "#{@repo.name} was forked"
+  message: ->
+    "#{@actor.login} forked #{@repo.name}"
+  url: ->
+    @payload.forkee.html_url
+
+GhEvent.add_type 'CommitCommentEvent'
+  title: ->
+    "#{@repo.name} was commented"
+  message: ->
+    "#{@actor.login} commented on #{@repo.name}"
+  url: ->
+    @payload.comment.html_url
+
+GhEvent.add_type 'DeleteEvent'
+  title: ->
+    "#{@repo.name} was deleted"
+  message: ->
+    "#{@actor.login} deleted #{@repo.name}"
+  url: ->
+    @gh_url() # noop
+
+GhEvent.add_type 'GistEvent'
+  title: ->
+    "Gist #{@payload.action}"
+  message: ->
+    "#{@actor.login || 'Anonymous'} #{@payload.action} gist: #{@payload.gist.id}"
+  url: ->
+    @payload.gist.html_url
+
+GhEvent.add_type 'GollumEvent'
+  title: ->
+    "Wiki #{@payload.pages[0].action}"
+  message: ->
+    "#{@actor.login} #{@payload.pages[0].action} the #{@repo.name} wiki"
+  url: ->
+    @payload.pages[0].html_url
+
+GhEvent.add_type 'IssuesEvent'
+  title: ->
+    "Issue #{@payload.action}"
+  message: ->
+    "#{@actor.login} #{@payload.action} issue #{@payload.issue.number} on #{@repo.name}"
+  url: ->
+    @payload.issue.html_url
+
+GhEvent.add_type 'IssueCommentEvent'
+  title: ->
+    "Issue commented"
+  message: ->
+    "#{@actor.login} commented issue #{@payload.issue.number} on #{@repo.name}"
+  url: ->
+    @payload.issue.html_url
+
+GhEvent.add_type 'PullRequestEvent'
+  title: ->
+    "Pull request #{@payload.action}"
+  message: ->
+    "#{@actor.login} #{@payload.action} pull request #{@repo.name}"
+  url: ->
+    @payload.pull_request.html_url
+
+
+GhEvent.add_type 'FollowEvent'
+  title: ->
+    "#{@actor.login} following"
+  message: ->
+    "#{@actor.login} started following #{@payload.target.name}"
+  url: ->
+    @payload.target.html_url
+
+GhEvent.add_type 'MemberEvent'
+  title: ->
+    "Member #{@payload.action}"
+  message: ->
+    "#{@actor.login} #{@payload.action} #{@payload.member.login} to #{@repo.name}"
+  url: ->
+    @gh_url(@repo.name)
+
+GhEvent.create_by_type = (gh_event_data) ->
+  {type} = gh_event_data
+  event_type = @types[type]
+  unless event_type
     console.log([type, gh_event_data])
     throw "Unknown event type: #{type}"
-  gh_event = handler(gh_event_data)
-  icon = gravatar_id && gravatar_url(gravatar_id)
-  gh_event.icon = icon
+  gh_event = event_type.create(gh_event_data)
   gh_event
 
 # exports

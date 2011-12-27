@@ -1,6 +1,10 @@
 notify = (gh_event_data) ->
-  {title, message, url, icon} = GhEvent.create(gh_event_data)
-  notification = webkitNotifications.createNotification(icon, title, message)
+  gh_event = GhEvent.create_by_type(gh_event_data)
+  notification = webkitNotifications.createNotification(
+    gh_event.icon()
+    gh_event.title()
+    gh_event.message()
+  )
   notification.ondisplay = ->
     setTimeout(
       ->
@@ -8,7 +12,7 @@ notify = (gh_event_data) ->
       , 3000
     )
   notification.onclick = ->
-    window.open(url)
+    window.open(gh_event.url())
     notification.cancel()
 
   notification.show()

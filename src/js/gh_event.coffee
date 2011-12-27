@@ -29,6 +29,15 @@ GhEvent.add_type = (type, methods) ->
     Type.prototype[name] = method
   Type
 
+# type definitions
+GhEvent.add_type 'CommitCommentEvent'
+  title: ->
+    "#{@repo.name} was commented"
+  message: ->
+    "#{@actor.login} commented on #{@repo.name}"
+  url: ->
+    @payload.comment.html_url
+
 GhEvent.add_type 'CreateEvent'
   title: ->
     "#{@payload.ref_type} created"
@@ -46,21 +55,29 @@ GhEvent.add_type 'CreateEvent'
   is_type_of_repository: ->
     ['branch', 'tag'].indexOf(@payload.ref_type) < 0
 
-GhEvent.add_type 'WatchEvent'
+GhEvent.add_type 'DeleteEvent'
   title: ->
-    "Watch started"
+    "#{@repo.name} was deleted"
   message: ->
-    "#{@actor.login} started watching #{@repo.name}"
+    "#{@actor.login} deleted #{@repo.name}"
+  url: ->
+    @gh_url() # noop
+
+GhEvent.add_type 'DownloadEvent'
+  title: ->
+    "File downloaded"
+  message: ->
+    "#{@actor.login} downloaded '#{@payload.download.name}' on #{@repo.name}"
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'PushEvent'
+GhEvent.add_type 'FollowEvent'
   title: ->
-    "#{@repo.name} was pushed"
+    "#{@actor.login} following"
   message: ->
-    "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
+    "#{@actor.login} started following #{@payload.target.name}"
   url: ->
-    @gh_url("#{@repo.name}/commit/#{@payload.head}")
+    @payload.target.html_url
 
 GhEvent.add_type 'ForkEvent'
   title: ->
@@ -70,21 +87,14 @@ GhEvent.add_type 'ForkEvent'
   url: ->
     @payload.forkee.html_url
 
-GhEvent.add_type 'CommitCommentEvent'
+###
+# TODO implement this
+GhEvent.add_type 'ForkApplyEvent'
   title: ->
-    "#{@repo.name} was commented"
+    "Fork applyed"
   message: ->
-    "#{@actor.login} commented on #{@repo.name}"
   url: ->
-    @payload.comment.html_url
-
-GhEvent.add_type 'DeleteEvent'
-  title: ->
-    "#{@repo.name} was deleted"
-  message: ->
-    "#{@actor.login} deleted #{@repo.name}"
-  url: ->
-    @gh_url() # noop
+###
 
 GhEvent.add_type 'GistEvent'
   title: ->
@@ -102,14 +112,6 @@ GhEvent.add_type 'GollumEvent'
   url: ->
     @payload.pages[0].html_url
 
-GhEvent.add_type 'IssuesEvent'
-  title: ->
-    "Issue #{@payload.action}"
-  message: ->
-    "#{@actor.login} #{@payload.action} issue #{@payload.issue.number} on #{@repo.name}"
-  url: ->
-    @payload.issue.html_url
-
 GhEvent.add_type 'IssueCommentEvent'
   title: ->
     "Issue commented"
@@ -118,22 +120,13 @@ GhEvent.add_type 'IssueCommentEvent'
   url: ->
     @payload.issue.html_url
 
-GhEvent.add_type 'PullRequestEvent'
+GhEvent.add_type 'IssuesEvent'
   title: ->
-    "Pull request #{@payload.action}"
+    "Issue #{@payload.action}"
   message: ->
-    "#{@actor.login} #{@payload.action} pull request #{@repo.name}"
+    "#{@actor.login} #{@payload.action} issue #{@payload.issue.number} on #{@repo.name}"
   url: ->
-    @payload.pull_request.html_url
-
-
-GhEvent.add_type 'FollowEvent'
-  title: ->
-    "#{@actor.login} following"
-  message: ->
-    "#{@actor.login} started following #{@payload.target.name}"
-  url: ->
-    @payload.target.html_url
+    @payload.issue.html_url
 
 GhEvent.add_type 'MemberEvent'
   title: ->
@@ -143,31 +136,6 @@ GhEvent.add_type 'MemberEvent'
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'DownloadEvent'
-  title: ->
-    "File downloaded"
-  message: ->
-    "#{@actor.login} downloaded '#{@payload.download.name}' on #{@repo.name}"
-  url: ->
-    @gh_url(@repo.name)
-
-GhEvent.add_type 'ForkEvent'
-  title: ->
-    "Forked"
-  message: ->
-    "#{@actor.login} forken #{@repo.name}"
-  url: ->
-    @gh_url(@payload.forkee.html_url)
-
-###
-# TODO implement this
-GhEvent.add_type 'ForkApplyEvent'
-  title: ->
-    "Fork applyed"
-  message: ->
-  url: ->
-###
-
 GhEvent.add_type 'PublicEvent'
   title: ->
     "Open sourced"
@@ -176,6 +144,22 @@ GhEvent.add_type 'PublicEvent'
   url: ->
     @gh_url(@repo.name)
 
+GhEvent.add_type 'PullRequestEvent'
+  title: ->
+    "Pull request #{@payload.action}"
+  message: ->
+    "#{@actor.login} #{@payload.action} pull request #{@repo.name}"
+  url: ->
+    @payload.pull_request.html_url
+
+GhEvent.add_type 'PushEvent'
+  title: ->
+    "#{@repo.name} was pushed"
+  message: ->
+    "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
+  url: ->
+    @gh_url("#{@repo.name}/commit/#{@payload.head}")
+
 GhEvent.add_type 'TeamAddEvent'
   title: ->
     "Team added"
@@ -183,6 +167,14 @@ GhEvent.add_type 'TeamAddEvent'
     "#{@actor.login} added #{@payload.user.login} to #{@payload.team.name}"
   url: ->
     @gh_url(@payload.team.name)
+
+GhEvent.add_type 'WatchEvent'
+  title: ->
+    "Watch started"
+  message: ->
+    "#{@actor.login} started watching #{@repo.name}"
+  url: ->
+    @gh_url(@repo.name)
 
 GhEvent.create_by_type = (gh_event_data) ->
   {type} = gh_event_data

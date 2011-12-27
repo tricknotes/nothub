@@ -136,4 +136,6 @@ GhEvent.create = (gh_event_data) ->
   gh_event.icon = icon
   gh_event
 
-@GhEvent = GhEvent
+# exports
+global = if module?.exports? then module.exports else this
+global.GhEvent = GhEvent

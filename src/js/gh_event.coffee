@@ -143,6 +143,14 @@ GhEvent.add_type 'MemberEvent'
   url: ->
     @gh_url(@repo.name)
 
+GhEvent.add_type 'DownloadEvent'
+  title: ->
+    "File downloaded"
+  message: ->
+    "#{@actor.login} downloaded '#{@payload.download.name}' on #{@repo.name}"
+  url: ->
+    @gh_url(@repo.name)
+
 GhEvent.create_by_type = (gh_event_data) ->
   {type} = gh_event_data
   event_type = @types[type]

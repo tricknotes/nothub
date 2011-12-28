@@ -61,7 +61,6 @@ jQuery ($) ->
     # setup submit event
     $('.watchButton', area).click ->
       $field = $('.nameInputField', area)
-      console.log([area, name, type])
       name = $field.attr('value')
       store.add(type, name)
       $field.attr('value', '')

@@ -20,7 +20,9 @@ notify = (gh_event_data) ->
 socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
 
 socket.on 'connected', (data) ->
-  socket.emit 'query', {type: 'CreateEvent', payload: {ref_type: 'tag'}}
   socket.on 'gh_event pushed', (data) ->
     console.log(data)
     notify(data)
+
+@updateQuery = (query) ->
+  socket.emit 'query', query

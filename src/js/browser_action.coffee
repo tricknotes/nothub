@@ -24,9 +24,48 @@ class Store
   on: (args...) ->
     @ee.on(args...)
 
-jQuery ($) ->
-  store = new Store(localStorage)
+class QueryBuilder
+  constructor: () ->
+    @query = []
 
+  addUsername: (login) ->
+    @query.push({actor: {login}})
+
+  addReponame: (name) ->
+    @query.push({repo: {name}})
+
+  toQuery: () ->
+    if @query.length == 1
+      @query[0]
+    else
+      {'$or': @query}
+
+background = chrome.extension.getBackgroundPage()
+{updateQuery} = background
+
+store = new Store(localStorage)
+
+# send to background page
+sendQuery = () ->
+  builder = new QueryBuilder
+
+  usernames = store.items('username')
+  $.each usernames, (i, name) ->
+    builder.addUsername(name)
+
+  reponames = store.items('reponame')
+  $.each reponames, (i, name) ->
+    builder.addReponame(name)
+
+  updateQuery builder.toQuery()
+
+# initialize query
+sendQuery()
+
+store.on 'add', sendQuery
+store.on 'remove', sendQuery
+
+jQuery ($) ->
   areaFromType = (type) ->
     areas = $('.watchArea').filter (i, el) ->
       $(el).data('type') == type

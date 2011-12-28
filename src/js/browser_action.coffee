@@ -32,6 +32,8 @@ jQuery ($) ->
       $(el).data('type') == type
     areas[0]
 
+  # template for watched name
+  # requires: name, type
   toWatchedArea = _.template '''
     <li data-name="<%- name %>">
       <a><%- name %></a>

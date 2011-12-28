@@ -15,7 +15,7 @@ class Store
     if data
       index = data.indexOf(name)
       if index >= 0
-        data.splice(index, index + 1)
+        data.splice(index, 1)
         @storage[type] = JSON.stringify(data)
 
   items: (type) ->

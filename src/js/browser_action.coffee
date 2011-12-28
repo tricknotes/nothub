@@ -60,9 +60,11 @@ jQuery ($) ->
 
     # setup submit event
     $('.watchButton', area).click ->
-      name = $('.nameInputField', area).attr('value')
+      $field = $('.nameInputField', area)
       console.log([area, name, type])
+      name = $field.attr('value')
       store.add(type, name)
+      $field.attr('value', '')
 
     # setup initialize data
     $.each store.items(type), (i, name) ->

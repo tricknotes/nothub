@@ -32,18 +32,25 @@ jQuery ($) ->
       $(el).data('type') == type
     areas[0]
 
+  toWatchedArea = _.template '''
+    <li data-name="<%- name %>">
+      <a><%- name %></a>
+      <a href="#" class="deleteWatchedName" data-name="<%- name %>" data-type="<%- type %>">
+        Delete
+      </a>
+    </li>
+  '''
+
   addNameToWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
-    $place.append(
-      $('<li/>').html(
-        $('<a/>').text(name)))
+    $place.append(toWatchedArea({type, name}))
 
   store.on 'add', addNameToWatchedField
 
   removeNameFromWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
     $('li', $place).each (i, el)->
-      if $(el).text() == name
+      if $(el).data('name') == name
         $(el).remove()
 
   store.on 'remove', removeNameFromWatchedField
@@ -60,6 +67,12 @@ jQuery ($) ->
     # setup initialize data
     $.each store.items(type), (i, name) ->
       addNameToWatchedField(type, name)
+
+  # setup delete link
+  $('.watchArea .deleteWatchedName').live 'click', ->
+    name = $(this).data('name')
+    type = $(this).data('type')
+    store.remove(type, name)
 
   # cancel default submit
   $('.watchArea').submit ->

@@ -1,0 +1,3 @@
+[submodule "lib/EventEmitter"]
+	path = lib/EventEmitter
+	url = git://github.com/Wolfy87/EventEmitter.git

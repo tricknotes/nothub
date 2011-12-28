@@ -3,20 +3,20 @@ class Store
     @ee = new EventEmitter
 
   add: (type, name) ->
-    @ee.emit('add', type, name)
     @storage[type] ||= JSON.stringify([])
     data = JSON.parse(@storage[type])
     data.push(name)
     @storage[type] = JSON.stringify(data)
+    @ee.emit('add', type, name)
 
   remove: (type, name) ->
-    @ee.emit('remove', type, name)
     data = JSON.parse(@storage[type])
     if data
       index = data.indexOf(name)
       if index >= 0
         data.splice(index, 1)
         @storage[type] = JSON.stringify(data)
+    @ee.emit('remove', type, name)
 
   items: (type) ->
     JSON.parse(@storage[type] || '[]')
@@ -24,46 +24,13 @@ class Store
   on: (args...) ->
     @ee.on(args...)
 
-class QueryBuilder
-  constructor: () ->
-    @query = []
-
-  addUsername: (login) ->
-    @query.push({actor: {login}})
-
-  addReponame: (name) ->
-    @query.push({repo: {name}})
-
-  toQuery: () ->
-    if @query.length == 1
-      @query[0]
-    else
-      {'$or': @query}
-
 background = chrome.extension.getBackgroundPage()
 {updateQuery} = background
 
 store = new Store(localStorage)
 
-# send to background page
-sendQuery = () ->
-  builder = new QueryBuilder
-
-  usernames = store.items('username')
-  $.each usernames, (i, name) ->
-    builder.addUsername(name)
-
-  reponames = store.items('reponame')
-  $.each reponames, (i, name) ->
-    builder.addReponame(name)
-
-  updateQuery builder.toQuery()
-
-# initialize query
-sendQuery()
-
-store.on 'add', sendQuery
-store.on 'remove', sendQuery
+store.on 'add', updateQuery
+store.on 'remove', updateQuery
 
 jQuery ($) ->
   areaFromType = (type) ->

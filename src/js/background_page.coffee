@@ -20,9 +20,24 @@ notify = (gh_event_data) ->
 socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
 
 socket.on 'connected', (data) ->
+  updateQuery()
   socket.on 'gh_event pushed', (data) ->
     console.log(data)
     notify(data)
 
-@updateQuery = (query) ->
-  socket.emit 'query', query
+restore = (dataString) ->
+  JSON.parse(dataString || '[]')
+
+# export for using from other scripts
+@updateQuery = updateQuery = () ->
+  builder = new QueryBuilder
+
+  usernames = restore(localStorage['username'])
+  for name in usernames
+    builder.addUsername(name)
+
+  reponames = restore(localStorage['reponame'])
+  for name in reponames
+    builder.addReponame(name)
+
+  socket.emit 'query', builder.toQuery()

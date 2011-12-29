@@ -143,9 +143,9 @@ jQuery ($) ->
     $row = $(this).parents('.watchedRow')
     $area = $('.configureArea', $row)
     if shown = $(this).data('showArea')
-      $area.hide()
+      $area.fadeOut(800)
     else
-      $area.show()
+      $area.fadeIn(1000)
     $(this).data('showArea', !shown)
 
   # setup configuration area

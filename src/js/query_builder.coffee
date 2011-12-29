@@ -46,7 +46,7 @@ QueryBuilder.addUserType 'pullreq', ->
   {type: 'PullRequestEvent'}
 QueryBuilder.addUserType 'gist', ->
   {type: 'GistEvent'}
-QueryBuilder.addUserType 'other', ->
+QueryBuilder.addUserType 'others', ->
   {type:
     '$nin': [
       'PushEvent'
@@ -73,7 +73,7 @@ QueryBuilder.addRepoType 'pullreq', ->
   {type: 'PullRequestEvent'}
 QueryBuilder.addRepoType 'issue', ->
   {type: {'$in': ['IssueEvent', 'IssueCommentEvent']}}
-QueryBuilder.addRepoType 'other', ->
+QueryBuilder.addRepoType 'others', ->
   {type:
     '$nin': [
       'PushEvent'

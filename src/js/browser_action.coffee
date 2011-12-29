@@ -46,7 +46,7 @@ jQuery ($) ->
         <%- name %>
       </a>
       <a href="#" class="deleteWatchedName" data-name="<%- name %>" data-type="<%- type %>">
-        Delete
+        [x]
       </a>
     </li>
   '''

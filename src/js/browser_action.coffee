@@ -107,7 +107,7 @@ jQuery ($) ->
 
   removeNameFromWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
-    $('li', $place).each (i, el)->
+    $('.watchedRow', $place).each (i, el)->
       if $(el).data('name') == name
         $(el).remove()
 
@@ -133,8 +133,9 @@ jQuery ($) ->
 
   # setup delete link
   $('.watchArea .deleteWatchedName').live 'click', ->
-    name = $(this).data('name')
-    type = $(this).data('type')
+    $row = $(this).parents('.watchedRow')
+    name = $row.data('name')
+    type = $row.data('type')
     store.remove(type, name)
 
   # setup donfigure link
@@ -149,9 +150,10 @@ jQuery ($) ->
 
   # setup configuration area
   $('.watchArea input[name=eventTypes]').live 'click', ->
+    $row = $(this).parents('.watchedRow')
     $area = $(this).parents('.configureArea')
-    name = $area.data('name')
-    type = $area.data('type')
+    name = $row.data('name')
+    type = $row.data('type')
     checking = {}
     $('input[name=eventTypes]', $area).each ->
       eventType = $(this).attr('value')

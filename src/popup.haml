@@ -8,18 +8,18 @@
     %script{:src => 'js/query_builder.js'}
     %script{:src => 'js/browser_action.js'}
     %script{:type => 'text/ejs', :id => 'watchedAreaTemplate'}
-      %li.watchedRow{'data-name' => '<%- name %>'}
+      %li.watchedRow{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
         %a.iconLink{:href => 'https://github.com/<%- name %>', :target => '_blank'}
-          %img.icon{:src => '../images/loading.gif', 'data-name' => '<%- name %>'}
+          %img.icon{:src => '../images/loading.gif'}
         %span.watchedName
           %a{:href => 'https://github.com/<%- name %>', :target => '_blank'}
             <%- name %>
         %span.opelation
-          %a.deleteWatchedName{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+          %a.deleteWatchedName
             [x]
-          %a.configureWatchedName{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+          %a.configureWatchedName
             [c]
-        .configureArea{:style => 'display:none;', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+        .configureArea{:style => 'display:none;'}
           <% _.each(eventTypes, function(eventType) { %>
           %label
             %input{:type => 'checkbox', :name => 'eventTypes', :value => '<%- eventType %>'}

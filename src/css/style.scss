@@ -1,6 +1,6 @@
 html {
   overflow-x: hidden;
-  min-width: 350px; }
+  min-width: 550px; }
 
 body {
   font: 14px / 1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -9,13 +9,12 @@ body {
   border-top: 2px solid #ddd; }
 
 #content {
-  padding: 140px 110px 60px 110px; }
+  padding: 20px 60px 30px 60px; }
 
 h1 {
   position: relative;
   font-style: normal;
   font-weight: 100;
-  text-transform: lowercase;
   background: #8A6343;
   color: white;
   display: inline-block;
@@ -65,7 +64,7 @@ ul {
     font-size: 12px;
     .watchedName {
       display: inline-block;
-      min-width: 160px; }}
+      min-width: 250px; }}
   &::after {
     content: '.';
     height: 0;
@@ -73,10 +72,13 @@ ul {
     visibility: hidden;
     clear: both; } }
 
+.watchAreaContent {
+  margin: 0px 0px 0px 30px; }
+
 footer {
   background: #eee;
   width: 100%;
-  padding: 50px 0;
+  padding: 20px 0;
   text-align: right;
   border-top: 1px solid #ddd;
   span {

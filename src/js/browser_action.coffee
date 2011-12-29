@@ -3,25 +3,33 @@ class Store
     @ee = new EventEmitter
 
   add: (type, name) ->
-    @storage[type] ||= JSON.stringify([])
-    data = JSON.parse(@storage[type])
-    data.push(name)
-    @storage[type] = JSON.stringify(data)
+    @open type, @storage, (data) ->
+      data[name] = {} # TODO add details
     @ee.emit('add', type, name)
 
   remove: (type, name) ->
-    data = JSON.parse(@storage[type])
-    if data
-      while (index = data.indexOf(name)) >= 0
-        data.splice(index, 1)
-        @storage[type] = JSON.stringify(data)
+    @open type, @storage, (data) ->
+      delete data[name]
     @ee.emit('remove', type, name)
 
   items: (type) ->
-    JSON.parse(@storage[type] || '[]')
+    @restore(@storage[type])
 
   on: (args...) ->
     @ee.on(args...)
+
+  # @api private
+  restore: (dataString) ->
+    try
+      JSON.parse(dataString)
+    catch e
+      {}
+
+  # @api private
+  open: (key, storage, callback) ->
+    data = @restore(storage[key])
+    callback(data)
+    storage[key] = JSON.stringify(data)
 
 background = chrome.extension.getBackgroundPage()
 {updateQuery} = background
@@ -110,7 +118,7 @@ jQuery ($) ->
       $field.attr('value', '')
 
     # setup initialize data
-    $.each store.items(type), (i, name) ->
+    for name, _details of store.items(type)
       addNameToWatchedField(type, name)
 
   # setup delete link

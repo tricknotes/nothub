@@ -26,18 +26,21 @@ socket.on 'connected', (data) ->
     notify(data)
 
 restore = (dataString) ->
-  JSON.parse(dataString || '[]')
+  try
+    JSON.parse(dataString)
+  catch e
+    {}
 
 # export for using from other scripts
 @updateQuery = updateQuery = () ->
   builder = new QueryBuilder
 
   usernames = restore(localStorage['username'])
-  for name in usernames
+  for name, _details of usernames
     builder.addUsername(name)
 
   reponames = restore(localStorage['reponame'])
-  for name in reponames
+  for name, _details of reponames
     builder.addReponame(name)
 
   socket.emit 'query', builder.toQuery()

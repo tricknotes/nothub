@@ -7,22 +7,15 @@
     %script{:src => 'js/lib/EventEmitter.min.js'}
     %script{:src => 'js/browser_action.js'}
     %script{:type => 'text/ejs', :id => 'watchedAreaTemplate'}
-      :plain
-        <li data-name="<%- name %>">
-          <a class="iconLink" href="https://github.com/<%- name %>" target="_blank">
-            <img class="icon" src="../images/loading.gif" data-name="<%- name %>"/>
-          </a>
-          <span class="watchedName">
-            <a href="https://github.com/<%- name %>" target="_blank">
-              <%- name %>
-            </a>
-          </span>
-          <span class="opelation">
-            <a href="#" class="deleteWatchedName" data-name="<%- name %>" data-type="<%- type %>">
-              [x]
-            </a>
-          </span>
-        </li>
+      %li{'data-name' => '<%- name %>'}
+        %a.iconLink{:href => 'https://github.com/<%- name %>', :target => '_blank'}
+          %img.icon{:src => '../images/loading.gif', 'data-name' => '<%- name %>'}
+        %span.watchedName
+          %a{:href => 'https://github.com/<%- name %>', :target => '_blank'}
+            <%- name %>
+        %span.opelation
+          %a.deleteWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+            [x]
 
   %body
     %section#content

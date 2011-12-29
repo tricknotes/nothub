@@ -67,23 +67,7 @@ jQuery ($) ->
 
   # template for watched name
   # requires: name, type
-  toWatchedArea = _.template '''
-    <li data-name="<%- name %>">
-      <a class="iconLink" href="https://github.com/<%- name %>" target="_blank">
-        <img class="icon" src="../images/loading.gif" data-name="<%- name %>"/>
-      </a>
-      <span class="watchedName">
-        <a href="https://github.com/<%- name %>" target="_blank">
-          <%- name %>
-        </a>
-      </span>
-      <span class="opelation">
-        <a href="#" class="deleteWatchedName" data-name="<%- name %>" data-type="<%- type %>">
-          [x]
-        </a>
-      </span>
-    </li>
-  '''
+  toWatchedArea = _.template($('#watchedAreaTemplate').text())
 
   addNameToWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))

@@ -139,9 +139,13 @@ jQuery ($) ->
 
   # setup donfigure link
   $('.watchArea .configureWatchedName').live 'click', ->
-    name = $(this).data('name')
-    type = $(this).data('type')
-    # TODO toggle configure area
+    $row = $(this).parents('.watchedRow')
+    $area = $('.configureArea', $row)
+    if shown = $(this).data('showArea')
+      $area.hide()
+    else
+      $area.show()
+    $(this).data('showArea', !shown)
 
   # setup configuration area
   $('.watchArea input[name=eventTypes]').live 'click', ->

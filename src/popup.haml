@@ -8,7 +8,7 @@
     %script{:src => 'js/query_builder.js'}
     %script{:src => 'js/browser_action.js'}
     %script{:type => 'text/ejs', :id => 'watchedAreaTemplate'}
-      %li{'data-name' => '<%- name %>'}
+      %li.watchedRow{'data-name' => '<%- name %>'}
         %a.iconLink{:href => 'https://github.com/<%- name %>', :target => '_blank'}
           %img.icon{:src => '../images/loading.gif', 'data-name' => '<%- name %>'}
         %span.watchedName
@@ -19,7 +19,7 @@
             [x]
           %a.configureWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
             [c]
-        .configureArea{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+        .configureArea{:style => 'display:none;', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
           <% _.each(eventTypes, function(eventType) { %>
           %label
             %input{:type => 'checkbox', :name => 'eventTypes', :value => '<%- eventType %>'}

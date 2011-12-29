@@ -72,6 +72,7 @@ jQuery ($) ->
     $('.watchButton', area).click ->
       $field = $('.nameInputField', area)
       name = $field.attr('value')
+      name = name.replace(/^ +| +$/g, '') # trim
       return unless name
       store.add(type, name)
       $field.attr('value', '')

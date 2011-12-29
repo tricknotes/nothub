@@ -12,8 +12,7 @@ class Store
   remove: (type, name) ->
     data = JSON.parse(@storage[type])
     if data
-      index = data.indexOf(name)
-      if index >= 0
+      while (index = data.indexOf(name)) >= 0
         data.splice(index, 1)
         @storage[type] = JSON.stringify(data)
     @ee.emit('remove', type, name)

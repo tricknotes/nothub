@@ -1,25 +1,29 @@
 !!! 5
 %html
   %head
+    %link{:rel => 'stylesheet', :href => 'css/style.css'}
     %script{:src => 'http://code.jquery.com/jquery-1.7.1.min.js'}
     %script{:src => 'js/lib/underscore-min.js'}
     %script{:src => 'js/lib/EventEmitter.min.js'}
     %script{:src => 'js/browser_action.js'}
   %body
-    %h1
-      Gh config
+    %section
+      %h1
+        Gh config
 
-    .watchArea{'data-type' => 'username'}
-      %form
-        %input.nameInputField{:type => 'text', :placeholder => 'Input usename'}
-        %input.watchButton{:type => 'submit', :value => 'Watch user'}
-      %ul.watchedNames
+      .watchArea{'data-type' => 'username'}
+        %h2 Users:
+        %form
+          %input.nameInputField{:type => 'text', :placeholder => 'Input usename'}
+          %input.watchButton{:type => 'submit', :value => 'Watch user'}
+        %ul.watchedNames
 
-    .watchArea{'data-type' => 'reponame'}
-      %form
-        %input.nameInputField{:type => 'text', :placeholder => 'Input repo'}
-        %input.watchButton{:type => 'submit', :value => 'Watch repository'}
-      %ul.watchedNames
+      .watchArea{'data-type' => 'reponame'}
+        %h2 Repositories:
+        %form
+          %input.nameInputField{:type => 'text', :placeholder => 'Input repo'}
+          %input.watchButton{:type => 'submit', :value => 'Watch repository'}
+        %ul.watchedNames
     %footer
       %span
         &copy; 2011 Ryunosuke SATO. All rights reserved.

@@ -2,9 +2,9 @@ class Store
   constructor: (@storage)->
     @ee = new EventEmitter
 
-  add: (type, name) ->
+  add: (type, name, value) ->
     @open type, @storage, (data) ->
-      data[name] = {} # TODO add details
+      data[name] = value
     @ee.emit('add', type, name)
 
   remove: (type, name) ->
@@ -98,7 +98,7 @@ jQuery ($) ->
       name = $field.attr('value')
       name = name.replace(/^ +| +$/g, '') # trim
       return unless name
-      store.add(type, name)
+      store.add(type, name, {}) # TODO add details
       $field.attr('value', '')
 
     # setup initialize data

@@ -42,7 +42,9 @@ jQuery ($) ->
   # requires: name, type
   toWatchedArea = _.template '''
     <li data-name="<%- name %>">
-      <a><%- name %></a>
+      <a href="https://github.com/<%- name %>" target="_blank">
+        <%- name %>
+      </a>
       <a href="#" class="deleteWatchedName" data-name="<%- name %>" data-type="<%- type %>">
         Delete
       </a>

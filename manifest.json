@@ -6,6 +6,7 @@
   , "permissions": [
       "notifications"
     , "http://www2049u.sakura.ne.jp:4000/"
+    , "https://api.github.com/"
   ]
   , "browser_action": {
       "default_icon": "images/logo.png"

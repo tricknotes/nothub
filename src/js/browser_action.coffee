@@ -32,6 +32,26 @@ store = new Store(localStorage)
 store.on 'add', updateQuery
 store.on 'remove', updateQuery
 
+# for gravatar
+loadGravatarIcon = (type, name, callback) ->
+  [apiPath, handler] = switch type
+    when 'username'
+      [
+        "users/#{name}"
+        (data) -> callback(data.avatar_url)
+      ]
+    when 'reponame'
+      [
+        "repos/#{name}"
+        (data) -> callback(data.owner.avatar_url)
+      ]
+  $.ajax
+    url: "https://api.github.com/#{apiPath}"
+    dataType: 'json'
+    success: handler
+    error: ->
+      callback('../images/404.png')
+
 jQuery ($) ->
   areaFromType = (type) ->
     areas = $('.watchArea').filter (i, el) ->
@@ -42,6 +62,9 @@ jQuery ($) ->
   # requires: name, type
   toWatchedArea = _.template '''
     <li data-name="<%- name %>">
+      <a href="https://github.com/<%- name %>" target="_blank">
+        <img class="icon" src="../images/loading.gif" data-name="<%- name %>"/>
+      </a>
       <span class="watchedName">
         <a href="https://github.com/<%- name %>" target="_blank">
           <%- name %>
@@ -57,7 +80,13 @@ jQuery ($) ->
 
   addNameToWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
-    $place.append(toWatchedArea({type, name}))
+    $field = $(toWatchedArea({type, name}))
+    $('img.icon', $field).one 'load', ->
+      $img = $(this)
+      loadGravatarIcon type, name, (icon) ->
+        $img.attr('src', icon)
+
+    $place.append($field)
 
   store.on 'add', addNameToWatchedField
 

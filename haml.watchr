@@ -5,7 +5,7 @@ watch('src/(.*)\.haml') do |md|
 
   error_message = ''
   unless stderr.eof?
-    error_message << stderr.gets
+    error_message << stderr.to_a.join
   end
 
   unless error_message.empty?

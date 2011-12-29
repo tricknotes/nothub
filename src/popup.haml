@@ -15,9 +15,9 @@
           %a{:href => 'https://github.com/<%- name %>', :target => '_blank'}
             <%- name %>
         %span.opelation
-          %a.deleteWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+          %a.deleteWatchedName{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
             [x]
-          %a.configureWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+          %a.configureWatchedName{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
             [c]
         .configureArea{:style => 'display:none;', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
           <% _.each(eventTypes, function(eventType) { %>

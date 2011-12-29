@@ -36,11 +36,11 @@ restore = (dataString) ->
   builder = new QueryBuilder
 
   usernames = restore(localStorage['username'])
-  for name, _details of usernames
-    builder.addUsername(name)
+  for name, eventTypes of usernames
+    builder.addUsername(name, eventTypes)
 
   reponames = restore(localStorage['reponame'])
-  for name, _details of reponames
-    builder.addReponame(name)
+  for name, eventTypes of reponames
+    builder.addReponame(name, eventTypes)
 
   socket.emit 'query', builder.toQuery()

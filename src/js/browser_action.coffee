@@ -12,6 +12,11 @@ class Store
       delete data[name]
     @ee.emit('remove', type, name)
 
+  update: (type, name, value) ->
+    @open type, @storage, (data) ->
+      data[name] = value
+    @ee.emit('update', type, name)
+
   items: (type) ->
     @restore(@storage[type])
 
@@ -38,6 +43,7 @@ store = new Store(localStorage)
 
 store.on 'add', updateQuery
 store.on 'remove', updateQuery
+store.on 'update', updateQuery
 
 # for gravatar
 loadGravatarIcon = (type, name, callback) ->
@@ -59,6 +65,12 @@ loadGravatarIcon = (type, name, callback) ->
     error: ->
       callback('../images/404.png')
 
+# for stream query
+supportedEventTypes = {
+  username: _.map(QueryBuilder.userTypes, ({type}) -> type )
+  reponame: _.map(QueryBuilder.repoTypes, ({type}) -> type )
+}
+
 jQuery ($) ->
   areaFromType = (type) ->
     areas = $('.watchArea').filter (i, el) ->
@@ -66,12 +78,24 @@ jQuery ($) ->
     areas[0]
 
   # template for watched name
-  # requires: name, type
+  # requires: name, type, eventTypes
   toWatchedArea = _.template($('#watchedAreaTemplate').text())
 
   addNameToWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
-    $field = $(toWatchedArea({type, name}))
+    $field = $(toWatchedArea({
+      type
+      name
+      eventTypes: supportedEventTypes[type]
+    }))
+
+    # check selected event
+    eventTypes = store.items(type)[name]
+    $('input[name=eventTypes]', $field).each ->
+      if eventTypes[$(this).attr('value')]
+        $(this).attr('checked', true)
+
+    # load gravatar icon
     $('img.icon', $field).one 'load', ->
       $img = $(this)
       loadGravatarIcon type, name, (icon) ->
@@ -98,7 +122,9 @@ jQuery ($) ->
       name = $field.attr('value')
       name = name.replace(/^ +| +$/g, '') # trim
       return unless name
-      store.add(type, name, {}) # TODO add details
+      all = {}
+      all[n] = true for n in supportedEventTypes[type]
+      store.add(type, name, all)
       $field.attr('value', '')
 
     # setup initialize data
@@ -110,6 +136,25 @@ jQuery ($) ->
     name = $(this).data('name')
     type = $(this).data('type')
     store.remove(type, name)
+
+  # setup donfigure link
+  $('.watchArea .configureWatchedName').live 'click', ->
+    name = $(this).data('name')
+    type = $(this).data('type')
+    # TODO toggle configure area
+
+  # setup configuration area
+  $('.watchArea input[name=eventTypes]').live 'click', ->
+    $area = $(this).parents('.configureArea')
+    name = $area.data('name')
+    type = $area.data('type')
+    checking = {}
+    $('input[name=eventTypes]', $area).each ->
+      eventType = $(this).attr('value')
+      checked = !!$(this).attr('checked')
+      checking[eventType] = checked
+      true
+    store.update(type, name, checking)
 
   # cancel default submit
   $('.watchArea').submit ->

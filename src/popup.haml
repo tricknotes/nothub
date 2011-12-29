@@ -5,6 +5,7 @@
     %script{:src => 'http://code.jquery.com/jquery-1.7.1.min.js'}
     %script{:src => 'js/lib/underscore-min.js'}
     %script{:src => 'js/lib/EventEmitter.min.js'}
+    %script{:src => 'js/query_builder.js'}
     %script{:src => 'js/browser_action.js'}
     %script{:type => 'text/ejs', :id => 'watchedAreaTemplate'}
       %li{'data-name' => '<%- name %>'}
@@ -16,6 +17,14 @@
         %span.opelation
           %a.deleteWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
             [x]
+          %a.configureWatchedName{:href => '#', 'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+            [c]
+        .configureArea{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+          <% _.each(eventTypes, function(eventType) { %>
+          %label
+            %input{:type => 'checkbox', :name => 'eventTypes', :value => '<%- eventType %>'}
+            <%- eventType %>
+          <% }); %>
 
   %body
     %section#content

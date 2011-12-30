@@ -3,8 +3,7 @@ class Store
     @ee = new EventEmitter
 
   add: (type, name, value) ->
-    @open type, @storage, (data) ->
-      data[name] = value
+    @rewrite(type, name, value)
     @ee.emit('add', type, name)
 
   remove: (type, name) ->
@@ -13,8 +12,7 @@ class Store
     @ee.emit('remove', type, name)
 
   update: (type, name, value) ->
-    @open type, @storage, (data) ->
-      data[name] = value
+    @rewrite(type, name, value)
     @ee.emit('update', type, name)
 
   items: (type) ->
@@ -35,6 +33,11 @@ class Store
     data = @restore(storage[key])
     callback(data)
     storage[key] = JSON.stringify(data)
+
+  # @api private
+  rewrite: (type, name, value) ->
+    @open type, @storage, (data) ->
+      data[name] = value
 
 background = chrome.extension.getBackgroundPage()
 {updateQuery} = background

@@ -34,18 +34,22 @@
       .watchArea{'data-type' => 'username'}
         %h2 Users:
         .watchAreaContent
-          %form
-            %input.nameInputField{:type => 'text', :placeholder => 'visionmedia'}
-            %input.watchButton{:type => 'submit', :value => 'Watch user'}
           %ul.watchedNames
+          %form
+            %span.nameInputWrapper
+              %img.icon{:src => '../images/no-icon.png'}
+              %input.nameInputField{:type => 'text', :placeholder => 'visionmedia'}
+            %input.watchButton{:type => 'submit', :value => 'Watch'}
 
       .watchArea{'data-type' => 'reponame'}
         %h2 Repositories:
         .watchAreaContent
-          %form
-            %input.nameInputField{:type => 'text', :placeholder => 'joyent/node'}
-            %input.watchButton{:type => 'submit', :value => 'Watch repository'}
           %ul.watchedNames
+          %form
+            %span.nameInputWrapper
+              %img.icon{:src => '../images/no-icon.png'}
+              %input.nameInputField{:type => 'text', :placeholder => 'joyent/node'}
+            %input.watchButton{:type => 'submit', :value => 'Watch'}
 
     %footer
       %span

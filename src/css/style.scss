@@ -51,7 +51,7 @@ a {
 
 ul {
   margin-top: 20px;
-  padding: 0 15px;
+  padding: 0px 0px;
   width: 100%;
   li {
     float: left;
@@ -87,6 +87,13 @@ img.icon {
 
 a.iconLink {
   text-decoration: none; }
+
+.nameInputWrapper {
+  display: inline-block;
+  min-width: 280px; }
+
+.nameInputField {
+  width: 150px; }
 
 .watchAreaContent {
   margin: 0px 0px 0px 30px; }

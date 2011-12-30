@@ -72,8 +72,10 @@ supportedEventTypes = {
 }
 
 jQuery ($) ->
+  $watchArea = $('.watchArea')
+
   areaFromType = (type) ->
-    areas = $('.watchArea').filter (i, el) ->
+    areas = $watchArea.filter (i, el) ->
       $(el).data('type') == type
     areas[0]
 
@@ -113,7 +115,7 @@ jQuery ($) ->
 
   store.on 'remove', removeNameFromWatchedField
 
-  $('.watchArea').each (i, area) ->
+  $watchArea.each (i, area) ->
     type = $(area).data('type')
 
     # setup submit event
@@ -132,14 +134,14 @@ jQuery ($) ->
       setupWatchedField(type, name)
 
   # setup delete link
-  $('.watchArea .deleteWatchedName').live 'click', ->
+  $('.deleteWatchedName', $watchArea).live 'click', ->
     $row = $(this).parents('.watchedRow')
     name = $row.data('name')
     type = $row.data('type')
     store.remove(type, name)
 
   # setup configure link
-  $('.watchArea .configureWatchedName').live 'click', ->
+  $('.configureWatchedName', $watchArea).live 'click', ->
     $row = $(this).parents('.watchedRow')
     $area = $('.configureArea', $row)
     if shown = $(this).data('showArea')
@@ -149,7 +151,7 @@ jQuery ($) ->
     $(this).data('showArea', !shown)
 
   # setup configuration area
-  $('.watchArea input[name=eventTypes]').live 'click', ->
+  $('input[name=eventTypes]', $watchArea).live 'click', ->
     $row = $(this).parents('.watchedRow')
     $area = $(this).parents('.configureArea')
     name = $row.data('name')
@@ -163,5 +165,5 @@ jQuery ($) ->
     store.update(type, name, checking)
 
   # cancel default submit
-  $('.watchArea').submit ->
+  $watchArea.submit ->
     false

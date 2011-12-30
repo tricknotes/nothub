@@ -138,7 +138,7 @@ jQuery ($) ->
     type = $row.data('type')
     store.remove(type, name)
 
-  # setup donfigure link
+  # setup configure link
   $('.watchArea .configureWatchedName').live 'click', ->
     $row = $(this).parents('.watchedRow')
     $area = $('.configureArea', $row)

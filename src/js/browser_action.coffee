@@ -83,7 +83,7 @@ jQuery ($) ->
   areaFromType = (type) ->
     areas = $watchArea.filter (i, el) ->
       $(el).data('type') == type
-    areas[0]
+    areas[0] # nothing to duplicate
 
   # template for watched name
   # requires: name, type, eventTypes
@@ -115,7 +115,7 @@ jQuery ($) ->
 
   removeNameFromWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
-    $('.watchedRow', $place).each (i, el)->
+    $('.watchedRow', $place).each (i, el) ->
       if $(el).data('name') == name
         $(el).remove()
 
@@ -129,7 +129,7 @@ jQuery ($) ->
       $field = $('.nameInputField', area)
       name = $field.attr('value')
       name = name.replace(/^ +| +$/g, '') # trim
-      return unless name
+      return unless name # name is empty or whitespace only
       all = {}
       all[n] = true for n in supportedEventTypes[type]
       store.add(type, name, all)

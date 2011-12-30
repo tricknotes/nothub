@@ -3,16 +3,20 @@ class QueryBuilder
     @query = []
 
   addUsername: (login, eventTypes) ->
-    @query.push({
-      actor: {login}
-      '$or': @joinQuery(eventTypes, QueryBuilder.userTypes)
-    })
+    @query.push(
+      @joinQuery(
+        eventTypes
+        QueryBuilder.userTypes
+        {actor: {login}}
+      ))
 
   addReponame: (name, eventTypes) ->
-    @query.push({
-      repo: {name}
-      '$or': @joinQuery(eventTypes, QueryBuilder.repoTypes)
-    })
+    @query.push(
+      @joinQuery(
+        eventTypes
+        QueryBuilder.repoTypes
+        {repo: {name}}
+      ))
 
   toQuery: () ->
     if @query.length == 1
@@ -21,12 +25,17 @@ class QueryBuilder
       {'$or': @query}
 
   # @api private
-  joinQuery: (eventTypes, allTypes) ->
+  joinQuery: (eventTypes, allTypes, master) ->
+    master ||= {}
     query = []
+    allSelected = true
     for {type, toQuery} in allTypes
-      if eventTypes[type]
+      if selected = eventTypes[type]
         query.push(toQuery())
-    query
+      allSelected = allSelected & selected
+    unless allSelected
+      master['$or'] = query
+    master
 
 QueryBuilder.userTypes = []
 QueryBuilder.addUserType = (type, toQuery) ->

@@ -17,20 +17,6 @@ notify = (gh_event_data) ->
 
   notification.show()
 
-socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
-
-socket.on 'connected', (data) ->
-  updateQuery()
-  socket.on 'gh_event pushed', (data) ->
-    console.log(data)
-    notify(data)
-
-restore = (dataString) ->
-  try
-    JSON.parse(dataString)
-  catch e
-    {}
-
 # export for using from other scripts
 @updateQuery = updateQuery = () ->
   builder = new QueryBuilder
@@ -44,3 +30,19 @@ restore = (dataString) ->
     builder.addReponame(name, eventTypes)
 
   socket.emit 'query', builder.toQuery()
+
+# io.connect is synchronous and heavy wait
+# exports is above this line
+socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
+
+socket.on 'connected', (data) ->
+  updateQuery()
+  socket.on 'gh_event pushed', (data) ->
+    console.log(data)
+    notify(data)
+
+restore = (dataString) ->
+  try
+    JSON.parse(dataString)
+  catch e
+    {}

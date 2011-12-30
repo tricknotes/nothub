@@ -40,7 +40,10 @@ class Store
       data[name] = value
 
 background = chrome.extension.getBackgroundPage()
-{updateQuery} = background
+
+# background page might not be prepared yet
+# evaluate updateQuery() during callback execution
+updateQuery = -> background.updateQuery()
 
 store = new Store(localStorage)
 

@@ -81,7 +81,7 @@ jQuery ($) ->
   # requires: name, type, eventTypes
   toWatchedArea = _.template($('#watchedAreaTemplate').text())
 
-  addNameToWatchedField = (type, name) ->
+  setupWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
     $field = $(toWatchedArea({
       type
@@ -103,7 +103,7 @@ jQuery ($) ->
 
     $place.append($field)
 
-  store.on 'add', addNameToWatchedField
+  store.on 'add', setupWatchedField
 
   removeNameFromWatchedField = (type, name) ->
     $place = $('.watchedNames', areaFromType(type))
@@ -129,7 +129,7 @@ jQuery ($) ->
 
     # setup initialize data
     for name, _details of store.items(type)
-      addNameToWatchedField(type, name)
+      setupWatchedField(type, name)
 
   # setup delete link
   $('.watchArea .deleteWatchedName').live 'click', ->

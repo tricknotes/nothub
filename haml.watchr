@@ -1,11 +1,11 @@
 require "open3"
 
 watch('src/(.*)\.haml') do |md|
-  stdin, stdout, stderr = Open3.popen3("haml #{md[0]}")
+  stdin, stdout, stderr = Open3.popen3("haml --no-escape-attrs #{md[0]}")
 
   error_message = ''
   unless stderr.eof?
-    error_message << stderr.gets
+    error_message << stderr.to_a.join
   end
 
   unless error_message.empty?

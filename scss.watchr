@@ -1,7 +1,7 @@
-require "open3"
+require 'open3'
 
-watch('(.*)\.coffee') do |md|
-  stdin, stdout, stderr = Open3.popen3("coffee -o dist/js/ -c #{md[0]}")
+watch('src/css/((.*)\.scss)') do |md|
+  stdin, stdout, stderr = Open3.popen3("sass #{md[0]} dist/css/#{md[2]}.css")
 
   error_message = ''
   unless stderr.eof?

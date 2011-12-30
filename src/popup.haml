@@ -1,0 +1,52 @@
+!!! 5
+%html
+  %head
+    %link{:rel => 'stylesheet', :href => 'css/style.css'}
+    %script{:src => 'http://code.jquery.com/jquery-1.7.1.min.js'}
+    %script{:src => 'js/lib/underscore-min.js'}
+    %script{:src => 'js/lib/EventEmitter.min.js'}
+    %script{:src => 'js/query_builder.js'}
+    %script{:src => 'js/browser_action.js'}
+    %script{:type => 'text/ejs', :id => 'watchedAreaTemplate'}
+      %li.watchedRow{'data-name' => '<%- name %>', 'data-type' => '<%- type %>'}
+        %a.iconLink{:href => 'https://github.com/<%- name %>', :target => '_blank'}
+          %img.icon{:src => '../images/loading.gif'}
+        %span.watchedName
+          %a{:href => 'https://github.com/<%- name %>', :target => '_blank'}
+            <%- name %>
+        %span.opelation
+          %a.deleteWatchedName
+            [x]
+          %a.configureWatchedName
+            [c]
+        .configureArea{:style => 'display:none;'}
+          <% _.each(eventTypes, function(eventType) { %>
+          %label
+            %input{:type => 'checkbox', :name => 'eventTypes', :value => '<%- eventType %>'}
+            <%- eventType %>
+          <% }); %>
+
+  %body
+    %section#content
+      %h1
+        Your watch list for GitHub
+
+      .watchArea{'data-type' => 'username'}
+        %h2 Users:
+        .watchAreaContent
+          %form
+            %input.nameInputField{:type => 'text', :placeholder => 'Input usename'}
+            %input.watchButton{:type => 'submit', :value => 'Watch user'}
+          %ul.watchedNames
+
+      .watchArea{'data-type' => 'reponame'}
+        %h2 Repositories:
+        .watchAreaContent
+          %form
+            %input.nameInputField{:type => 'text', :placeholder => 'Input repo'}
+            %input.watchButton{:type => 'submit', :value => 'Watch repository'}
+          %ul.watchedNames
+
+    %footer
+      %span
+        &copy; 2011 Ryunosuke SATO. All rights reserved.

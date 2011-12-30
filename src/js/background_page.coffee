@@ -1,33 +1,34 @@
-notifications = []
-
-notify = (gh_event_data) ->
+notify = do ->
+  notifications = []
   max_count = 3
-  gh_event = GhEvent.create_by_type(gh_event_data)
-  notification = webkitNotifications.createNotification(
-    gh_event.icon()
-    gh_event.title()
-    gh_event.message()
-  )
-  notification.ondisplay = ->
-    setTimeout(
-      ->
-        notification.cancel()
-      , 3000
+
+  (gh_event_data) ->
+    gh_event = GhEvent.create_by_type(gh_event_data)
+    notification = webkitNotifications.createNotification(
+      gh_event.icon()
+      gh_event.title()
+      gh_event.message()
     )
-  notification.onclick = ->
-    window.open(gh_event.url())
-    notification.cancel()
+    notification.ondisplay = ->
+      setTimeout(
+        ->
+          notification.cancel()
+        , 3000
+      )
+    notification.onclick = ->
+      window.open(gh_event.url())
+      notification.cancel()
 
-  notification.onclose = ->
-    if (index = notifications.indexOf(this)) >= 0
-      notifications.splice(index, 1)
-    for i in [0...max_count]
-      notifications[i]?.show()
+    notification.onclose = ->
+      if (index = notifications.indexOf(this)) >= 0
+        notifications.splice(index, 1)
+      for i in [0...max_count]
+        notifications[i]?.show()
 
-  notifications.push(notification)
+    notifications.push(notification)
 
-  if notifications.length <= max_count
-    notification.show()
+    if notifications.length <= max_count
+      notification.show()
 
 # export for using from other scripts
 @updateQuery = updateQuery = () ->

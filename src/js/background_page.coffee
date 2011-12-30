@@ -1,6 +1,7 @@
 notify = do ->
   notifications = []
   max_count = 3
+  timeout = 3000
 
   (gh_event_data) ->
     gh_event = GhEvent.create_by_type(gh_event_data)
@@ -10,11 +11,12 @@ notify = do ->
       gh_event.message()
     )
     notification.ondisplay = ->
-      setTimeout(
-        ->
-          notification.cancel()
-        , 3000
-      )
+      if timeout
+        setTimeout(
+          ->
+            notification.cancel()
+          , timeout
+        )
     notification.onclick = ->
       window.open(gh_event.url())
       notification.cancel()

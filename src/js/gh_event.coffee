@@ -148,7 +148,7 @@ GhEvent.add_type 'PullRequestEvent'
   title: ->
     "Pull request #{@payload.action}"
   message: ->
-    "#{@actor.login} #{@payload.action} pull request #{@repo.name}"
+    "#{@actor.login} #{@payload.action} pull request #{@payload.pull_request.number} on #{@repo.name}"
   url: ->
     @payload.pull_request.html_url
 

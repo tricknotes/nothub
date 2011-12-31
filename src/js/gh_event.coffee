@@ -81,9 +81,9 @@ GhEvent.add_type 'FollowEvent'
 
 GhEvent.add_type 'ForkEvent'
   title: ->
-    "#{@repo.name} was forked"
-  message: ->
     "#{@actor.login} forked #{@repo.name}"
+  message: ->
+    "Forked repository is at #{@payload.forkee.owner.login}/#{@payload.forkee.name}"
   url: ->
     @payload.forkee.html_url
 

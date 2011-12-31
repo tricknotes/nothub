@@ -58,6 +58,7 @@ socket = io.connect('http://www2049u.sakura.ne.jp:4000/')
 
 socket.on 'connected', (data) ->
   updateQuery()
-  socket.on 'gh_event pushed', (data) ->
-    console.log(data)
-    notify(data)
+
+socket.on 'gh_event pushed', (data) ->
+  console.log(data)
+  notify(data)

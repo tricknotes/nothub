@@ -32,6 +32,12 @@ notify = do ->
     if notifications.length <= max_count
       notification.show()
 
+restore = (dataString) ->
+  try
+    JSON.parse(dataString)
+  catch e
+    {}
+
 # export for using from other scripts
 @updateQuery = updateQuery = () ->
   builder = new QueryBuilder
@@ -55,9 +61,3 @@ socket.on 'connected', (data) ->
   socket.on 'gh_event pushed', (data) ->
     console.log(data)
     notify(data)
-
-restore = (dataString) ->
-  try
-    JSON.parse(dataString)
-  catch e
-    {}

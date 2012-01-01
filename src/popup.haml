@@ -16,9 +16,9 @@
             <%- name %>
         %span.opelation
           %a.deleteWatchedName
-            [x]
+            %img{:src => '../images/delete.png'}
           %a.configureWatchedName
-            [c]
+            %img{:src => '../images/config.png'}
         .configureArea{:style => 'display:none;'}
           <% _.each(eventTypes, function(eventType) { %>
           %label

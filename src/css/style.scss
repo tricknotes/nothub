@@ -88,6 +88,9 @@ img.icon {
 a.iconLink, .opelation a {
   text-decoration: none; }
 
+a img:hover {
+  opacity: 0.4; }
+
 .nameInputWrapper {
   display: inline-block;
   min-width: 280px; }

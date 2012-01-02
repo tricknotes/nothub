@@ -1,7 +1,7 @@
 notify = do ->
   notifications = []
   max_count = 3
-  timeout = 3000
+  timeout = 0 # skip timeout
 
   (gh_event_data) ->
     gh_event = GhEvent.create_by_type(gh_event_data)

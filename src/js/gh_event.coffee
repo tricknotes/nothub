@@ -57,7 +57,7 @@ GhEvent.add_type 'CreateEvent'
 
 GhEvent.add_type 'DeleteEvent'
   title: ->
-    "#{@repo.ref_type} was deleted"
+    "#{@payload.ref_type} was deleted"
   message: ->
     "#{@actor.login} deleted #{@payload.ref_type} #{@payload.ref} at #{@repo.name}"
   url: ->

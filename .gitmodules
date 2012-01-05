@@ -4,3 +4,6 @@
 [submodule "lib/underscore"]
 	path = lib/underscore
 	url = git://github.com/documentcloud/underscore.git
+[submodule "lib/socket.io-client"]
+	path = lib/socket.io-client
+	url = git://github.com/LearnBoost/socket.io-client.git

@@ -1,25 +1,22 @@
-class Store
+class Store extends EventEmitter
   constructor: (@storage)->
-    @ee = new EventEmitter
+    super()
 
   add: (type, name, value) ->
     @rewrite(type, name, value)
-    @ee.emit('add', type, name)
+    @emit('add', type, name)
 
   remove: (type, name) ->
     @open type, @storage, (data) ->
       delete data[name]
-    @ee.emit('remove', type, name)
+    @emit('remove', type, name)
 
   update: (type, name, value) ->
     @rewrite(type, name, value)
-    @ee.emit('update', type, name)
+    @emit('update', type, name)
 
   items: (type) ->
     @restore(@storage[type])
-
-  on: (args...) ->
-    @ee.on(args...)
 
   # @api private
   restore: (dataString) ->

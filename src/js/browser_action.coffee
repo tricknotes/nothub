@@ -48,8 +48,13 @@ store.on 'add', updateQuery
 store.on 'remove', updateQuery
 store.on 'update', updateQuery
 
+# user icons
+iconCache = new Store(localStorage)
+
 # for gravatar
 loadGravatarIcon = (type, name, callback) ->
+  if info = iconCache.items('usericon')[name]
+    callback(info.avatar_url || info.owner.avatar_url)
   [apiPath, handler] = switch type
     when 'username'
       [
@@ -64,7 +69,9 @@ loadGravatarIcon = (type, name, callback) ->
   $.ajax
     url: "https://api.github.com/#{apiPath}"
     dataType: 'json'
-    success: handler
+    success: (data) ->
+      iconCache.add('usericon', name, data)
+      handler(data)
     error: ->
       callback('../images/404.png')
 

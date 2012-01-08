@@ -36,6 +36,7 @@ clearIconCache = ->
   console.log('icon cache expired')
   delete localStorage.usericon
 
+clearIconCache()
 setInterval(clearIconCache, 3 * 24 * 60 * 60 * 1000)
 
 restore = (dataString) ->

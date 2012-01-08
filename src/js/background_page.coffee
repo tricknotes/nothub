@@ -32,6 +32,12 @@ notify = do ->
     if notifications.length <= max_count
       notification.show()
 
+clearIconCache = ->
+  console.log('icon cache expired')
+  delete localStorage.usericon
+
+setInterval(clearIconCache, 3 * 24 * 60 * 60 * 1000)
+
 restore = (dataString) ->
   try
     JSON.parse(dataString)

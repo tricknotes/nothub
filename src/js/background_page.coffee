@@ -67,7 +67,7 @@ socket = io.connect('http://www2049u.sakura.ne.jp:4000/', {
   'max reconnection attempts': Infinity
 })
 
-socket.on 'connected', (data) ->
+socket.on 'connect', ->
   updateQuery()
 
 socket.on 'gh_event pushed', (data) ->

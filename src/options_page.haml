@@ -1,0 +1,19 @@
+!!! 5
+%html
+  %head
+    %link{:rel => 'stylesheet', :href => 'css/style.css'}
+    %script{:src => 'js/options_page.js'}
+  %body
+    %section#content
+      %h1
+        Setting Options fot GitHub watcher
+
+      %ul
+        %li.notificationArea
+          %form
+            %input{:type => 'text', :name => 'notificationTimeout'}
+            %input{:type => 'submit', :value => 'Update'}
+
+    %footer
+      %span
+        &copy; 2012 Ryunosuke SATO. All rights reserved.

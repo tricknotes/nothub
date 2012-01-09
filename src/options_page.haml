@@ -16,8 +16,11 @@
           %dt
             Notification Timeout (sec)
           %dd
-            %input{:type => 'number', :name => 'notificationTimeout', 'data-default-value' => 0}
-            .notifyArea{:style => 'display:none;', 'data-template' => 'Saved'}
+            %input{:type => 'number', :name => 'notificationTimeout', :min => '0', 'data-default-value' => 0, 'data-template' => 'Saved'}
+          %dt
+            Max Notification Count
+          %dd
+            %input{:type => 'number', :name => 'maxNotificationCount', :max => 3, :min => 1, 'data-default-value' => 3, 'data-template' => 'Saved'}
 
       %form.resetConfig
         %input{:type => 'submit', :value => 'Revert to Default'}

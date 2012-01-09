@@ -15,7 +15,15 @@ jQuery ($) ->
     value = $(this).val()
     store.add('config', key, value)
     $notifyArea = $(this).siblings('.notifyArea')
-    message = $notifyArea.data('template')
+    if $notifyArea.length == 0
+      $notifyArea = $('<div/>')
+        .addClass('notifyArea')
+        .hide()
+      $(this)
+        .parent()
+        .append($notifyArea)
+    message = $(this).data('template')
+    console.log(message)
     $notifyArea
       .text(message)
       .hide()

@@ -1,0 +1,34 @@
+!!! 5
+%html
+  %head
+    %link{:rel => 'stylesheet', :href => 'css/style.css'}
+    %script{:src => 'http://code.jquery.com/jquery-1.7.1.min.js'}
+    %script{:src => 'js/lib/EventEmitter.min.js'}
+    %script{:src => 'js/store.js'}
+    %script{:src => 'js/options_page.js'}
+  %body
+    %section#content
+      %h1
+        Setting Options fot GitHub watcher
+
+      %form.configForm
+        %dl
+          %dt
+            Notification Timeout (sec)
+          %dd
+            %input{:type => 'number', :name => 'notificationTimeout', :min => '0', 'data-default-value' => 0, 'data-template' => 'saved'}
+          %dt
+            Max Notification Count
+          %dd
+            %input{:type => 'number', :name => 'maxNotificationCount', :max => 3, :min => 1, 'data-default-value' => 3, 'data-template' => 'saved'}
+
+      %form.resetConfig
+        %dl
+          %dt
+            Reset to default
+          %dd
+            %input{:type => 'submit', :value => 'Reset'}
+
+    %footer
+      %span
+        &copy; 2012 Ryunosuke SATO. All rights reserved.

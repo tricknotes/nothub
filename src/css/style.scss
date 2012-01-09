@@ -9,6 +9,7 @@ body {
   border-top: 2px solid #ddd; }
 
 #content {
+  max-width: 600px;
   padding: 20px 60px 30px 60px; }
 
 h1 {
@@ -118,3 +119,36 @@ footer {
 @media all and (max-width: 850px) {
   ul li {
     width: 100%; } }
+
+// options page
+dl, dt, dd {
+  display: inline-block; }
+
+dl {
+  padding: 30px;
+  width: 550px;}
+
+dt {
+  min-width: 300px; }
+
+dt, dd {
+  margin-left: 0px;
+  margin-top: 10px;
+  border-bottom: 1px dotted #ddd; }
+
+.configForm input {
+  text-align:right;
+  width: 50px; }
+
+.notifyArea {
+  margin: 0px 7px;
+  padding: 0px 5px;
+  display: inline-block;
+  font-size: 12px;
+  font-style: bold;
+  border: 1px;
+  border-style: solid;
+  border-color: rgba(88, 154, 194, 0.9);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  color: rgba(88, 154, 194, 0.9); }

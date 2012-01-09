@@ -35,13 +35,14 @@ jQuery ($) ->
       .hide()
       .fadeIn()
 
-  $('.resetConfig').click ->
-    $('input', $area).each ->
-      if key = $(this).attr('name')
-        defaultValue = $(this).data('default-value')
-        $(this).val(defaultValue)
-        store.add('config', key, defaultValue)
-        $(this).siblings('.notifyArea').fadeOut()
+  $('.resetConfig input[type=submit]').click ->
+    if confirm('Are you sure?')
+      $('input', $area).each ->
+        if key = $(this).attr('name')
+          defaultValue = $(this).data('default-value')
+          $(this).val(defaultValue)
+          store.add('config', key, defaultValue)
+          $(this).siblings('.notifyArea').fadeOut()
 
   $('form').submit ->
     false

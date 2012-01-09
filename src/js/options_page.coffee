@@ -13,6 +13,13 @@ jQuery ($) ->
   $('input', $area).change ->
     key = $(this).attr('name')
     value = $(this).val()
+
+    # easy validation
+    min = $(this).attr('min')
+    max = $(this).attr('max')
+    return false if min && min > value
+    return false if max && max < value
+
     store.add('config', key, value)
     $notifyArea = $(this).siblings('.notifyArea')
     if $notifyArea.length == 0

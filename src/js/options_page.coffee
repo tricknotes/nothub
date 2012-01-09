@@ -30,7 +30,6 @@ jQuery ($) ->
         .parent()
         .append($notifyArea)
     message = $(this).data('template')
-    console.log(message)
     $notifyArea
       .text(message)
       .hide()

@@ -2,17 +2,25 @@
 %html
   %head
     %link{:rel => 'stylesheet', :href => 'css/style.css'}
+    %script{:src => 'http://code.jquery.com/jquery-1.7.1.min.js'}
+    %script{:src => 'js/lib/EventEmitter.min.js'}
+    %script{:src => 'js/store.js'}
     %script{:src => 'js/options_page.js'}
   %body
     %section#content
       %h1
         Setting Options fot GitHub watcher
 
-      %ul
-        %li.notificationArea
-          %form
-            %input{:type => 'text', :name => 'notificationTimeout'}
-            %input{:type => 'submit', :value => 'Update'}
+      %form.configForm
+        %dl
+          %dt
+            Notification Timeout (sec)
+          %dd
+            %input{:type => 'number', :name => 'notificationTimeout', 'data-default-value' => 0}
+            .notifyArea{:style => 'display:none;', 'data-template' => 'Saved'}
+
+      %form.resetConfig
+        %input{:type => 'submit', :value => 'Revert to Default'}
 
     %footer
       %span

@@ -73,3 +73,19 @@ socket.on 'connect', ->
 socket.on 'gh_event pushed', (data) ->
   console.log(data)
   notify(data)
+
+# auto reload
+reloader =
+  reloadId: null
+  reconnect: ->
+    location.href = location.href # bad hack
+  forceReload: =>
+    @stop()
+    reloadId = setInterval(@reconnect, 3000)
+    @reloadId = reloadId
+  stop: ->
+    if reloadId = @reloadId
+      createInterval(reloadId)
+
+socket.on 'error', reloader.forceReload
+socket.on 'connect', reloader.stop

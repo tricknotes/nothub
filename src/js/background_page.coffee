@@ -7,6 +7,11 @@ Object.defineProperty store, 'config', {
 notify = do ->
   notifications = []
 
+  showNotification = ->
+    max_count = Number(store.config['maxNotificationCount']) || 3
+    for i in [0...max_count]
+      notifications[i]?.show()
+
   (gh_event_data) ->
     gh_event = GhEvent.create_by_type(gh_event_data)
     notification = webkitNotifications.createNotification(
@@ -26,16 +31,12 @@ notify = do ->
       notification.cancel()
 
     notification.onclose = ->
-      max_count = store.config['maxNotificationCount']
       if (index = notifications.indexOf(this)) >= 0
         notifications.splice(index, 1)
-      for i in [0...max_count]
-        notifications[i]?.show()
+      showNotification()
 
     notifications.push(notification)
-
-    if notifications.length <= store.config['maxNotificationCount']
-      notification.show()
+    showNotification()
 
 clearIconCache = ->
   console.log('icon cache expired')

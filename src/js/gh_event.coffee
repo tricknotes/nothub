@@ -158,7 +158,12 @@ GhEvent.add_type 'PushEvent'
   message: ->
     "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
   url: ->
-    @gh_url("#{@repo.name}/commit/#{@payload.head}")
+    if @payload.size == 1
+      @gh_url("#{@repo.name}/commit/#{@payload.head}")
+    else
+      before = @payload.commits[0].sha.split('')[0...10].join('')
+      head = @payload.commits[@payload.size-1].sha.split('')[0...10].join('')
+      @gh_url("#{@repo.name}/compare/#{before}%5E...#{head}")
 
 GhEvent.add_type 'TeamAddEvent'
   title: ->

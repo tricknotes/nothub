@@ -3,6 +3,7 @@ require 'open3'
 
 require 'rubygems'
 require 'crxmake'
+require 'closure-compiler'
 
 task :default => 'extension'
 
@@ -28,7 +29,7 @@ namespace :extension do
     end
 
     desc 'Package extension as zip'
-    task :zip => %(setup) do
+    task :zip => %(setup js:compress) do
       CrxMake.zip(PACKAGE_OPTION)
     end
   end
@@ -113,6 +114,18 @@ namespace :libraries do
   task :clean do
     Dir['./dist/js/lib/*.js'].each do |path|
       FileUtils.rm(path)
+    end
+  end
+end
+
+namespace :js do
+  desc 'Compress JavaScripts'
+  task :compress do
+    Dir['./dist/js/*.js'].each do |path|
+      source = File.read(path)
+      File.open(path, 'w') do |f|
+        f << Closure::Compiler.new.compress(source)
+      end
     end
   end
 end

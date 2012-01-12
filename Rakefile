@@ -94,7 +94,7 @@ namespace :compile do
 end
 
 namespace :libraries do
-  LIBRARIES = %w(
+  JS_LIBRARIES = %w(
     ./lib/EventEmitter/src/EventEmitter.js
     ./lib/EventEmitter/src/EventEmitter.min.js
     ./lib/socket.io-client/dist/socket.io.js
@@ -103,16 +103,26 @@ namespace :libraries do
     ./lib/underscore/underscore-min.js
   )
 
+  WEB_FONTS = %w(
+    ./lib/Chelsea_Market/ChelseaMarket-Regular.ttf
+  )
+
   desc 'Setup related libraries'
   task :setup do
-    LIBRARIES.each do |lib|
+    JS_LIBRARIES.each do |lib|
       FileUtils.cp(lib, './dist/js/lib/')
+    end
+    WEB_FONTS.each do |lib|
+      FileUtils.cp(lib, './dist/css/')
     end
   end
 
   desc 'Clean up placed libraries'
   task :clean do
     Dir['./dist/js/lib/*.js'].each do |path|
+      FileUtils.rm(path)
+    end
+    Dir['./dist/css/*.ttf'].each do |path|
       FileUtils.rm(path)
     end
   end

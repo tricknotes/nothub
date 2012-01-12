@@ -11,7 +11,7 @@
   , "options_page": "dist/options_page.html"
   , "permissions": [
       "notifications"
-    , "http://www2049u.sakura.ne.jp:4000/"
+    , "http://stream.nothub.org:4000/"
     , "https://api.github.com/"
   ]
   , "browser_action": {

@@ -67,7 +67,7 @@ restore = (dataString) ->
 
 # io.connect is synchronous and heavy wait
 # exports is above this line
-socket = io.connect('http://www2049u.sakura.ne.jp:4000/', {
+socket = io.connect('http://stream.nothub.org:4000/', {
   'reconnection delay': 100
   'reconnection limit': 2000
   'max reconnection attempts': Infinity

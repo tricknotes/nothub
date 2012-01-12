@@ -2,6 +2,11 @@
     "name": "gh-notification"
   , "description": "Notifier for GitHub event."
   , "version": "0.0.1"
+  , "icons": {
+      "128": "images/logo-128.png"
+    , "48": "images/logo-48.png"
+    , "16": "images/logo.png"
+  }
   , "background_page": "dist/background_page.html"
   , "options_page": "dist/options_page.html"
   , "permissions": [

@@ -87,9 +87,8 @@ reloader =
     location.href = location.href # bad hack
   forceReload: =>
     @stop()
-    reloadId = setInterval(@reconnect, 3000)
-    @reloadId = reloadId
-  stop: ->
+    @reloadId = setTimeout(@reconnect, 3000)
+  stop: =>
     if reloadId = @reloadId
       createInterval(reloadId)
 

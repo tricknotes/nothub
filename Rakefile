@@ -24,12 +24,12 @@ namespace :extension do
   task :package => 'package:zip'
   namespace :package do
     desc 'Package extension as crx'
-    task :crx => %(setup) do
+    task :crx => %w(setup) do
       CrxMake.make(PACKAGE_OPTION)
     end
 
     desc 'Package extension as zip'
-    task :zip => %(setup js:compress) do
+    task :zip => %w(setup js:compress) do
       CrxMake.zip(PACKAGE_OPTION)
     end
   end

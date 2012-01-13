@@ -15,7 +15,7 @@ namespace :extension do
     :zip_output => './package/extension.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp/,
-    :ignoredir => /(?:\.git|src|package|lib|\.sass-cache)/
+    :ignoredir => /(?:\.git|src|package|\.\/lib|\.sass-cache)/
   }
 
   desc 'Setup resources for packagng'

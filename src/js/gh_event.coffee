@@ -75,7 +75,7 @@ GhEvent.add_type 'FollowEvent'
   title: ->
     "#{@actor.login} following"
   message: ->
-    "#{@actor.login} started following #{@payload.target.name}"
+    "#{@actor.login} started following #{@payload.target.login}"
   url: ->
     @payload.target.html_url
 

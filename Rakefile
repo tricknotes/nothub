@@ -11,8 +11,8 @@ task :extension => 'extension:package'
 namespace :extension do
   PACKAGE_OPTION = {
     :ex_dir => './',
-    :crx_output => './package/extension.crx',
-    :zip_output => './package/extension.zip',
+    :crx_output => './package/nothub.crx',
+    :zip_output => './package/nothub.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp/,
     :ignoredir => /(?:\.git|src|package|\.\/lib|\.sass-cache)/

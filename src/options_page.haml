@@ -13,13 +13,15 @@
 
       %form.configForm
         %dl
+          %div
+            Notifications:
           %dt
-            Notifications will close automatically in
+            will close automatically in
           %dd
             %input{:type => 'number', :name => 'notificationTimeout', :min => '0', 'data-default-value' => 0, 'data-template' => 'saved'}
             seconds
           %dt
-            Notifications will be allowed to show max
+            will be allowed to show max
           %dd
             %input{:type => 'number', :name => 'maxNotificationCount', :max => 3, :min => 1, 'data-default-value' => 3, 'data-template' => 'saved'}
             counts

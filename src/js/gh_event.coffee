@@ -162,7 +162,7 @@ GhEvent.add_type 'PushEvent'
       @gh_url("#{@repo.name}/commit/#{@payload.head}")
     else
       before = @payload.commits[0].sha.split('')[0...10].join('')
-      head = @payload.commits[@payload.size-1].sha.split('')[0...10].join('')
+      head = @payload.head
       @gh_url("#{@repo.name}/compare/#{before}%5E...#{head}")
 
 GhEvent.add_type 'TeamAddEvent'

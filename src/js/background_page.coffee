@@ -85,12 +85,12 @@ reloader =
   reloadId: null
   reconnect: ->
     location.href = location.href # bad hack
-  forceReload: =>
+  forceReload: ->
     @stop()
     @reloadId = setTimeout(@reconnect, 3000)
-  stop: =>
+  stop: ->
     if reloadId = @reloadId
-      createInterval(reloadId)
+      clearInterval(reloadId)
 
-socket.on 'error', reloader.forceReload
-socket.on 'connect', reloader.stop
+socket.on 'error', -> reloader.forceReload
+socket.on 'connect', -> reloader.stop

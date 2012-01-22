@@ -91,6 +91,23 @@ reloader =
   stop: ->
     if reloadId = @reloadId
       clearInterval(reloadId)
+  access_time: new Date
+  ping_interval: 10 * 60 * 1000
+  is_overed: (date) ->
+    diff = date.getTime() - @access_time.getTime()
+    diff > @ping_interval * 1.5
+
+socket.on 'pong', (data) ->
+  reloader.access_time = new Date(data)
+
+setInterval ->
+  socket.emit('ping', new Date)
+, reloader.ping_interval
+
+setInterval ->
+  if reloader.is_overed(new Date)
+    reloader.forceReload()
+, reloader.ping_interval * 1.1
 
 socket.on 'error', -> reloader.forceReload
 socket.on 'connect', -> reloader.stop

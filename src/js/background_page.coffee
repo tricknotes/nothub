@@ -108,5 +108,5 @@ setInterval ->
     reloader.forceReload()
 , reloader.ping_interval * 1.1
 
-socket.on 'error', -> reloader.forceReload
-socket.on 'connect', -> reloader.stop
+socket.on 'error', -> reloader.forceReload()
+socket.on 'connect', -> reloader.stop()

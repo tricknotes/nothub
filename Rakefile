@@ -15,7 +15,7 @@ namespace :extension do
     :zip_output => './package/nothub.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp/,
-    :ignoredir => /#{FileUtils.pwd}\/(?:\.git|src|package|lib|\.sass-cache)/
+    :ignoredir => /#{FileUtils.pwd}\/(?:\.git|src|package|submodules|\.sass-cache)/
   }
 
   desc 'Setup resources for packagng'
@@ -95,16 +95,16 @@ end
 
 namespace :libraries do
   JS_LIBRARIES = %w(
-    ./lib/EventEmitter/src/EventEmitter.js
-    ./lib/EventEmitter/src/EventEmitter.min.js
-    ./lib/socket.io-client/dist/socket.io.js
-    ./lib/socket.io-client/dist/socket.io.min.js
-    ./lib/underscore/underscore.js
-    ./lib/underscore/underscore-min.js
+    ./submodules/EventEmitter/src/EventEmitter.js
+    ./submodules/EventEmitter/src/EventEmitter.min.js
+    ./submodules/socket.io-client/dist/socket.io.js
+    ./submodules/socket.io-client/dist/socket.io.min.js
+    ./submodules/underscore/underscore.js
+    ./submodules/underscore/underscore-min.js
   )
 
   WEB_FONTS = %w(
-    ./lib/Chelsea_Market/ChelseaMarket-Regular.ttf
+    ./submodules/Chelsea_Market/ChelseaMarket-Regular.ttf
   )
 
   desc 'Setup related libraries'

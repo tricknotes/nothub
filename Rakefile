@@ -15,7 +15,7 @@ namespace :extension do
     :zip_output => './package/nothub.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp/,
-    :ignoredir => /#{FileUtils.pwd}\/(?:\.git|src|package|submodules|\.sass-cache)/
+    :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache)/
   }
 
   desc 'Setup resources for packagng'
@@ -137,41 +137,5 @@ namespace :js do
         f << Closure::Compiler.new.compress(source)
       end
     end
-  end
-end
-
-# patching for ignore dir
-# bad hack humm...
-class CrxMake
-  def create_zip
-    puts "create zip" if @verbose
-    Zip::ZipFile.open(@zip, Zip::ZipFile::CREATE) do |zip|
-      Find.find(@exdir) do |path|
-        unless path == @exdir
-          if File.directory?(path)
-            # change this line to ignore dir from path
-            if @ignoredir && path =~ @ignoredir
-              puts "ignore dir: \"#{path}\"" if @verbose
-              Find.prune
-            else
-              puts "include dir: \"#{path}\"" if @verbose
-              zip.mkdir(get_relative(@exdir, path))
-            end
-          else
-            if @ignorefile && File.basename(path) =~ @ignorefile
-              puts "ignore file: \"#{path}\"" if @verbose
-            else
-              puts "include file: \"#{path}\"" if @verbose
-              zip.add(get_relative(@exdir, path), path)
-            end
-          end
-        end
-      end
-      yield zip if block_given?
-    end
-    puts <<-EOS if @verbose
-create zip...done
-zip file at \"#{@zip}\"
-    EOS
   end
 end

@@ -72,7 +72,7 @@ socket = io.connect('http://stream.nothub.org:4000/', {
   'max reconnection attempts': Infinity
 })
 
-socket.on 'connect', ->
+socket.once 'connect', ->
   updateQuery()
 
 socket.on 'gh_event pushed', (data) ->

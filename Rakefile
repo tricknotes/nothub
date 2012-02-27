@@ -14,7 +14,7 @@ namespace :extension do
     :crx_output => './package/nothub.crx',
     :zip_output => './package/nothub.zip',
     :verbose => true,
-    :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp/,
+    :ignorefile => /(?:\.watchr)|Rakefile|\.git|\.swp|\.pem/,
     :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache)/
   }
 

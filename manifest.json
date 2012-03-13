@@ -1,7 +1,7 @@
 {
     "name": "NotHub"
   , "description": "Notification client for GitHub."
-  , "version": "0.1.7"
+  , "version": "0.1.8"
   , "icons": {
       "128": "images/logo-128.png"
     , "48": "images/logo-48.png"

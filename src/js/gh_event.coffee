@@ -181,6 +181,14 @@ GhEvent.add_type 'WatchEvent'
   url: ->
     @gh_url(@repo.name)
 
+GhEvent.add_type 'PullRequestReviewCommentEvent'
+  title: ->
+    "Pull request reviewed"
+  message: ->
+    "#{@actor.login} reviewed #{@repo.name}"
+  url: ->
+    @payload.comment._links.html.href
+
 GhEvent.create_by_type = (gh_event_data) ->
   {type} = gh_event_data
   event_type = @types[type]

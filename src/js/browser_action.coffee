@@ -44,6 +44,21 @@ supportedEventTypes = {
 }
 
 jQuery ($) ->
+  # setup about user area
+  $watchAreaAboutUser = $('.watchAreaAboutUser')
+  background.getUserName (userName) ->
+    $('.watchAreaContent', $watchAreaAboutUser).hide()
+    if userName
+      $('.loggedIn', $watchAreaAboutUser).show()
+      $('.userName', $watchAreaAboutUser).text(userName)
+      loadGravatarIcon 'username', userName, (icon) ->
+        $('img.icon', $watchAreaAboutUser).attr('src', icon)
+    else # not logged in
+      $('.loggedOut', $watchAreaAboutUser).show()
+
+  $('input[type=checkbox]', $watchAreaAboutUser).change ->
+    console.log(this) # TODO stub
+
   $watchArea = $('.watchArea')
 
   areaFromType = (type) ->

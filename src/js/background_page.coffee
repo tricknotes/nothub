@@ -50,7 +50,7 @@ restore = (dataString) ->
   catch e
     {}
 
-getUserName = (callback)->
+@getUserName = getUserName = (callback)->
   xhr = new XMLHttpRequest()
   xhr.onreadystatechange = ->
     if xhr.readyState == 4 # contents loaded
@@ -78,9 +78,9 @@ getUserName = (callback)->
     builder.addReponame(name, eventTypes)
 
   if true # TODO use checkbox
-    getOwnerName (ownerName) ->
-      if ownerName
-        builder.enableOwner(ownerName)
+    getUserName (userName) ->
+      if userName
+        builder.addAboutUser(userName)
       socket.emit 'query', builder.toQuery()
   else
     socket.emit 'query', builder.toQuery()

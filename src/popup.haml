@@ -32,6 +32,21 @@
       %h1
         Your following list for GitHub
 
+      .watchAreaAboutUser
+        %h2 About User:
+        .watchAreaContent.loading
+          %img.icon{:src => '../images/loading.gif'}
+        .watchAreaContent.loggedIn{'style' => 'display:none;'}
+          %form
+            %img.icon{:src => '../images/loading.gif'}
+            %label.userName
+            %input.aboutUser{'type' => 'checkbox'}
+        .watchAreaContent.loggedOut{'style' => 'display:none;'}
+          %img.icon{:src => '../images/no-icon.png'}
+          Login to
+          %a{'href' => 'https://github.com/login', 'target' => '_blank'}
+            github.com
+
       .watchArea{'data-type' => 'username'}
         %h2 Users:
         .watchAreaContent

@@ -71,6 +71,7 @@ jQuery ($) ->
   toWatchedArea = _.template($('#watchedAreaTemplate').text())
 
   setupWatchedField = (type, name) ->
+    return unless supportedEventTypes[type]
     $place = $('.watchedNames', areaFromType(type))
     $field = $(toWatchedArea({
       type
@@ -95,6 +96,7 @@ jQuery ($) ->
   store.on 'add', setupWatchedField
 
   removeNameFromWatchedField = (type, name) ->
+    return unless supportedEventTypes[type]
     $place = $('.watchedNames', areaFromType(type))
     $('.watchedRow', $place).each (i, el) ->
       if $(el).data('name') == name

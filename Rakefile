@@ -21,8 +21,11 @@ namespace :extension do
   desc 'Setup resources for packagng'
   task :setup => %w(clean libraries:setup compile:all)
 
-  task :package => 'package:zip'
+  task :package => 'package:all'
   namespace :package do
+    desc 'Package extension as crx and zip'
+    task :all => %w(crx zip)
+
     desc 'Package extension as crx'
     task :crx => %w(setup) do
       CrxMake.make(PACKAGE_OPTION)

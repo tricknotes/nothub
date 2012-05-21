@@ -1,4 +1,4 @@
-require "open3"
+require 'open3'
 
 watch('(.*)\.coffee') do |md|
   stdin, stdout, stderr = Open3.popen3("coffee -o dist/js/ -c #{md[0]}")
@@ -8,5 +8,5 @@ watch('(.*)\.coffee') do |md|
     error_message = stderr.to_a.join
   end
 
-  system "growlnotify", "-t", md[0], "-m", error_message.nil? ? 'Compiled successfully': error_message
+  system 'growlnotify', '-t', md[0], '-m', error_message.nil? ? 'Compiled successfully': error_message
 end

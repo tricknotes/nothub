@@ -8,5 +8,5 @@ watch('src/css/((.*)\.scss)') do |md|
     error_message = stderr.to_a.join
   end
 
-  system "growlnotify", "-t", md[0], "-m", error_message.nil? ? 'Compiled successfully': error_message
+  system 'growlnotify', '-t', md[0], '-m', error_message.nil? ? 'Compiled successfully': error_message
 end

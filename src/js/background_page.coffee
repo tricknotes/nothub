@@ -77,9 +77,10 @@ restore = (dataString) ->
   for name, eventTypes of reponames
     builder.addReponame(name, eventTypes)
 
-  if true # TODO use checkbox
+  aboutUser = store.items('aboutuser')
+  if aboutUser && (Object.keys(aboutUser).length > 0)
     getUserName (userName) ->
-      if userName
+      if userName && aboutUser[userName]
         builder.addAboutUser(userName)
       socket.emit 'query', builder.toQuery()
   else

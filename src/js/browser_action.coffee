@@ -50,7 +50,6 @@ jQuery ($) ->
     $('.watchAreaContent', $watchAreaAboutUser).hide()
     if userName
       $('.loggedIn', $watchAreaAboutUser).show()
-      $('.userName', $watchAreaAboutUser).text(userName)
       loadGravatarIcon 'aboutuser', userName, (icon) ->
         $('img.icon', $watchAreaAboutUser).attr('src', icon)
 

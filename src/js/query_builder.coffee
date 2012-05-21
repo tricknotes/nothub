@@ -30,6 +30,12 @@ class QueryBuilder
             name: {
               '$contains': "#{login}/"}}
           }
+          # PushEvent -> someone push commit authored by login
+          { payload: {
+            commits: {
+              '$contains': {
+                author: {
+                  name: login} }}}}
           # FollowEvent -> follow login
           {payload: {
             target: {login} }}

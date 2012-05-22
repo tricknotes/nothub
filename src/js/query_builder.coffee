@@ -86,9 +86,10 @@ QueryBuilder.addRepoType 'others', ->
   {type:
     '$nin': [
       'PushEvent'
+      'CreateEvent'
+      'PullRequestEvent'
       'IssueEvent'
       'IssueCommentEvent'
-      'PullRequestEvent'
     ]}
 
 @QueryBuilder = QueryBuilder

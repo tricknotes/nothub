@@ -1,4 +1,9 @@
 
+v0.3.0 - Mar 25th 2012
+=========================
+
+* Support to receive events about logged in user
+
 v0.2.0 - Mar 18th 2012
 =========================
 

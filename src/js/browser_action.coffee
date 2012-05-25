@@ -18,7 +18,7 @@ loadGravatarIcon = (type, name, callback) ->
   if info = iconCache.items('usericon')[name]
     callback(info.avatar_url || info.owner.avatar_url)
   [apiPath, handler] = switch type
-    when 'username'
+    when 'username', 'aboutuser'
       [
         "users/#{name}"
         (data) -> callback(data.avatar_url)
@@ -44,6 +44,28 @@ supportedEventTypes = {
 }
 
 jQuery ($) ->
+  # setup about user area
+  $watchAreaAboutUser = $('.watchAreaAboutUser')
+  background.getUserName (userName) ->
+    $('.watchAreaContent', $watchAreaAboutUser).hide()
+    if userName
+      $('.loggedIn', $watchAreaAboutUser).show()
+      loadGravatarIcon 'aboutuser', userName, (icon) ->
+        $('img.icon', $watchAreaAboutUser).attr('src', icon)
+
+      $checkbox = $('input[type=checkbox]', $watchAreaAboutUser)
+      checked = !!store.items('aboutuser')[userName]
+      $checkbox.attr('checked', checked)
+
+      $checkbox.change ->
+        if $(this).attr('checked')
+          store.add('aboutuser', userName, true)
+        else
+          store.remove('aboutuser', userName)
+
+    else # not logged in
+      $('.loggedOut', $watchAreaAboutUser).show()
+
   $watchArea = $('.watchArea')
 
   areaFromType = (type) ->
@@ -56,6 +78,7 @@ jQuery ($) ->
   toWatchedArea = _.template($('#watchedAreaTemplate').text())
 
   setupWatchedField = (type, name) ->
+    return unless supportedEventTypes[type]
     $place = $('.watchedNames', areaFromType(type))
     $field = $(toWatchedArea({
       type
@@ -80,6 +103,7 @@ jQuery ($) ->
   store.on 'add', setupWatchedField
 
   removeNameFromWatchedField = (type, name) ->
+    return unless supportedEventTypes[type]
     $place = $('.watchedNames', areaFromType(type))
     $('.watchedRow', $place).each (i, el) ->
       if $(el).data('name') == name

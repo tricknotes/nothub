@@ -18,6 +18,42 @@ class QueryBuilder
         {repo: {name}}
       ))
 
+  addAboutUser: (login) ->
+    @query.push(
+      {'$and': [
+        {actor: {
+          login: {
+            '$ne': login}}
+        }
+        {'$or': [
+          {repo: {
+            name: {
+              '$contains': "#{login}/"}}
+          }
+          # PushEvent -> someone push commit authored by login
+          { payload: {
+            commits: {
+              '$contains': {
+                author: {
+                  name: login} }}}}
+          # FollowEvent -> follow login
+          {payload: {
+            target: {login} }}
+          # TODO CommitCommentEvent -> commited by login
+          # IssueCommentEvent -> opened by login
+          {payload: {
+            issue: {
+              user: {login} }}
+          }
+          # PullRequestEvent -> opened by login
+          {payload: {
+            pull_request: {
+              user: {login} }}
+          }
+        ]}
+      ]}
+    )
+
   toQuery: () ->
     if @query.length == 1
       @query[0]

@@ -50,6 +50,21 @@ restore = (dataString) ->
   catch e
     {}
 
+@getUserName = getUserName = (callback)->
+  xhr = new XMLHttpRequest()
+  xhr.onreadystatechange = ->
+    if xhr.readyState == 4 # contents loaded
+      container = document.createElement('div')
+      container.innerHTML = xhr.responseText
+      userNameElement = container.querySelector('#user')
+      userName = if userNameElement
+        userNameElement.textContent.replace(/^[ \n]+|[ \n]+$/g, '')
+      else
+        null
+      callback(userName)
+  xhr.open('GET', 'https://github.com')
+  xhr.send()
+
 # export for using from other scripts
 @updateQuery = updateQuery = () ->
   builder = new QueryBuilder
@@ -62,7 +77,14 @@ restore = (dataString) ->
   for name, eventTypes of reponames
     builder.addReponame(name, eventTypes)
 
-  socket.emit 'query', builder.toQuery()
+  aboutUser = store.items('aboutuser')
+  if aboutUser && (Object.keys(aboutUser).length > 0)
+    getUserName (userName) ->
+      if userName && aboutUser[userName]
+        builder.addAboutUser(userName)
+      socket.emit 'query', builder.toQuery()
+  else
+    socket.emit 'query', builder.toQuery()
 
 # io.connect is synchronous and heavy wait
 # exports is above this line

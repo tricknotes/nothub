@@ -185,7 +185,8 @@ GhEvent.add_type 'PullRequestReviewCommentEvent'
   title: ->
     "Pull request reviewed"
   message: ->
-    "#{@actor.login} reviewed #{@repo.name}"
+    pull_request_id = @payload.comment._links.pull_request.href.split('/').pop()
+    "#{@actor.login} reviewed #{@repo.name} ##{pull_request_id}"
   url: ->
     @payload.comment._links.html.href
 

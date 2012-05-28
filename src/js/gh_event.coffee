@@ -87,15 +87,6 @@ GhEvent.add_type 'ForkEvent'
   url: ->
     @payload.forkee.html_url
 
-###
-# TODO implement this
-GhEvent.add_type 'ForkApplyEvent'
-  title: ->
-    "Fork applyed"
-  message: ->
-  url: ->
-###
-
 GhEvent.add_type 'GistEvent'
   title: ->
     "Gist #{@payload.action}"

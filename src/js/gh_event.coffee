@@ -149,7 +149,7 @@ GhEvent.add_type 'PushEvent'
   message: ->
     "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
   url: ->
-    if @payload.size == 1
+    if @payload.size <= 1
       @gh_url("#{@repo.name}/commit/#{@payload.head}")
     else
       before = @payload.commits[0].sha.split('')[0...10].join('')

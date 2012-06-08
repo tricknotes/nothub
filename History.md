@@ -1,4 +1,9 @@
 
+v0.4.0 - Jun 9th 2012
+=========================
+
+* Fix receiving notification about wrong repository #3
+
 v0.3.0 - Mar 25th 2012
 =========================
 

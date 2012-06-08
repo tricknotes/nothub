@@ -28,7 +28,7 @@ class QueryBuilder
         {'$or': [
           {repo: {
             name: {
-              '$contains': "#{login}/"}}
+              '$regexp': "^#{login}/"}}
           }
           # PushEvent -> someone push commit authored by login
           { payload: {

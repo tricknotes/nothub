@@ -2,12 +2,15 @@
     "name": "NotHub"
   , "description": "Notification client for GitHub."
   , "version": "0.4.1"
+  , "manifest_version": 2
   , "icons": {
       "128": "images/logo-128.png"
     , "48": "images/logo-48.png"
     , "16": "images/logo.png"
   }
-  , "background_page": "dist/background_page.html"
+  , "background": {
+      "page": "dist/background_page.html"
+  }
   , "options_page": "dist/options_page.html"
   , "permissions": [
       "notifications"

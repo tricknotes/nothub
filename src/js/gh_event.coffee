@@ -166,9 +166,9 @@ GhEvent.add_type 'TeamAddEvent'
 
 GhEvent.add_type 'WatchEvent'
   title: ->
-    "Watch started"
+    "#{@actor.login} starred"
   message: ->
-    "#{@actor.login} started watching #{@repo.name}"
+    "#{@actor.login} starred #{@repo.name}"
   url: ->
     @gh_url(@repo.name)
 

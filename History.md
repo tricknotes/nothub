@@ -1,3 +1,7 @@
+v0.4.2 - Aug 7th 2012
+=========================
+* Use `star` instead of `watch`
+
 v0.4.1 - July 30th 2012
 =========================
 * Upgrade Socket.IO version to 0.9.8

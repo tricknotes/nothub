@@ -1,3 +1,7 @@
+v0.4.2.1 - Aug 8th 2012
+=========================
+* Fix to load jQuery.
+
 v0.4.2 - Aug 7th 2012
 =========================
 * Use `star` instead of `watch`

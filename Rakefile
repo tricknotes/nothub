@@ -104,6 +104,8 @@ namespace :libraries do
     ./submodules/socket.io-client/dist/socket.io.min.js
     ./submodules/underscore/underscore.js
     ./submodules/underscore/underscore-min.js
+    ./submodules/jquery/dist/jquery.js
+    ./submodules/jquery/dist/jquery.min.js
   )
 
   WEB_FONTS = %w(

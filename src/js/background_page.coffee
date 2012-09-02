@@ -4,6 +4,16 @@ Object.defineProperty store, 'config', {
       store.items('config')
   }
 
+# TODO To be removed in next version.
+# This code is for data migration.
+do ->
+  meta = store.items 'meta'
+  if (meta['version'] || '0.0.0') < '0.4.3'
+    username = store.items 'username'
+    for name, values of username
+      values['star'] = values['watch']
+      store.update 'username', name, values
+
 # store version
 store.add 'meta', 'version', '0.4.3'
 

@@ -7,3 +7,6 @@
 [submodule "submodules/socket.io-client"]
 	path = submodules/socket.io-client
 	url = git://github.com/LearnBoost/socket.io-client.git
+[submodule "submodules/jquery"]
+	path = submodules/jquery
+	url = git://github.com/jquery/jquery.git

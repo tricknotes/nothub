@@ -4,6 +4,9 @@ Object.defineProperty store, 'config', {
       store.items('config')
   }
 
+# store version
+store.add 'meta', 'version', '0.4.3'
+
 notify = do ->
   notifications = []
 

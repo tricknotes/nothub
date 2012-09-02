@@ -83,7 +83,7 @@ QueryBuilder.addUserType = (type, toQuery) ->
   )
 QueryBuilder.addUserType 'push', ->
   {type: 'PushEvent'}
-QueryBuilder.addUserType 'watch', ->
+QueryBuilder.addUserType 'star', ->
   {type: 'WatchEvent'}
 QueryBuilder.addUserType 'follow', ->
   {type: 'FollowEvent'}

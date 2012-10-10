@@ -65,9 +65,9 @@ GhEvent.add_type 'DeleteEvent'
 
 GhEvent.add_type 'DownloadEvent'
   title: ->
-    "File downloaded"
+    "File uploaded"
   message: ->
-    "#{@actor.login} downloaded '#{@payload.download.name}' on #{@repo.name}"
+    "#{@actor.login} uploaded '#{@payload.download.name}' to #{@repo.name}"
   url: ->
     @gh_url(@repo.name)
 

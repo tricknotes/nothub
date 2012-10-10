@@ -1,3 +1,8 @@
+v0.4.3 - Oct 11th 2012
+=========================
+* Fix DownloadEvent #4
+* `watch` to `star` at popup window
+
 v0.4.2.1 - Aug 8th 2012
 =========================
 * Fix to load jQuery.

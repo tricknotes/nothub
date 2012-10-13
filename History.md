@@ -1,3 +1,8 @@
+v0.4.4 - Oct 13th 2012
+=========================
+* Stop notifying `PushEvent` by matching author name
+* Upgrade Socket.IO version to 0.9.10
+
 v0.4.3 - Oct 11th 2012
 =========================
 * Fix DownloadEvent #4

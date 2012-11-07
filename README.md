@@ -17,7 +17,7 @@ $ bundle install
 ## Compile
 Requirements:
 
-* [CoffeeScript](http://jashkenas.github.com/coffee-script/) (=> 1.2.0)
+* [CoffeeScript](http://jashkenas.github.com/coffee-script/) (>= 1.4.0)
 
 ``` sh
 $ rake extension:package:crx

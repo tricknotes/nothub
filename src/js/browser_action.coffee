@@ -161,14 +161,14 @@ jQuery ($) ->
       setupWatchedField(type, name)
 
   # setup delete link
-  $('.deleteWatchedName', $watchArea).live 'click', ->
+  $watchArea.delegate '.deleteWatchedName', 'click', ->
     $row = $(this).parents('.watchedRow')
     name = $row.data('name')
     type = $row.data('type')
     store.remove(type, name)
 
   # setup configure link
-  $('.configureWatchedName', $watchArea).live 'click', ->
+  $watchArea.delegate '.configureWatchedName', 'click', ->
     $row = $(this).parents('.watchedRow')
     $area = $('.configureArea', $row)
     if shown = $(this).data('showArea')
@@ -178,7 +178,7 @@ jQuery ($) ->
     $(this).data('showArea', !shown)
 
   # setup configuration area
-  $('input[name=eventTypes]', $watchArea).live 'click', ->
+  $watchArea.delegate 'input[name=eventTypes]', 'click', ->
     $row = $(this).parents('.watchedRow')
     $area = $(this).parents('.configureArea')
     name = $row.data('name')

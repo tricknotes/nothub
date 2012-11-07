@@ -95,13 +95,14 @@ jQuery ($) ->
       '   </a>'
       ' </span>'
       ' <div class="configureArea" style="display:none;">'
-      _.each(context.eventTypes, (eventType) ->
+      _(context.eventTypes).map((eventType) ->
         [
           '<label>'
           '<input name="eventTypes" type="checkbox" value="' + eventType + '" />'
           eventType
           '</label>'
-        ].join('\n'))
+        ].join('\n')
+      ).join('\n')
       ' </div>'
       '</li>'
     ].join('\n')

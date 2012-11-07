@@ -75,7 +75,36 @@ jQuery ($) ->
 
   # template for watched name
   # requires: name, type, eventTypes
-  toWatchedArea = _.template($('#watchedAreaTemplate').text())
+  toWatchedArea = (context) ->
+    [
+      '<li class="watchedRow" data-name="' + context.name + '" data-type="' + context.type + '">'
+      ' <a class="iconLink" href="https://github.com/' + context.name + '" target="_blank">'
+      '   <img class="icon" src="../images/loading.gif" />'
+      ' </a>'
+      ' <span class="watchedName">'
+      '   <a href="https://github.com/' + context.name + '" target="_blank">'
+      context.name
+      '   </a>'
+      ' </span>'
+      ' <span class="opelation">'
+      '   <a class="deleteWatchedName">'
+      '     <img src="../images/delete.png" />'
+      '   </a>'
+      '   <a class="configureWatchedName">'
+      '     <img src="../images/config.png" />'
+      '   </a>'
+      ' </span>'
+      ' <div class="configureArea" style="display:none;">'
+      _.each(context.eventTypes, (eventType) ->
+        [
+          '<label>'
+          '<input name="eventTypes" type="checkbox" value="' + eventType + '" />'
+          eventType
+          '</label>'
+        ].join('\n'))
+      ' </div>'
+      '</li>'
+    ].join('\n')
 
   setupWatchedField = (type, name) ->
     return unless supportedEventTypes[type]

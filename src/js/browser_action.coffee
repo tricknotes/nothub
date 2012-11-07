@@ -73,6 +73,7 @@ jQuery ($) ->
       $(el).data('type') == type
     areas[0] # nothing to duplicate
 
+  # TODO Extract as a JST
   # template for watched name
   # requires: name, type, eventTypes
   toWatchedArea = (context) ->

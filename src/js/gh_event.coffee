@@ -14,6 +14,9 @@ class GhEvent
   gh_url: (path)->
     "https://github.com/#{path}"
 
+  ref_humanized: ->
+    @payload.ref.replace(/^refs\/heads\//, '')
+
 GhEvent.create = (gh_event_data) ->
   gh_event = Object.create(gh_event_data)
   for name, method of this.prototype
@@ -44,7 +47,7 @@ GhEvent.add_type 'CreateEvent'
   message: ->
     message = "#{@actor.login} created #{@payload.ref_type}"
     unless @is_type_of_repository()
-      message += " #{@payload.ref} at"
+      message += " #{@ref_humanized()} at"
     message += " '#{@repo.name}'"
     message
   url: ->
@@ -59,7 +62,7 @@ GhEvent.add_type 'DeleteEvent'
   title: ->
     "#{@payload.ref_type} was deleted"
   message: ->
-    "#{@actor.login} deleted #{@payload.ref_type} #{@payload.ref} at #{@repo.name}"
+    "#{@actor.login} deleted #{@payload.ref_type} #{@ref_humanized()} at #{@repo.name}"
   url: ->
     @gh_url(@actor.login)
 
@@ -147,7 +150,7 @@ GhEvent.add_type 'PushEvent'
   title: ->
     "#{@repo.name} was pushed"
   message: ->
-    "#{@actor.login} pushed to #{@payload.ref} at #{@repo.name}"
+    "#{@actor.login} pushed to #{@ref_humanized()} at #{@repo.name}"
   url: ->
     if @payload.size <= 1
       @gh_url("#{@repo.name}/commit/#{@payload.head}")

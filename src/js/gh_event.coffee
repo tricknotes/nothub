@@ -150,7 +150,7 @@ GhEvent.add_type 'PushEvent'
   title: ->
     "#{@repo.name} was pushed"
   message: ->
-    "#{@actor.login} pushed to '#{@ref_humanized()}' at #{@repo.name}"
+    "#{@actor.login} pushed to branch '#{@ref_humanized()}' at #{@repo.name}"
   url: ->
     if @payload.size <= 1
       @gh_url("#{@repo.name}/commit/#{@payload.head}")

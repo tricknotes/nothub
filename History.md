@@ -1,3 +1,8 @@
+v0.4.5 - Nov 9th 2012
+=========================
+* Upgrade manifest.json version to 2
+* Modify notification message
+
 v0.4.4 - Oct 13th 2012
 =========================
 * Stop notifying `PushEvent` by matching author name

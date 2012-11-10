@@ -48,7 +48,7 @@ GhEvent.add_type 'CreateEvent'
     message = "#{@actor.login} created #{@payload.ref_type}"
     unless @is_type_of_repository()
       message += " '#{@ref_humanized()}' at"
-    message += " '#{@repo.name}'"
+    message += " #{@repo.name}"
     message
   url: ->
     path = @repo.name

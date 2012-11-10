@@ -45,11 +45,11 @@ GhEvent.add_type 'CreateEvent'
   title: ->
     "#{@payload.ref_type} created"
   message: ->
-    message = "#{@actor.login} created #{@payload.ref_type}"
+    messages = ["#{@actor.login} created #{@payload.ref_type}"]
     unless @is_type_of_repository()
-      message += " '#{@ref_humanized()}' at"
-    message += " #{@repo.name}"
-    message
+      messages.push("'#{@ref_humanized()}' at")
+    messages.push(@repo.name)
+    messages.join(' ')
   url: ->
     path = @repo.name
     unless @is_type_of_repository()

@@ -59,7 +59,7 @@ restore = (dataString) ->
     if xhr.readyState == 4 # contents loaded
       container = document.createElement('div')
       container.innerHTML = xhr.responseText
-      userNameElement = container.querySelector('#user')
+      userNameElement = container.querySelector('.name')
       userName = if userNameElement
         userNameElement.textContent.replace(/^[ \n]+|[ \n]+$/g, '')
       else

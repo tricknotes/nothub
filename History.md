@@ -1,3 +1,7 @@
+v0.4.6 - Nov 21th 2012
+=========================
+* Fix to receive event about logged in user
+
 v0.4.5 - Nov 9th 2012
 =========================
 * Upgrade manifest.json version to 2

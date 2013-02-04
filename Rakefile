@@ -18,7 +18,7 @@ namespace :extension do
     :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache)/
   }
 
-  desc 'Setup resources for packagng'
+  desc 'Setup resources for packaging'
   task :setup => %w(clean libraries:setup compile:all)
 
   task :package => 'package:all'

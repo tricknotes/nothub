@@ -148,7 +148,7 @@ jQuery ($) ->
     type = $(area).data('type')
 
     # setup submit event
-    $('.watchButton', area).click ->
+    $(area).on 'click', '.watchButton', ->
       $field = $('.nameInputField', area)
       name = $field.attr('value')
       name = name.replace(/^ +| +$/g, '') # trim

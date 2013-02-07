@@ -122,7 +122,7 @@ jQuery ($) ->
     # check selected event
     eventTypes = store.items(type)[name]
     $('input[name=eventTypes]', $field).each ->
-      if eventTypes[$(this).attr('value')]
+      if eventTypes[$(this).val()]
         $(this).attr('checked', true)
 
     # load gravatar icon
@@ -150,13 +150,13 @@ jQuery ($) ->
     # setup submit event
     $(area).on 'click', '.watchButton', ->
       $field = $('.nameInputField', area)
-      name = $field.attr('value')
+      name = $field.val()
       name = name.replace(/^ +| +$/g, '') # trim
       return unless name # name is empty or whitespace only
       all = {}
       all[n] = true for n in supportedEventTypes[type]
       store.add(type, name, all)
-      $field.attr('value', '')
+      $field.val('')
 
     # setup initialize data
     for name, _details of store.items(type)
@@ -187,7 +187,7 @@ jQuery ($) ->
     type = $row.data('type')
     checking = {}
     $('input[name=eventTypes]', $area).each ->
-      eventType = $(this).attr('value')
+      eventType = $(this).val()
       checked = !!$(this).attr('checked')
       checking[eventType] = checked
       true

@@ -1,6 +1,10 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.4.0)
     crxmake (2.0.7)
       zip (~> 2.0.2)
     execjs (1.4.0)
@@ -18,6 +22,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  coffee-script
   crxmake
   haml
   rake

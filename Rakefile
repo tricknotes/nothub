@@ -51,13 +51,14 @@ namespace :compile do
   desc 'Compile all files'
   task 'all' => %w(clean coffee haml scss)
 
-  class CoffeeScriptCompileError < CompileError; end
-
   desc 'Compile CoffeeScript to JavaScript'
   task :coffee do
-    stdin, stdout, stderr = Open3.popen3('coffee -o ./dist/js/ -c ./src/js/*.coffee')
-    error = stderr.to_a.join
-    throw CoffeeScriptCompileError, error unless error.empty?
+    require 'coffee-script'
+
+    Dir['./src/js/*.coffee'].each do |coffee|
+      dist = CoffeeScript.compile(File.read(coffee))
+      File.write("./dist/js/#{File.basename(coffee, 'coffee')}js", dist)
+    end
   end
 
   class HamlCompileError < CompileError; end

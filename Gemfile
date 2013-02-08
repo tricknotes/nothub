@@ -2,6 +2,6 @@ source :rubygems
 
 gem 'rake'
 gem 'crxmake'
-gem 'closure-compiler'
+gem 'uglifier'
 gem 'haml'
 gem 'sass'

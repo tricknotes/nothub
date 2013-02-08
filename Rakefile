@@ -1,9 +1,8 @@
 require 'fileutils'
 require 'open3'
 
-require 'rubygems'
 require 'crxmake'
-require 'closure-compiler'
+require 'uglifier'
 
 task :default => 'extension'
 
@@ -139,7 +138,7 @@ namespace :js do
     Dir['./dist/js/*.js'].each do |path|
       source = File.read(path)
       File.open(path, 'w') do |f|
-        f << Closure::Compiler.new.compress(source)
+        f << Uglifier.compile(source)
       end
     end
   end

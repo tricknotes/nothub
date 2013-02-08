@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'open3'
 
 require 'crxmake'
 
@@ -61,17 +60,17 @@ namespace :compile do
     end
   end
 
-  class HamlCompileError < CompileError; end
-
   desc 'Compile haml to html'
   task :haml do
+    require 'haml'
+    require 'haml/exec'
+
     Dir['./src/*.haml'].each do |haml|
-      stdin, stdout, stderr = Open3.popen3("haml --no-escape-attrs #{haml}")
-      error = stderr.to_a.join
-      throw HamlCompileError, error unless error.empty?
-      File.open("./dist/#{File.basename(haml, 'haml')}html", 'w') do |html|
-        html << stdout.to_a.join
-      end
+      $stdout = StringIO.new
+      opts = Haml::Exec::Haml.new(['--no-escape-attrs', haml])
+      opts.parse
+      File.write("./dist/#{File.basename(haml, 'haml')}html", $stdout.string)
+      $stdout = STDOUT
     end
   end
 

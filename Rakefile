@@ -2,7 +2,6 @@ require 'fileutils'
 require 'open3'
 
 require 'crxmake'
-require 'uglifier'
 
 task :default => 'extension'
 
@@ -135,6 +134,8 @@ end
 namespace :js do
   desc 'Compress JavaScripts'
   task :compress do
+    require 'uglifier'
+
     Dir['./dist/js/*.js'].each do |path|
       source = File.read(path)
       File.open(path, 'w') do |f|

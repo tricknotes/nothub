@@ -75,15 +75,15 @@ namespace :compile do
     end
   end
 
-  class SCSSCompileError < CompileError; end
-
   desc 'Compile scss to css'
   task :scss do
+    require 'sass'
+    require 'sass/exec'
+
     Dir['./src/css/*.scss'].each do |scss|
       css = File.basename(scss, 'scss')
-      stdin, stdout, stderr = Open3.popen3("sass #{scss} dist/css/#{css}css")
-      error = stderr.to_a.join
-      throw SCSSCompileError, error unless error.empty?
+      opts = Sass::Exec::Sass.new([scss, "dist/css/#{css}css"])
+      opts.parse
     end
   end
 

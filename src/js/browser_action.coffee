@@ -57,7 +57,7 @@ jQuery ($) ->
       checked = !!store.items('aboutuser')[userName]
       $checkbox.prop('checked', checked)
 
-      $checkbox.change ->
+      $checkbox.on 'change', ->
         if $(this).prop('checked')
           store.add('aboutuser', userName, true)
         else

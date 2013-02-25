@@ -10,7 +10,7 @@ jQuery ($) ->
       defaultValue = $(this).data('default-value')
       $(this).val(config[key] || defaultValue)
 
-  $('input', $area).change ->
+  $('input', $area).on 'change', ->
     key = $(this).attr('name')
     value = $(this).val()
 

@@ -55,10 +55,10 @@ jQuery ($) ->
 
       $checkbox = $('input[type=checkbox]', $watchAreaAboutUser)
       checked = !!store.items('aboutuser')[userName]
-      $checkbox.attr('checked', checked)
+      $checkbox.prop('checked', checked)
 
       $checkbox.change ->
-        if $(this).attr('checked')
+        if $(this).prop('checked')
           store.add('aboutuser', userName, true)
         else
           store.remove('aboutuser', userName)
@@ -123,7 +123,7 @@ jQuery ($) ->
     eventTypes = store.items(type)[name]
     $('input[name=eventTypes]', $field).each ->
       if eventTypes[$(this).val()]
-        $(this).attr('checked', true)
+        $(this).prop('checked', true)
 
     # load gravatar icon
     $('img.icon', $field).one 'load', ->
@@ -188,7 +188,7 @@ jQuery ($) ->
     checking = {}
     $('input[name=eventTypes]', $area).each ->
       eventType = $(this).val()
-      checked = !!$(this).attr('checked')
+      checked = !!$(this).prop('checked')
       checking[eventType] = checked
       true
     store.update(type, name, checking)

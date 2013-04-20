@@ -33,7 +33,7 @@ GhEvent.add_type = (type, methods) ->
   Type
 
 # type definitions
-GhEvent.add_type 'CommitCommentEvent'
+GhEvent.add_type 'CommitCommentEvent',
   title: ->
     "#{@repo.name} was commented"
   message: ->
@@ -41,7 +41,7 @@ GhEvent.add_type 'CommitCommentEvent'
   url: ->
     @payload.comment.html_url
 
-GhEvent.add_type 'CreateEvent'
+GhEvent.add_type 'CreateEvent',
   title: ->
     "#{@payload.ref_type} created"
   message: ->
@@ -58,7 +58,7 @@ GhEvent.add_type 'CreateEvent'
   is_type_of_repository: ->
     ['branch', 'tag'].indexOf(@payload.ref_type) < 0
 
-GhEvent.add_type 'DeleteEvent'
+GhEvent.add_type 'DeleteEvent',
   title: ->
     "#{@payload.ref_type} was deleted"
   message: ->
@@ -66,7 +66,7 @@ GhEvent.add_type 'DeleteEvent'
   url: ->
     @gh_url(@actor.login)
 
-GhEvent.add_type 'DownloadEvent'
+GhEvent.add_type 'DownloadEvent',
   title: ->
     "File uploaded"
   message: ->
@@ -74,7 +74,7 @@ GhEvent.add_type 'DownloadEvent'
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'FollowEvent'
+GhEvent.add_type 'FollowEvent',
   title: ->
     "#{@actor.login} following"
   message: ->
@@ -82,7 +82,7 @@ GhEvent.add_type 'FollowEvent'
   url: ->
     @payload.target.html_url
 
-GhEvent.add_type 'ForkEvent'
+GhEvent.add_type 'ForkEvent',
   title: ->
     "#{@actor.login} forked #{@repo.name}"
   message: ->
@@ -90,7 +90,7 @@ GhEvent.add_type 'ForkEvent'
   url: ->
     @payload.forkee.html_url
 
-GhEvent.add_type 'GistEvent'
+GhEvent.add_type 'GistEvent',
   title: ->
     "Gist #{@payload.action}"
   message: ->
@@ -98,7 +98,7 @@ GhEvent.add_type 'GistEvent'
   url: ->
     @payload.gist.html_url
 
-GhEvent.add_type 'GollumEvent'
+GhEvent.add_type 'GollumEvent',
   title: ->
     "Wiki #{@payload.pages[0].action}"
   message: ->
@@ -106,7 +106,7 @@ GhEvent.add_type 'GollumEvent'
   url: ->
     @payload.pages[0].html_url
 
-GhEvent.add_type 'IssueCommentEvent'
+GhEvent.add_type 'IssueCommentEvent',
   title: ->
     "Issue commented"
   message: ->
@@ -114,7 +114,7 @@ GhEvent.add_type 'IssueCommentEvent'
   url: ->
     @payload.issue.html_url
 
-GhEvent.add_type 'IssuesEvent'
+GhEvent.add_type 'IssuesEvent',
   title: ->
     "Issue #{@payload.action}"
   message: ->
@@ -122,7 +122,7 @@ GhEvent.add_type 'IssuesEvent'
   url: ->
     @payload.issue.html_url
 
-GhEvent.add_type 'MemberEvent'
+GhEvent.add_type 'MemberEvent',
   title: ->
     "Member #{@payload.action}"
   message: ->
@@ -130,7 +130,7 @@ GhEvent.add_type 'MemberEvent'
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'PublicEvent'
+GhEvent.add_type 'PublicEvent',
   title: ->
     "Open sourced"
   message: ->
@@ -138,7 +138,7 @@ GhEvent.add_type 'PublicEvent'
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'PullRequestEvent'
+GhEvent.add_type 'PullRequestEvent',
   title: ->
     "Pull request #{@payload.action}"
   message: ->
@@ -146,7 +146,7 @@ GhEvent.add_type 'PullRequestEvent'
   url: ->
     @payload.pull_request.html_url
 
-GhEvent.add_type 'PushEvent'
+GhEvent.add_type 'PushEvent',
   title: ->
     "#{@repo.name} was pushed"
   message: ->
@@ -159,7 +159,7 @@ GhEvent.add_type 'PushEvent'
       head = @payload.head
       @gh_url("#{@repo.name}/compare/#{before}%5E...#{head}")
 
-GhEvent.add_type 'TeamAddEvent'
+GhEvent.add_type 'TeamAddEvent',
   title: ->
     "Team added"
   message: ->
@@ -167,7 +167,7 @@ GhEvent.add_type 'TeamAddEvent'
   url: ->
     @gh_url(@payload.team.name)
 
-GhEvent.add_type 'WatchEvent'
+GhEvent.add_type 'WatchEvent',
   title: ->
     "#{@actor.login} starred"
   message: ->
@@ -175,7 +175,7 @@ GhEvent.add_type 'WatchEvent'
   url: ->
     @gh_url(@repo.name)
 
-GhEvent.add_type 'PullRequestReviewCommentEvent'
+GhEvent.add_type 'PullRequestReviewCommentEvent',
   title: ->
     "Pull request reviewed"
   message: ->

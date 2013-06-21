@@ -116,7 +116,7 @@ reloader =
     @reloadId = setTimeout(@reconnect, 3000)
   stop: ->
     if reloadId = @reloadId
-      clearInterval(reloadId)
+      clearTimeout(reloadId)
   accessTime: Date.now()
   pingInterval: 10 * 60 * 1000
   isOvered: (date) ->

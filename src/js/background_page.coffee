@@ -4,8 +4,10 @@ Object.defineProperty store, 'config', {
       store.items('config')
   }
 
+manifest = chrome.runtime.getManifest()
+
 # store version
-store.add 'meta', 'version', '0.4.6'
+store.add 'meta', 'version', manifest.version
 
 notify = do ->
   notifications = []

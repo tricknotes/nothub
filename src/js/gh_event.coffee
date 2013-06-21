@@ -1,9 +1,9 @@
 class GhEvent
   icon: (size) ->
     size ||= 140
-    if gravatar_id = @actor?.gravatar_id
+    if gravatarId = @actor?.gravatar_id
       [
-        "https://secure.gravatar.com/avatar/#{gravatar_id}"
+        "https://secure.gravatar.com/avatar/#{gravatarId}"
         "?s=#{size}"
         "&d=https://a248.e.akamai.net/"
         "assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
@@ -11,21 +11,21 @@ class GhEvent
     else
       null
 
-  gh_url: (path)->
+  ghUrl: (path)->
     "https://github.com/#{path}"
 
-  ref_humanized: ->
+  humanizedRef: ->
     @payload.ref.replace(/^refs\/heads\//, '')
 
-GhEvent.create = (gh_event_data) ->
-  gh_event = Object.create(gh_event_data)
+GhEvent.create = (ghEventData) ->
+  ghEvent = Object.create(ghEventData)
   for name, method of this.prototype
-    gh_event[name] = method
-  @apply(gh_event, [])
-  gh_event
+    ghEvent[name] = method
+  @apply(ghEvent, [])
+  ghEvent
 
-GhEvent.types = {}
-GhEvent.add_type = (type, methods) ->
+GhEvent.types = Object.create(null)
+GhEvent.registerType = (type, methods) ->
   Type = class @types[type] extends this
 
   for name, method of methods
@@ -33,7 +33,7 @@ GhEvent.add_type = (type, methods) ->
   Type
 
 # type definitions
-GhEvent.add_type 'CommitCommentEvent',
+GhEvent.registerType 'CommitCommentEvent',
   title: ->
     "#{@repo.name} was commented"
   message: ->
@@ -41,40 +41,40 @@ GhEvent.add_type 'CommitCommentEvent',
   url: ->
     @payload.comment.html_url
 
-GhEvent.add_type 'CreateEvent',
+GhEvent.registerType 'CreateEvent',
   title: ->
     "#{@payload.ref_type} created"
   message: ->
     messages = ["#{@actor.login} created #{@payload.ref_type}"]
-    unless @is_type_of_repository()
-      messages.push("'#{@ref_humanized()}' at")
+    unless @isTypeOfRepository()
+      messages.push("'#{@humanizedRef()}' at")
     messages.push(@repo.name)
     messages.join(' ')
   url: ->
     path = @repo.name
-    unless @is_type_of_repository()
+    unless @isTypeOfRepository()
       path += "/tree/#{@payload.ref}"
-    @gh_url(path)
-  is_type_of_repository: ->
+    @ghUrl(path)
+  isTypeOfRepository: ->
     ['branch', 'tag'].indexOf(@payload.ref_type) < 0
 
-GhEvent.add_type 'DeleteEvent',
+GhEvent.registerType 'DeleteEvent',
   title: ->
     "#{@payload.ref_type} was deleted"
   message: ->
-    "#{@actor.login} deleted #{@payload.ref_type} '#{@ref_humanized()}' at #{@repo.name}"
+    "#{@actor.login} deleted #{@payload.ref_type} '#{@humanizedRef()}' at #{@repo.name}"
   url: ->
-    @gh_url(@actor.login)
+    @ghUrl(@actor.login)
 
-GhEvent.add_type 'DownloadEvent',
+GhEvent.registerType 'DownloadEvent',
   title: ->
     "File uploaded"
   message: ->
     "#{@actor.login} uploaded '#{@payload.download.name}' to #{@repo.name}"
   url: ->
-    @gh_url(@repo.name)
+    @ghUrl(@repo.name)
 
-GhEvent.add_type 'FollowEvent',
+GhEvent.registerType 'FollowEvent',
   title: ->
     "#{@actor.login} following"
   message: ->
@@ -82,7 +82,7 @@ GhEvent.add_type 'FollowEvent',
   url: ->
     @payload.target.html_url
 
-GhEvent.add_type 'ForkEvent',
+GhEvent.registerType 'ForkEvent',
   title: ->
     "#{@actor.login} forked #{@repo.name}"
   message: ->
@@ -90,7 +90,7 @@ GhEvent.add_type 'ForkEvent',
   url: ->
     @payload.forkee.html_url
 
-GhEvent.add_type 'GistEvent',
+GhEvent.registerType 'GistEvent',
   title: ->
     "Gist #{@payload.action}"
   message: ->
@@ -98,7 +98,7 @@ GhEvent.add_type 'GistEvent',
   url: ->
     @payload.gist.html_url
 
-GhEvent.add_type 'GollumEvent',
+GhEvent.registerType 'GollumEvent',
   title: ->
     "Wiki #{@payload.pages[0].action}"
   message: ->
@@ -106,7 +106,7 @@ GhEvent.add_type 'GollumEvent',
   url: ->
     @payload.pages[0].html_url
 
-GhEvent.add_type 'IssueCommentEvent',
+GhEvent.registerType 'IssueCommentEvent',
   title: ->
     "Issue commented"
   message: ->
@@ -114,7 +114,7 @@ GhEvent.add_type 'IssueCommentEvent',
   url: ->
     @payload.issue.html_url
 
-GhEvent.add_type 'IssuesEvent',
+GhEvent.registerType 'IssuesEvent',
   title: ->
     "Issue #{@payload.action}"
   message: ->
@@ -122,23 +122,23 @@ GhEvent.add_type 'IssuesEvent',
   url: ->
     @payload.issue.html_url
 
-GhEvent.add_type 'MemberEvent',
+GhEvent.registerType 'MemberEvent',
   title: ->
     "Member #{@payload.action}"
   message: ->
     "#{@actor.login} #{@payload.action} #{@payload.member.login} to #{@repo.name}"
   url: ->
-    @gh_url(@repo.name)
+    @ghUrl(@repo.name)
 
-GhEvent.add_type 'PublicEvent',
+GhEvent.registerType 'PublicEvent',
   title: ->
     "Open sourced"
   message: ->
     "#{@actor.login} open sourced #{@repo.name}"
   url: ->
-    @gh_url(@repo.name)
+    @ghUrl(@repo.name)
 
-GhEvent.add_type 'PullRequestEvent',
+GhEvent.registerType 'PullRequestEvent',
   title: ->
     "Pull request #{@payload.action}"
   message: ->
@@ -146,52 +146,52 @@ GhEvent.add_type 'PullRequestEvent',
   url: ->
     @payload.pull_request.html_url
 
-GhEvent.add_type 'PushEvent',
+GhEvent.registerType 'PushEvent',
   title: ->
     "#{@repo.name} was pushed"
   message: ->
-    "#{@actor.login} pushed to branch '#{@ref_humanized()}' at #{@repo.name}"
+    "#{@actor.login} pushed to branch '#{@humanizedRef()}' at #{@repo.name}"
   url: ->
     if @payload.size <= 1
-      @gh_url("#{@repo.name}/commit/#{@payload.head}")
+      @ghUrl("#{@repo.name}/commit/#{@payload.head}")
     else
       before = @payload.commits[0].sha.split('')[0...10].join('')
       head = @payload.head
-      @gh_url("#{@repo.name}/compare/#{before}%5E...#{head}")
+      @ghUrl("#{@repo.name}/compare/#{before}%5E...#{head}")
 
-GhEvent.add_type 'TeamAddEvent',
+GhEvent.registerType 'TeamAddEvent',
   title: ->
     "Team added"
   message: ->
     "#{@actor.login} added #{@payload.user.login} to #{@payload.team.name}"
   url: ->
-    @gh_url(@payload.team.name)
+    @ghUrl(@payload.team.name)
 
-GhEvent.add_type 'WatchEvent',
+GhEvent.registerType 'WatchEvent',
   title: ->
     "#{@actor.login} starred"
   message: ->
     "#{@actor.login} starred #{@repo.name}"
   url: ->
-    @gh_url(@repo.name)
+    @ghUrl(@repo.name)
 
-GhEvent.add_type 'PullRequestReviewCommentEvent',
+GhEvent.registerType 'PullRequestReviewCommentEvent',
   title: ->
     "Pull request reviewed"
   message: ->
-    pull_request_id = @payload.comment._links.pull_request.href.split('/').pop()
-    "#{@actor.login} reviewed #{@repo.name} ##{pull_request_id}"
+    pullRequestNumber = @payload.comment._links.pull_request.href.split('/').pop()
+    "#{@actor.login} reviewed #{@repo.name} ##{pullRequestNumber}"
   url: ->
     @payload.comment._links.html.href
 
-GhEvent.create_by_type = (gh_event_data) ->
-  {type} = gh_event_data
-  event_type = @types[type]
-  unless event_type
-    console.log([type, gh_event_data])
+GhEvent.createByType = (ghEventData) ->
+  {type} = ghEventData
+  eventType = @types[type]
+  unless eventType
+    console.log([type, ghEventData])
     throw "Unknown event type: #{type}"
-  gh_event = event_type.create(gh_event_data)
-  gh_event
+  ghEvent = eventType.create(ghEventData)
+  ghEvent
 
 # exports
 global = if module?.exports? then module.exports else this

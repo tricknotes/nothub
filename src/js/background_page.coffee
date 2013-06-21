@@ -13,16 +13,16 @@ notify = do ->
   notifications = []
 
   showNotification = ->
-    max_count = Number(store.config['maxNotificationCount']) || 3
-    for i in [0...max_count]
+    maxCount = Number(store.config['maxNotificationCount']) || 3
+    for i in [0...maxCount]
       notifications[i]?.show()
 
-  (gh_event_data) ->
-    gh_event = GhEvent.create_by_type(gh_event_data)
+  (ghEventData) ->
+    ghEvent = GhEvent.createByType(ghEventData)
     notification = webkitNotifications.createNotification(
-      gh_event.icon()
-      gh_event.title()
-      gh_event.message()
+      ghEvent.icon()
+      ghEvent.title()
+      ghEvent.message()
     )
     notification.ondisplay = ->
       if timeout = Number(store.config['notificationTimeout'])
@@ -32,7 +32,7 @@ notify = do ->
           , timeout * 1000 # milli sec to sec
         )
     notification.onclick = ->
-      window.open(gh_event.url())
+      window.open(ghEvent.url())
       notification.cancel()
 
     notification.onclose = ->
@@ -72,7 +72,7 @@ restore = (dataString) ->
 
 # export for using from other scripts
 @updateQuery = updateQuery = () ->
-  builder = new QueryBuilder
+  builder = new QueryBuilder()
 
   usernames = restore(localStorage['username'])
   for name, eventTypes of usernames
@@ -103,37 +103,37 @@ socket.on 'connect', ->
   updateQuery()
 
 socket.on 'gh_event pushed', (data) ->
-  console.log(data)
+  console.log(data) # debugging code
   notify(data)
 
 # auto reload
 reloader =
   reloadId: null
   reconnect: ->
-    location.href = location.href # bad hack
+    location.reload()
   forceReload: ->
     @stop()
     @reloadId = setTimeout(@reconnect, 3000)
   stop: ->
     if reloadId = @reloadId
       clearInterval(reloadId)
-  access_time: new Date
-  ping_interval: 10 * 60 * 1000
-  is_overed: (date) ->
-    diff = date.getTime() - @access_time.getTime()
-    diff > @ping_interval * 1.5
+  accessTime: Date.now()
+  pingInterval: 10 * 60 * 1000
+  isOvered: (date) ->
+    diff = date.getTime() - @accessTime.getTime()
+    diff > @pingInterval * 1.5
 
 socket.on 'pong', (data) ->
-  reloader.access_time = new Date(data)
+  reloader.accessTime = new Date(data)
 
 setInterval ->
-  socket.emit('ping', new Date)
-, reloader.ping_interval
+  socket.emit('ping', Date.now())
+, reloader.pingInterval
 
 setInterval ->
-  if reloader.is_overed(new Date)
+  if reloader.isOvered(Date.now())
     reloader.forceReload()
-, reloader.ping_interval * 1.1
+, reloader.pingInterval * 1.1
 
 socket.on 'error', -> reloader.forceReload()
 socket.on 'connect', -> reloader.stop()

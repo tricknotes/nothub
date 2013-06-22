@@ -119,12 +119,12 @@ reloader =
       clearTimeout(reloadId)
   accessTime: Date.now()
   pingInterval: 10 * 60 * 1000
-  isOvered: (date) ->
-    diff = date.getTime() - @accessTime.getTime()
+  isOvered: (time) ->
+    diff = time - @accessTime
     diff > @pingInterval * 1.5
 
 socket.on 'pong', (data) ->
-  reloader.accessTime = new Date(data)
+  reloader.accessTime = Date.parse(date)
 
 setInterval ->
   socket.emit('ping', Date.now())

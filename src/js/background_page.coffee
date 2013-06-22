@@ -124,7 +124,7 @@ reloader =
     diff > @pingInterval * 1.5
 
 socket.on 'pong', (data) ->
-  reloader.accessTime = Date.parse(date)
+  reloader.accessTime = Date.parse(data)
 
 setInterval ->
   socket.emit('ping', Date.now())

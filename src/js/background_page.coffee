@@ -19,21 +19,21 @@ notify = do ->
 
   (ghEventData) ->
     ghEvent = GhEvent.createByType(ghEventData)
-    notification = webkitNotifications.createNotification(
-      ghEvent.icon()
-      ghEvent.title()
-      ghEvent.message()
-    )
-    notification.ondisplay = ->
+    notification = new Notification ghEvent.title(),
+      tag:  "github-event-#{ghEvent.id}"
+      icon: ghEvent.icon()
+      body: ghEvent.message()
+
+    notification.onshow = ->
       if timeout = Number(store.config['notificationTimeout'])
         setTimeout(
           ->
-            notification.cancel()
+            notification.close()
           , timeout * 1000 # milli sec to sec
         )
     notification.onclick = ->
       window.open(ghEvent.url())
-      notification.cancel()
+      notification.close()
 
     notification.onclose = ->
       if (index = notifications.indexOf(this)) >= 0

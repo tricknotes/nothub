@@ -12,11 +12,6 @@ store.add 'meta', 'version', manifest.version
 notify = do ->
   notifications = []
 
-  showNotification = ->
-    maxCount = Number(store.config['maxNotificationCount']) || 3
-    for i in [0...maxCount]
-      notifications[i]?.show()
-
   (ghEventData) ->
     ghEvent = GhEvent.createByType(ghEventData)
     notification = new Notification ghEvent.title(),
@@ -38,10 +33,8 @@ notify = do ->
     notification.onclose = ->
       if (index = notifications.indexOf(this)) >= 0
         notifications.splice(index, 1)
-      showNotification()
 
     notifications.push(notification)
-    showNotification()
 
 clearIconCache = ->
   console.log('icon cache expired')

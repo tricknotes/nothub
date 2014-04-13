@@ -1,3 +1,12 @@
+v0.4.8 - Apr 14th 2012
+=========================
+* Fix to work notification
+* Show identicon
+
+v0.4.7 - Feb 24th 2012
+=========================
+* Update dependencies
+
 v0.4.6 - Nov 21th 2012
 =========================
 * Fix to receive event about logged in user

@@ -1,15 +1,6 @@
 class GhEvent
-  icon: (size) ->
-    size ||= 140
-    if gravatarId = @actor?.gravatar_id
-      [
-        "https://secure.gravatar.com/avatar/#{gravatarId}"
-        "?s=#{size}"
-        "&d=https://a248.e.akamai.net/"
-        "assets.github.com%2Fimages%2Fgravatars%2Fgravatar-#{size}.png"
-      ].join('')
-    else
-      null
+  icon: ->
+    @actor.avatar_url
 
   ghUrl: (path)->
     "https://github.com/#{path}"

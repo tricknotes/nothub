@@ -2,21 +2,47 @@
 NotHub.ApplicationAdapter = DS.ActiveModelAdapter.extend({
   createRecord: function(store, type, record) {
     var path = this.pathForType(type.typeKey);
-    var data = record.serialize();
+
+    var adapter = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
+      adapter.findAll(store, type).then(function(data) {
+        var records = data[path];
+
+        if (!records) {
+          records = [];
+        }
+
+        var serializedRecord = adapter.serialize(record, { includeId: true });
+
+        records.push(serializedRecord);
+
+        data[path] = records;
+
+        chrome.storage.sync.set(data, function() {
+          var error = chrome.extension.lastError;
+
+          if (error) {
+            reject(error);
+            return;
+          }
+
+          resolve();
+        });
+      });
     });
   },
 
   // updateRecord: function() {},
 
-  deleteRecord: function(store, type, id) {
+  deleteRecord: function(store, type, record) {
     var path = this.pathForType(type.typeKey);
+    var id   = record.get('id');
 
-    var findAll = this.findAll.bind(this);
+    var adapter = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      findAll(store, type).then(function(data) {
+      adapter.findAll(store, type).then(function(data) {
         var records = Ember.A(data[path]);
         var record  = records.findBy('id', String(id));
 
@@ -40,10 +66,11 @@ NotHub.ApplicationAdapter = DS.ActiveModelAdapter.extend({
 
   find: function(store, type, id) {
     var path    = this.pathForType(type.typeKey);
-    var findAll = this.findAll.bind(this);
+
+    var adapter = this;
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      findAll(store, type).then(function(data) {
+      adapter.findAll(store, type).then(function(data) {
         var records = data[path];
         var record  = Ember.A(records).findBy('id', String(id));
 

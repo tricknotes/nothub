@@ -3,8 +3,11 @@ NotHub.FollowingListRoute = Ember.Route.extend({
   //   
   // },
   setupController: function(controller, model) {
-    this.controllerFor('following-users')
-      .set('model', this.store.all('following-user'))
+    var usersController = this.controllerFor('following-users');
+
+    this.store.find('following-user').then(function (users) {
+      usersController.set('model', users);
+    });
 
     return this._super(controller, model);
   }

@@ -1,0 +1,25 @@
+<h2>Users:</h2>
+
+{{#unless this}}
+  No following users.
+{{/unless}}
+
+<ul>
+  {{#each}}
+    <li>
+      <p>
+        <img class="icon" {{bind-attr src=iconURL}}>
+        {{username}}
+      </p>
+      <p>
+      {{!TODO events を上手く扱う必要がある}}
+      <label>{{input type="checkbox" checked=events value="push"}}Push</label>
+      </p>
+    </li>
+  {{/each}}
+</ul>
+
+<form {{action "follow" on="submit"}}>
+  {{input value=username}}
+  <button>Follow</button>
+</form>

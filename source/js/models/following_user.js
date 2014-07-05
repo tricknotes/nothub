@@ -1,15 +1,17 @@
+//= require query_builder
+
 NotHub.FollowingUser = DS.Model.extend({
   username: DS.attr(),
 
   events: DS.attr(null, {
     defaultValue: function() {
-      return {
-        push:    true,
-        star:    true,
-        pullreq: true,
-        gist:    true,
-        others:  true
-      };
+      var events = {};
+
+      NotHub.FollowingUser.EVENTS.forEach(function(event) {
+        events[event] = true;
+      });
+
+      return events;
     }
   }),
 
@@ -30,4 +32,19 @@ NotHub.FollowingUser = DS.Model.extend({
       updateIconURL('/images/404.png');
     });
   }).on('init')
+});
+
+NotHub.FollowingUser.EVENTS = Ember.A(QueryBuilder.userTypes).mapBy('type');
+
+// TODO Make clean!
+NotHub.FollowingUser.reopen({
+  becomeEventsDirty: Ember.observer.apply(
+    null,
+    NotHub.FollowingUser.EVENTS.map(function (event) {
+      return 'events.' + event;
+    }).pushObjects([
+    function() {
+      this.send('becomeDirty');
+    }])
+  )
 });

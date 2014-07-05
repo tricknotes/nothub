@@ -1,66 +1,37 @@
-// TODO Implement these methods using Google Chrome API.
 NotHub.ApplicationAdapter = DS.ActiveModelAdapter.extend({
   createRecord: function(store, type, record) {
-    var path = this.pathForType(type.typeKey);
+    var serializedRecord = this.serialize(record, { includeId: true });
 
-    var adapter = this;
+    return this.updateStorage(store, type, function(records) {
+      records.push(serializedRecord);
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      adapter.findAll(store, type).then(function(data) {
-        var records = data[path];
-
-        if (!records) {
-          records = [];
-        }
-
-        var serializedRecord = adapter.serialize(record, { includeId: true });
-
-        records.push(serializedRecord);
-
-        data[path] = records;
-
-        chrome.storage.sync.set(data, function() {
-          var error = chrome.extension.lastError;
-
-          if (error) {
-            reject(error);
-            return;
-          }
-
-          resolve();
-        });
-      });
+      return records;
     });
   },
 
-  // updateRecord: function() {},
+  updateRecord: function(store, type, record) {
+    var id = record.get('id');
+    var serializedRecord = this.serialize(record, { includeId: true });
+
+    return this.updateStorage(store, type, function(records) {
+      var record = records.findBy('id', id);
+      var index  = records.indexOf(record);
+
+      records.replace(index, 1, serializedRecord);
+
+      return records;
+    });
+  },
 
   deleteRecord: function(store, type, record) {
-    var path = this.pathForType(type.typeKey);
-    var id   = record.get('id');
+    var id = record.get('id');
 
-    var adapter = this;
+    return this.updateStorage(store, type, function(records) {
+      var record = records.findBy('id', id);
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      adapter.findAll(store, type).then(function(data) {
-        var records = Ember.A(data[path]);
-        var record  = records.findBy('id', String(id));
+      records.removeObject(record);
 
-        records.removeObject(record);
-
-        data[path] = records;
-
-        chrome.storage.sync.set(data, function() {
-          var error = chrome.extension.lastError;
-
-          if (error) {
-            reject(error);
-            return;
-          }
-
-          resolve();
-        });
-      });
+      return records;
     });
   },
 
@@ -109,5 +80,35 @@ NotHub.ApplicationAdapter = DS.ActiveModelAdapter.extend({
     Ember.Logger.log("This adapter doesn't support `findQuery`. Fallback to `findAll`");
 
     return this.findAll(store, type);
-  }
+  },
+
+  updateStorage: function(store, type, update) {
+    var path = this.pathForType(type.typeKey);
+
+    var adapter = this;
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      adapter.findAll(store, type).then(function(data) {
+        var records = data[path];
+
+        if (!records) {
+          records = [];
+        }
+
+        data[path] = update(records);
+
+        chrome.storage.sync.set(data, function() {
+          var error = chrome.extension.lastError;
+
+          if (error) {
+            reject(error);
+            return;
+          }
+
+          resolve();
+        });
+      });
+    });
+  },
+
 });

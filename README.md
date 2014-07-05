@@ -5,58 +5,21 @@ Web: http://nothub.org/
 
 ## Setup
 ``` sh
-$ git clone git://github.com/tricknotes/nothub.git ./nothub
-$ cd nothub
-
-$ git submodule init
-$ git submodule update
-
 $ bundle install
 ```
 
-## Compile
-Requirements:
-
-* [CoffeeScript](http://jashkenas.github.com/coffee-script/) (>= 1.4.0)
-
+## Build
 ``` sh
-$ rake extension:package:crx
+$ bundle exec middleman build
 ```
 
 ## Install
-Open `./package/nothub.crx` using Google Chrome.
-
-## For developers
-### Install without packaging
-``` sh
-$ rake libraries:setup
-$ rake compile
-```
-
-And install to Google Chrome.
-
-### Auto Compile
-watchr scripts are bundled, which support auto-compiling whenever source code's modification is detected with the following commands. You can experience this feature by installing [watchr](https://github.com/mynyml/watchr) and [growlnotify](http://growl.info/extras.php#growlnotify) in advance.
-
-* CoffeeScript
-``` sh
-$ watchr coffee-script.watchr
-```
-
-* Haml
-``` sh
-$ watchr haml.watchr
-```
-
-* SCSS
-``` sh
-$ watchr scss.watchr
-```
+Open `./build` directory using Google Chrome.
 
 ## License
 (The MIT License)
 
-Copyright (c) 2012-2013 Ryunosuke SATO &lt;tricknotes.rs@gmail.com&gt;
+Copyright (c) 2012 Ryunosuke SATO &lt;tricknotes.rs@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

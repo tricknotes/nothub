@@ -12,6 +12,7 @@ background:
 options_page: options_page.html
 permissions:
   - notifications
+  - storage
   - http://stream.nothub.org:4000/
   - https://api.github.com/
   - https://github.com/

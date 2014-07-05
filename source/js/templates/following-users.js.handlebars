@@ -9,7 +9,7 @@
     <li>
       <p>
         <img class="icon" {{bind-attr src=iconURL}}>
-        {{username}}
+        <a target="_blank" {{bind-attr href=githubURL}}>{{username}}</a>
         <a href="#" {{action "unfollow"}}>[x]</a>
       </p>
       <p>
@@ -24,6 +24,6 @@
 </ul>
 
 <form {{action "follow" on="submit"}}>
-  {{input value=username}}
+  {{input value=username tabindex="1"}}
   <button>Follow</button>
 </form>

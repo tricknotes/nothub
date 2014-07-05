@@ -1,7 +1,4 @@
-NotHub.FollowingListRoute = Ember.Route.extend({
-  // model: function() {
-  //   
-  // },
+NotHub.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, model) {
     var usersController = this.controllerFor('following-users');
 

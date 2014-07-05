@@ -8,9 +8,7 @@ NotHub.FollowingUsersController = Ember.ArrayController.extend({
       var username = this.get('username');
 
       if (!this.store.all('following-user').findBy('id', username)) {
-        var events = this.store.createRecord('user-event', {id: username});
-
-        this.store.createRecord('following-user', {id: username, username: username, events: events});
+        this.store.createRecord('following-user', {id: username, username: username});
       }
 
       this.set('username', null);

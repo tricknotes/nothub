@@ -1,7 +1,17 @@
 NotHub.FollowingUser = DS.Model.extend({
   username: DS.attr(),
 
-  events: DS.belongsTo('user-event'),
+  events: DS.attr(null, {
+    defaultValue: function() {
+      return {
+        push:    true,
+        star:    true,
+        pullreq: true,
+        gist:    true,
+        others:  true
+      };
+    }
+  }),
 
   iconURL: '/images/loading.gif',
 

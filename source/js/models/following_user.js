@@ -1,22 +1,23 @@
 NotHub.FollowingUser = DS.Model.extend({
   username: DS.attr(),
-  events:   DS.attr(),
 
-  iconURL: null,
+  events: DS.belongsTo('user-event'),
+
+  iconURL: '/images/loading.gif',
 
   fetchUserIcon: Ember.observer('username', function() {
     var username = this.get('username');
 
     if (!username) {
-      return null;
+      return;
     }
 
+    var updateIconURL = this.set.bind(this, 'iconURL');
+
     $.getJSON('https://api.github.com/users/' + username).then(function(user) {
-      console.log('ok');
-      this.set('iconURL', user.avatar_url);
-    }.bind(this)).fail(function() {
-      console.log('error');
-      // TODO Set 404 image.
-    }.bind(this));
+      updateIconURL(user.avatar_url);
+    }).fail(function() {
+      updateIconURL('/images/404.png');
+    });
   }).on('init')
 });

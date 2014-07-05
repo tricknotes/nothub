@@ -1,12 +1,8 @@
-NotHub.FollowingUsersController = Ember.ArrayController.extend({
-  username: null,
-
+NotHub.FollowingUserController = Ember.ObjectController.extend({
   actions: {
-    follow: function() {
-      var username = this.get('username');
-      console.log(username);
-
-      this.set('username', null);
+    unfollow: function() {
+      this.get('model.events').destroyRecord();
+      this.get('model').destroyRecord();
     }
   }
 });

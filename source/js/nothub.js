@@ -7,6 +7,7 @@
 //
 //= require_tree ./initializers
 //= require_tree ./models
+//= require_tree ./serializers
 //= require_tree ./controllers
 //= require_tree ./views
 //= require_tree ./templates

@@ -61,7 +61,7 @@ NotHub.ApplicationAdapter = DS.ActiveModelAdapter.extend({
     var path = this.pathForType(type.typeKey);
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      chrome.storage.sync.get(null, function(data) {
+      chrome.storage.sync.get(path, function(data) {
         var error = chrome.extension.lastError;
 
         if (error) {

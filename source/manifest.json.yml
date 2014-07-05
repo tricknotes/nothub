@@ -1,0 +1,21 @@
+name: NotHub
+description: Notification client for GitHub.
+version: '0.9'
+manifest_version: 2
+icons:
+  128: images/logo-128.png
+  48:  images/logo-48.png
+  16:  images/logo.png
+
+background:
+  page: background_page.html
+options_page: options_page.html
+permissions:
+  - notifications
+  - http://stream.nothub.org:4000/
+  - https://api.github.com/
+  - https://github.com/
+browser_action:
+  default_icon:  images/logo.png
+  default_title: Setup your following list!
+  default_popup: popup.html

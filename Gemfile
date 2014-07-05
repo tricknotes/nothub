@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
-gem 'rake'
-gem 'crxmake'
-gem 'uglifier'
-gem 'coffee-script'
-gem 'coffee-script-source'
-gem 'haml'
-gem 'sass'
+gem 'middleman'
+
+gem 'ember-middleman'
+gem 'rails-assets-jquery'
+gem 'tilt-yaml2json'

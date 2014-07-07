@@ -5,8 +5,8 @@ NotHub.QueryController = Ember.ArrayController.extend({
     return chrome.extension.getBackgroundPage();
   }),
 
-  queryDidChange: Ember.observer('followingUsers.@each.events', 'followingUsers.@each', function() {
-    this.notifyQueryChange(this.get('background').notifyQueryChange);
+  queryDidChange: Ember.observer('followingUsers.@each.isDirty', function() {
+    Ember.run.debounce(this, 'notifyQueryChange', this.get('background').notifyQueryChange, 100);
   }),
 
   notifyQueryChange: function(callback) {

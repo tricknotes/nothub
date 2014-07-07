@@ -53,7 +53,6 @@ NotHub.FollowingUser.reopen({
       return 'events.' + event;
     }).pushObjects([
     function() {
-      this.notifyPropertyChange('data');
       this.send('becomeDirty');
     }])
   )

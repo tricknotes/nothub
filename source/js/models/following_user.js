@@ -15,6 +15,15 @@ NotHub.FollowingUser = DS.Model.extend({
     }
   }),
 
+  interestingEvents: Ember.computed(function() {
+    var events     = this.get('events');
+    var eventNames = Object.keys(events);
+
+    return Ember.A(eventNames).filter(function(eventName) {
+      return events[eventName];
+    });
+  }).volatile(),
+
   iconURL: '/images/loading.gif',
 
   fetchUserIcon: Ember.observer('username', function() {
@@ -44,6 +53,7 @@ NotHub.FollowingUser.reopen({
       return 'events.' + event;
     }).pushObjects([
     function() {
+      this.notifyPropertyChange('data');
       this.send('becomeDirty');
     }])
   )

@@ -2,6 +2,7 @@
 //
 //= require nothub-core
 //= require gh_event
+//= require notification
 
 NotHub.IndexRoute = Ember.Route.extend({
 });
@@ -26,6 +27,15 @@ window.notifyQueryChange = function(query) {
 socket.on('gh_event pushed', function(data) {
   // TODO Notify!
   console.log(data);
+
+  var ghEvent = GhEvent.createByType(data);
+
+  new NotHub.createNotification(ghEvent.title(), {
+    tag:  'github-event-' + ghEvent.id,
+    icon: ghEvent.icon(),
+    body: ghEvent.message(),
+    url:  ghEvent.url()
+  });
 });
 
 // TODO Reload if pong couldn't received

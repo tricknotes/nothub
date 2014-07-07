@@ -18,8 +18,10 @@ socket.on('connect', function() {
 });
 
 window.notifyQueryChange = function(query) {
-  console.log(query);
-  socket.emit('query', query);
+  Ember.run.debounce(function() {
+    console.log(query);
+    socket.emit('query', query);
+  }, 50);
 };
 
 socket.on('gh_event pushed', function(data) {

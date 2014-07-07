@@ -1,4 +1,4 @@
-class GhEvent
+class GitHubEvent
   icon: ->
     @actor.avatar_url
 
@@ -8,15 +8,15 @@ class GhEvent
   humanizedRef: ->
     @payload.ref.replace(/^refs\/heads\//, '')
 
-GhEvent.create = (ghEventData) ->
+GitHubEvent.create = (ghEventData) ->
   ghEvent = Object.create(ghEventData)
   for name, method of this.prototype
     ghEvent[name] = method
   @apply(ghEvent, [])
   ghEvent
 
-GhEvent.types = Object.create(null)
-GhEvent.registerType = (type, methods) ->
+GitHubEvent.types = Object.create(null)
+GitHubEvent.registerType = (type, methods) ->
   Type = class @types[type] extends this
 
   for name, method of methods
@@ -24,7 +24,7 @@ GhEvent.registerType = (type, methods) ->
   Type
 
 # type definitions
-GhEvent.registerType 'CommitCommentEvent',
+GitHubEvent.registerType 'CommitCommentEvent',
   title: ->
     "#{@repo.name} was commented"
   message: ->
@@ -32,7 +32,7 @@ GhEvent.registerType 'CommitCommentEvent',
   url: ->
     @payload.comment.html_url
 
-GhEvent.registerType 'CreateEvent',
+GitHubEvent.registerType 'CreateEvent',
   title: ->
     "#{@payload.ref_type} created"
   message: ->
@@ -49,7 +49,7 @@ GhEvent.registerType 'CreateEvent',
   isTypeOfRepository: ->
     ['branch', 'tag'].indexOf(@payload.ref_type) < 0
 
-GhEvent.registerType 'DeleteEvent',
+GitHubEvent.registerType 'DeleteEvent',
   title: ->
     "#{@payload.ref_type} was deleted"
   message: ->
@@ -57,7 +57,7 @@ GhEvent.registerType 'DeleteEvent',
   url: ->
     @ghUrl(@actor.login)
 
-GhEvent.registerType 'DownloadEvent',
+GitHubEvent.registerType 'DownloadEvent',
   title: ->
     "File uploaded"
   message: ->
@@ -65,7 +65,7 @@ GhEvent.registerType 'DownloadEvent',
   url: ->
     @ghUrl(@repo.name)
 
-GhEvent.registerType 'FollowEvent',
+GitHubEvent.registerType 'FollowEvent',
   title: ->
     "#{@actor.login} following"
   message: ->
@@ -73,7 +73,7 @@ GhEvent.registerType 'FollowEvent',
   url: ->
     @payload.target.html_url
 
-GhEvent.registerType 'ForkEvent',
+GitHubEvent.registerType 'ForkEvent',
   title: ->
     "#{@actor.login} forked #{@repo.name}"
   message: ->
@@ -81,7 +81,7 @@ GhEvent.registerType 'ForkEvent',
   url: ->
     @payload.forkee.html_url
 
-GhEvent.registerType 'GistEvent',
+GitHubEvent.registerType 'GistEvent',
   title: ->
     "Gist #{@payload.action}"
   message: ->
@@ -89,7 +89,7 @@ GhEvent.registerType 'GistEvent',
   url: ->
     @payload.gist.html_url
 
-GhEvent.registerType 'GollumEvent',
+GitHubEvent.registerType 'GollumEvent',
   title: ->
     "Wiki #{@payload.pages[0].action}"
   message: ->
@@ -97,7 +97,7 @@ GhEvent.registerType 'GollumEvent',
   url: ->
     @payload.pages[0].html_url
 
-GhEvent.registerType 'IssueCommentEvent',
+GitHubEvent.registerType 'IssueCommentEvent',
   title: ->
     "Issue commented"
   message: ->
@@ -105,7 +105,7 @@ GhEvent.registerType 'IssueCommentEvent',
   url: ->
     @payload.issue.html_url
 
-GhEvent.registerType 'IssuesEvent',
+GitHubEvent.registerType 'IssuesEvent',
   title: ->
     "Issue #{@payload.action}"
   message: ->
@@ -113,7 +113,7 @@ GhEvent.registerType 'IssuesEvent',
   url: ->
     @payload.issue.html_url
 
-GhEvent.registerType 'MemberEvent',
+GitHubEvent.registerType 'MemberEvent',
   title: ->
     "Member #{@payload.action}"
   message: ->
@@ -121,7 +121,7 @@ GhEvent.registerType 'MemberEvent',
   url: ->
     @ghUrl(@repo.name)
 
-GhEvent.registerType 'PublicEvent',
+GitHubEvent.registerType 'PublicEvent',
   title: ->
     "Open sourced"
   message: ->
@@ -129,7 +129,7 @@ GhEvent.registerType 'PublicEvent',
   url: ->
     @ghUrl(@repo.name)
 
-GhEvent.registerType 'PullRequestEvent',
+GitHubEvent.registerType 'PullRequestEvent',
   title: ->
     "Pull request #{@payload.action}"
   message: ->
@@ -137,7 +137,7 @@ GhEvent.registerType 'PullRequestEvent',
   url: ->
     @payload.pull_request.html_url
 
-GhEvent.registerType 'PushEvent',
+GitHubEvent.registerType 'PushEvent',
   title: ->
     "#{@repo.name} was pushed"
   message: ->
@@ -150,7 +150,7 @@ GhEvent.registerType 'PushEvent',
       head = @payload.head
       @ghUrl("#{@repo.name}/compare/#{before}%5E...#{head}")
 
-GhEvent.registerType 'TeamAddEvent',
+GitHubEvent.registerType 'TeamAddEvent',
   title: ->
     "Team added"
   message: ->
@@ -158,7 +158,7 @@ GhEvent.registerType 'TeamAddEvent',
   url: ->
     @ghUrl(@payload.team.name)
 
-GhEvent.registerType 'WatchEvent',
+GitHubEvent.registerType 'WatchEvent',
   title: ->
     "#{@actor.login} starred"
   message: ->
@@ -166,7 +166,7 @@ GhEvent.registerType 'WatchEvent',
   url: ->
     @ghUrl(@repo.name)
 
-GhEvent.registerType 'PullRequestReviewCommentEvent',
+GitHubEvent.registerType 'PullRequestReviewCommentEvent',
   title: ->
     "Pull request reviewed"
   message: ->
@@ -175,7 +175,7 @@ GhEvent.registerType 'PullRequestReviewCommentEvent',
   url: ->
     @payload.comment._links.html.href
 
-GhEvent.createByType = (ghEventData) ->
+GitHubEvent.createByType = (ghEventData) ->
   {type} = ghEventData
   eventType = @types[type]
   unless eventType
@@ -186,4 +186,4 @@ GhEvent.createByType = (ghEventData) ->
 
 # exports
 global = if module?.exports? then module.exports else this
-global.GhEvent = GhEvent
+global.GitHubEvent = GitHubEvent

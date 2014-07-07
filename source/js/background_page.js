@@ -1,13 +1,11 @@
 //= require socket.io-client/socket.io
 //
 //= require nothub-core
-//= require gh_event
-//= require notification
+//
+//= require_tree ./background_scripts
 
 NotHub.IndexRoute = Ember.Route.extend({
 });
-
-// TODO
 
 var socket = io.connect('http://stream.nothub.org:5000/', {
   'reconnection delay': 500,
@@ -28,13 +26,13 @@ socket.on('gh_event pushed', function(data) {
   // TODO Notify!
   console.log(data);
 
-  var ghEvent = GhEvent.createByType(data);
+  var event = GitHubEvent.createByType(data);
 
-  new NotHub.createNotification(ghEvent.title(), {
-    tag:  'github-event-' + ghEvent.id,
-    icon: ghEvent.icon(),
-    body: ghEvent.message(),
-    url:  ghEvent.url()
+  new NotHub.createNotification(event.title(), {
+    tag:  'github-event-' + event.id,
+    icon: event.icon(),
+    body: event.message(),
+    url:  event.url()
   });
 });
 

@@ -2,7 +2,10 @@ NotHub.createNotification = function(title, options) {
   var notification = new Notification(title, options);
 
   notification.onshow = function() {
-    // TODO Auto close
+    // TODO Customize timeout
+    setTimeout(function() {
+      notification.close()
+    }, 1000);
   };
 
   notification.onclick = function() {

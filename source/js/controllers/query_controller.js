@@ -16,7 +16,7 @@ NotHub.QueryController = Ember.ArrayController.extend({
     followingUsers.forEach(function(user) {
       builder.addUsername(
         user.get('username'),
-        user.get('interestingEvents')
+        user.get('events')
       )
     });
 

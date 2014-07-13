@@ -12,4 +12,7 @@
 //= require_tree ./routes
 //= require adapter
 
-window.NotHub = Ember.Application.create();
+window.NotHub = Ember.Application.create({
+  // LOG_RESOLVER: true,
+  LOG_ACTIVE_GENERATION: true
+});

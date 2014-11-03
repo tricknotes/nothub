@@ -2,12 +2,12 @@ v0.4.8 - Nov 3rd 2014
 =========================
 * Fix link to issue comment
 
-v0.4.8 - Apr 14th 2012
+v0.4.8 - Apr 14th 2014
 =========================
 * Fix to work notification
 * Show identicon
 
-v0.4.7 - Feb 24th 2012
+v0.4.7 - Feb 24th 2014
 =========================
 * Update dependencies
 

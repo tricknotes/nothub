@@ -103,7 +103,7 @@ GhEvent.registerType 'IssueCommentEvent',
   message: ->
     "#{@actor.login} commented issue ##{@payload.issue.number} on #{@repo.name}"
   url: ->
-    @payload.issue.html_url
+    @payload.comment.html_url
 
 GhEvent.registerType 'IssuesEvent',
   title: ->

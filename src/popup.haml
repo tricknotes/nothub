@@ -11,7 +11,7 @@
 
   %body
     %section#content
-      %h1
+      %h1v
         Your following list for GitHub
 
       .watchAreaAboutUser
@@ -35,7 +35,7 @@
           %ul.watchedNames
           %form
             %img.icon{:src => '../images/no-icon.png'}
-            %input.nameInputField{:type => 'text', :placeholder => 'e.g. visionmedia'}
+            %input.nameInputField{:type => 'text', :placeholder => 'e.g. tj'}
             %input.watchButton{:type => 'submit', :value => 'Follow'}
 
       .watchArea{'data-type' => 'reponame'}

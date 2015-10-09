@@ -1,3 +1,9 @@
+v0.4.10 - Oct 9th 2015
+=========================
+* Make avater loading faster
+* Add vaidation for repository name
+* Fix to follow login status
+
 v0.4.9 - Nov 3rd 2014
 =========================
 * Fix link to issue comment

@@ -1,4 +1,4 @@
-v0.4.8 - Nov 3rd 2014
+v0.4.9 - Nov 3rd 2014
 =========================
 * Fix link to issue comment
 

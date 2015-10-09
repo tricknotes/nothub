@@ -44,8 +44,9 @@
           %ul.watchedNames
           %form
             %img.icon{:src => '../images/no-icon.png'}
-            %input.nameInputField{:type => 'text', :placeholder => 'e.g. joyent/node'}
+            %input.nameInputField{:type => 'text', :placeholder => 'e.g. joyent/node', :pattern => '^.+/.+$', title: 'The repository should be formatted as ":organization/:repository".'}
             %input.watchButton{:type => 'submit', :value => 'Watch'}
+            %div.helpBlock
 
     %footer
       %span

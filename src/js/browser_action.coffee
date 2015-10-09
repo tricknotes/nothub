@@ -130,6 +130,16 @@ jQuery ($) ->
     # setup submit event
     $(area).on 'click', '.watchButton', ->
       $field = $('.nameInputField', area)
+      field = $field.get(0)
+
+      $('.helpBlock', area).empty()
+      field.setCustomValidity ''
+
+      unless field.checkValidity()
+        field.setCustomValidity $field.attr('title')
+        $('.helpBlock', area).html(field.validationMessage)
+        return
+
       name = $field.val()
       name = name.replace(/ +/g, '') # trim
       return unless name # name is empty or whitespace only

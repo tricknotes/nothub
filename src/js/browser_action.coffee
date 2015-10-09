@@ -13,30 +13,6 @@ store.on 'update', updateQuery
 # user icons
 iconCache = new Store(localStorage)
 
-# for gravatar
-loadGravatarIcon = (type, name, callback) ->
-  if info = iconCache.items('usericon')[name]
-    callback(info.avatar_url || info.owner.avatar_url)
-  [apiPath, handler] = switch type
-    when 'username', 'aboutuser'
-      [
-        "users/#{name}"
-        (data) -> callback(data.avatar_url)
-      ]
-    when 'reponame'
-      [
-        "repos/#{name}"
-        (data) -> callback(data.owner.avatar_url)
-      ]
-  $.ajax
-    url: "https://api.github.com/#{apiPath}"
-    dataType: 'json'
-    success: (data) ->
-      iconCache.add('usericon', name, data)
-      handler(data)
-    error: ->
-      callback('../images/404.png')
-
 # for stream query
 supportedEventTypes = {
   username: _.map(QueryBuilder.userTypes, ({type}) -> type )
@@ -50,8 +26,10 @@ jQuery ($) ->
     $('.watchAreaContent', $watchAreaAboutUser).hide()
     if userName
       $('.loggedIn', $watchAreaAboutUser).show()
-      loadGravatarIcon 'aboutuser', userName, (icon) ->
-        $('img.icon', $watchAreaAboutUser).attr('src', icon)
+      $('img.icon', $watchAreaAboutUser)
+        .attr('src', "https://github.com/#{userName}.png")
+        .one 'error', ->
+          $(this).attr('src', '../images/404.png')
 
       $checkbox = $('input[type=checkbox]', $watchAreaAboutUser)
       checked = !!store.items('aboutuser')[userName]
@@ -126,10 +104,12 @@ jQuery ($) ->
         $(this).prop('checked', true)
 
     # load gravatar icon
-    $('img.icon', $field).one 'load', ->
-      $img = $(this)
-      loadGravatarIcon type, name, (icon) ->
-        $img.attr('src', icon)
+    $('img.icon', $field)
+      .one 'load', ->
+        repoName = name.split('/')[0]
+        $(this).attr('src', "https://github.com/#{repoName}.png")
+      .one 'error', ->
+        $(this).attr('src', '../images/404.png')
 
     $place.append($field)
 

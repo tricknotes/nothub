@@ -131,7 +131,7 @@ jQuery ($) ->
     $(area).on 'click', '.watchButton', ->
       $field = $('.nameInputField', area)
       name = $field.val()
-      name = name.replace(/^ +| +$/g, '') # trim
+      name = name.replace(/ +/g, '') # trim
       return unless name # name is empty or whitespace only
       all = {}
       all[n] = true for n in supportedEventTypes[type]

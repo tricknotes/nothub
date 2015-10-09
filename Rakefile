@@ -81,7 +81,7 @@ namespace :compile do
 
     Dir['./src/css/*.scss'].each do |scss|
       css = File.basename(scss, 'scss')
-      opts = Sass::Exec::Sass.new([scss, "dist/css/#{css}css"])
+      opts = Sass::Exec::SassScss.new([scss, "dist/css/#{css}css"], :scss)
       opts.parse
     end
   end

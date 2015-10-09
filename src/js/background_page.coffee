@@ -54,9 +54,9 @@ restore = (dataString) ->
     if xhr.readyState == 4 # contents loaded
       container = document.createElement('div')
       container.innerHTML = xhr.responseText
-      userNameElement = container.querySelector('.name')
+      userNameElement = container.querySelector('.header-nav-link.name img')
       userName = if userNameElement
-        userNameElement.textContent.replace(/^[ \n]+|[ \n]+$/g, '')
+        userNameElement.alt.replace(/^@/g, '')
       else
         null
       callback(userName)

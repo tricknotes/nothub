@@ -24,7 +24,6 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
-  coffee-script-source
   crxmake
   haml
   rake

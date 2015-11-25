@@ -4,7 +4,7 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1.1)
+    coffee-script-source (1.10.0)
     crxmake (2.2.0)
       rubyzip (~> 1.1.0)
     execjs (2.6.0)
@@ -13,7 +13,7 @@ GEM
     json (1.8.3)
     rake (10.4.2)
     rubyzip (1.1.7)
-    sass (3.4.18)
+    sass (3.4.19)
     tilt (2.0.1)
     uglifier (2.7.2)
       execjs (>= 0.3.0)

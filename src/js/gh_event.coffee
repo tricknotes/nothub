@@ -95,7 +95,9 @@ GhEvent.registerType 'GollumEvent',
   message: ->
     "#{@actor.login} #{@payload.pages[0].action} the #{@repo.name} wiki"
   url: ->
-    @payload.pages[0].html_url
+    url = @payload.pages[0].html_url
+    url = @ghUrl(url) unless url.match(/^https:\/\//) # XXX Current GitHub API returns path only URL...
+    url
 
 GhEvent.registerType 'IssueCommentEvent',
   title: ->

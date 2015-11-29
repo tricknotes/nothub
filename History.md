@@ -1,3 +1,7 @@
+v0.4.11 - Nov 29th 2015
+=========================
+* Fix URL for GollumEvent that returns URL without host
+
 v0.4.10 - Oct 9th 2015
 =========================
 * Make avater loading faster

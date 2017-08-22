@@ -30,9 +30,6 @@ class QueryBuilder
             name: {
               '$regexp': "^#{login}/"}}
           }
-          # FollowEvent -> follow login
-          {payload: {
-            target: {login} }}
           # TODO CommitCommentEvent -> commited by login
           # IssueCommentEvent -> opened by login
           {payload: {
@@ -79,8 +76,6 @@ QueryBuilder.addUserType 'push', ->
   {type: 'PushEvent'}
 QueryBuilder.addUserType 'star', ->
   {type: 'WatchEvent'}
-QueryBuilder.addUserType 'follow', ->
-  {type: 'FollowEvent'}
 QueryBuilder.addUserType 'pullreq', ->
   {type: 'PullRequestEvent'}
 QueryBuilder.addUserType 'gist', ->
@@ -90,7 +85,6 @@ QueryBuilder.addUserType 'others', ->
     '$nin': [
       'PushEvent'
       'WatchEvent'
-      'FollowEvent'
       'PullRequestEvent'
       'GistEvent' ]}
 

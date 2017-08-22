@@ -65,14 +65,6 @@ GhEvent.registerType 'DownloadEvent',
   url: ->
     @ghUrl(@repo.name)
 
-GhEvent.registerType 'FollowEvent',
-  title: ->
-    "#{@actor.login} following"
-  message: ->
-    "#{@actor.login} started following #{@payload.target.login}"
-  url: ->
-    @payload.target.html_url
-
 GhEvent.registerType 'ForkEvent',
   title: ->
     "#{@actor.login} forked #{@repo.name}"

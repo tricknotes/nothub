@@ -35,24 +35,6 @@ $ rake compile
 
 And install to Google Chrome.
 
-### Auto Compile
-watchr scripts are bundled, which support auto-compiling whenever source code's modification is detected with the following commands. You can experience this feature by installing [watchr](https://github.com/mynyml/watchr) and [growlnotify](http://growl.info/extras.php#growlnotify) in advance.
-
-* CoffeeScript
-``` sh
-$ watchr coffee-script.watchr
-```
-
-* Haml
-``` sh
-$ watchr haml.watchr
-```
-
-* SCSS
-``` sh
-$ watchr scss.watchr
-```
-
 ## License
 (The MIT License)
 

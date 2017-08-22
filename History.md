@@ -1,3 +1,8 @@
+v0.4.12 - Arg 23th 2017
+=========================
+* Drop `FollowEvent` due to unsupported by Github
+* Fix to handle login status
+
 v0.4.11 - Nov 29th 2015
 =========================
 * Fix URL for GollumEvent that returns URL without host

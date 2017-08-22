@@ -49,19 +49,22 @@ restore = (dataString) ->
     {}
 
 @getUserName = getUserName = (callback)->
-  xhr = new XMLHttpRequest()
-  xhr.onreadystatechange = ->
-    if xhr.readyState == 4 # contents loaded
-      container = document.createElement('div')
-      container.innerHTML = xhr.responseText
-      userNameElement = container.querySelector('meta[name="user-login"]')
-      userName = if userNameElement
-        userNameElement.getAttribute('content').replace(/^@/g, '')
-      else
-        null
-      callback(userName)
-  xhr.open('GET', 'https://github.com')
-  xhr.send()
+  options = {
+    mode: 'cors',
+    credentials: 'include'
+  }
+
+  fetch('https://github.com', options).then((res)->
+    res.text()
+  ).then (html)->
+    container = document.createElement('div')
+    container.innerHTML = html
+    userNameElement = container.querySelector('meta[name="user-login"]')
+    userName = if userNameElement
+      userNameElement.getAttribute('content').replace(/^@/g, '')
+    else
+      null
+    callback(userName)
 
 # export for using from other scripts
 @updateQuery = updateQuery = () ->

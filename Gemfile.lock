@@ -8,23 +8,23 @@ GEM
     crxmake (2.2.0)
       rubyzip (~> 1.1.0)
     execjs (2.7.0)
-    ffi (1.9.18)
+    ffi (1.9.25)
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
-    rake (12.3.0)
-    rb-fsevent (0.10.2)
+    rake (12.3.1)
+    rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rubyzip (1.1.7)
-    sass (3.5.5)
+    sass (3.6.0)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     temple (0.8.0)
     tilt (2.0.8)
-    uglifier (4.1.5)
+    uglifier (4.1.19)
       execjs (>= 0.3.0, < 3)
 
 PLATFORMS
@@ -39,4 +39,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.16.1
+   1.17.0

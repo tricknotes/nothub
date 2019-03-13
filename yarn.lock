@@ -14,10 +14,10 @@ commander@~2.1.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.1.0.tgz#d121bbae860d9992a3d517ba96f56588e47c6781"
   integrity sha1-0SG7roYNmZKj1Re6lvVliOR8Z4E=
 
-"jquery@~> 2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
-  integrity sha1-LInWiJterFIqfuoywUUhVZxsvwI=
+"jquery@~> 3.2":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+  integrity sha1-XE2d5lKvbNCncBVKYxu6ErAVx4c=
 
 nan@~1.0.0:
   version "1.0.0"
@@ -49,10 +49,10 @@ uglify-js@1.2.5:
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-1.2.5.tgz#b542c2c76f78efb34b200b20177634330ff702b6"
   integrity sha1-tULCx29477NLIAsgF3Y0Mw/3ArY=
 
-"wolfy87-eventemitter@~> 4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/wolfy87-eventemitter/-/wolfy87-eventemitter-4.3.0.tgz#6497396c95e74359f06b6e35409339318d8d964f"
-  integrity sha1-ZJc5bJXnQ1nwa241QJM5MY2Nlk8=
+"wolfy87-eventemitter@~> 5.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/wolfy87-eventemitter/-/wolfy87-eventemitter-5.0.0.tgz#8a012e751e16d77f59abb51699c1034d7065a58b"
+  integrity sha1-igEudR4W139Zq7UWmcEDTXBlpYs=
 
 ws@0.4.x:
   version "0.4.32"

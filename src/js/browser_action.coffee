@@ -15,8 +15,8 @@ iconCache = new Store(localStorage)
 
 # for stream query
 supportedEventTypes = {
-  username: _.map(QueryBuilder.userTypes, ({type}) -> type )
-  reponame: _.map(QueryBuilder.repoTypes, ({type}) -> type )
+  username: QueryBuilder.userTypes.map(({type}) -> type )
+  reponame: QueryBuilder.repoTypes.map(({type}) -> type )
 }
 
 jQuery ($) ->
@@ -55,7 +55,7 @@ jQuery ($) ->
   # template for watched name
   # requires: name, type, eventTypes
   toWatchedArea = (context) ->
-    configureArea = _(context.eventTypes).map((eventType) ->
+    configureArea = context.eventTypes.map((eventType) ->
         """
           <label>
             <input name="eventTypes" type="checkbox" value="#{eventType}" />

@@ -100,8 +100,6 @@ namespace :libraries do
     ./submodules/EventEmitter/src/EventEmitter.min.js
     ./submodules/socket.io-client/dist/socket.io.js
     ./submodules/socket.io-client/dist/socket.io.min.js
-    ./submodules/underscore/underscore.js
-    ./submodules/underscore/underscore-min.js
     ./submodules/jquery/dist/jquery.js
     ./submodules/jquery/dist/jquery.min.js
   )

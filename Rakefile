@@ -77,13 +77,12 @@ namespace :compile do
 
   desc 'Compile scss to css'
   task :scss do
-    require 'sass'
-    require 'sass/exec'
+    require 'sassc'
 
     Dir['./src/css/*.scss'].each do |scss|
       css = File.basename(scss, 'scss')
-      opts = Sass::Exec::SassScss.new([scss, "dist/css/#{css}css"], :scss)
-      opts.parse
+      dist = SassC::Engine.new(File.read(scss), style: :compressed).render
+      File.write("dist/css/#{css}css", dist)
     end
   end
 

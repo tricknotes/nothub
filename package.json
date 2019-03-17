@@ -1,0 +1,21 @@
+{
+  "author": "tricknotes <tricknotes.rs@gmail.com> (https://github.com/tricknotes)",
+  "name": "nothub",
+  "version": "0.4.12",
+  "homepage": "http://nothub.org",
+  "license": "MIT",
+  "repository": {
+    "url": "git://github.com/tricknotes/nothub.git"
+  },
+  "engines": {
+    "node": ">= 10.0.0"
+  },
+  "scripts": {
+    "build": "bundle exec rake"
+  },
+  "dependencies": {
+    "jquery": "~> 3.2",
+    "socket.io-client": "~> 0.9.17",
+    "wolfy87-eventemitter": "~> 5.0"
+  }
+}

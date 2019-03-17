@@ -1,9 +1,6 @@
 [submodule "submodules/EventEmitter"]
 	path = submodules/EventEmitter
 	url = git://github.com/Wolfy87/EventEmitter.git
-[submodule "submodules/underscore"]
-	path = submodules/underscore
-	url = git://github.com/documentcloud/underscore.git
 [submodule "submodules/socket.io-client"]
 	path = submodules/socket.io-client
 	url = git://github.com/LearnBoost/socket.io-client.git

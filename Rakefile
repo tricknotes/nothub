@@ -1,5 +1,6 @@
 require 'fileutils'
 
+require 'bundler/setup'
 require 'crxmake'
 
 task :default => 'extension'
@@ -76,13 +77,12 @@ namespace :compile do
 
   desc 'Compile scss to css'
   task :scss do
-    require 'sass'
-    require 'sass/exec'
+    require 'sassc'
 
     Dir['./src/css/*.scss'].each do |scss|
       css = File.basename(scss, 'scss')
-      opts = Sass::Exec::SassScss.new([scss, "dist/css/#{css}css"], :scss)
-      opts.parse
+      dist = SassC::Engine.new(File.read(scss), style: :compressed).render
+      File.write("dist/css/#{css}css", dist)
     end
   end
 
@@ -96,18 +96,16 @@ end
 
 namespace :libraries do
   JS_LIBRARIES = %w(
-    ./submodules/EventEmitter/src/EventEmitter.js
-    ./submodules/EventEmitter/src/EventEmitter.min.js
-    ./submodules/socket.io-client/dist/socket.io.js
-    ./submodules/socket.io-client/dist/socket.io.min.js
-    ./submodules/underscore/underscore.js
-    ./submodules/underscore/underscore-min.js
-    ./submodules/jquery/dist/jquery.js
-    ./submodules/jquery/dist/jquery.min.js
+    ./node_modules/wolfy87-eventemitter/EventEmitter.js
+    ./node_modules/wolfy87-eventemitter/EventEmitter.min.js
+    ./node_modules/socket.io-client/dist/socket.io.js
+    ./node_modules/socket.io-client/dist/socket.io.min.js
+    ./node_modules/jquery/dist/jquery.js
+    ./node_modules/jquery/dist/jquery.min.js
   )
 
   WEB_FONTS = %w(
-    ./submodules/Chelsea_Market/ChelseaMarket-Regular.ttf
+    ./vendor/fonts/ChelseaMarket-Regular.ttf
   )
 
   desc 'Setup related libraries'

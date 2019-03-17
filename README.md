@@ -7,10 +7,7 @@ Web: http://nothub.org/
 ``` sh
 $ git clone git://github.com/tricknotes/nothub.git ./nothub
 $ cd nothub
-
-$ git submodule init
-$ git submodule update
-
+$ yarn install
 $ bundle install
 ```
 

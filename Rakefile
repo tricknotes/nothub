@@ -9,7 +9,6 @@ task :extension => 'extension:package'
 namespace :extension do
   PACKAGE_OPTION = {
     :ex_dir => './',
-    :crx_output => './package/nothub.crx',
     :zip_output => './package/nothub.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|Gemfile|\.git|\.swp|\.pem/,
@@ -19,20 +18,9 @@ namespace :extension do
   desc 'Setup resources for packaging'
   task :setup => %w(clean libraries:setup compile:all)
 
-  task :package => 'package:all'
-  namespace :package do
-    desc 'Package extension as crx and zip'
-    task :all => %w(crx zip)
-
-    desc 'Package extension as crx'
-    task :crx => %w(setup) do
-      CrxMake.make(PACKAGE_OPTION)
-    end
-
-    desc 'Package extension as zip'
-    task :zip => %w(setup js:compress) do
-      CrxMake.zip(PACKAGE_OPTION)
-    end
+  desc 'Package extension as zip'
+  task :package => %w(setup js:compress) do
+    CrxMake.zip(PACKAGE_OPTION)
   end
 
   desc 'Clean up packaged archives'

@@ -13,7 +13,7 @@ namespace :extension do
     :zip_output => './package/nothub.zip',
     :verbose => true,
     :ignorefile => /(?:\.watchr)|Rakefile|Gemfile|\.git|\.swp|\.pem/,
-    :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache)/
+    :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache|node_modules)/
   }
 
   desc 'Setup resources for packaging'

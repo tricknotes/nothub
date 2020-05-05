@@ -7,8 +7,9 @@ Web: http://nothub.org/
 ``` sh
 $ git clone git://github.com/tricknotes/nothub.git ./nothub
 $ cd nothub
-$ yarn install
-$ bundle install
+$ docker-compose build app
+$ docker-compose run --rm bundle install
+$ docker-compose run --rm yarn install
 ```
 
 ## Compile
@@ -17,7 +18,7 @@ Requirements:
 * [CoffeeScript](http://jashkenas.github.com/coffee-script/) (>= 1.4.0)
 
 ``` sh
-$ rake extension:package:crx
+$ docker-compose up app
 ```
 
 ## Install
@@ -26,8 +27,8 @@ Open `./package/nothub.crx` using Google Chrome.
 ## For developers
 ### Install without packaging
 ``` sh
-$ rake libraries:setup
-$ rake compile
+$ docker-compose run --rm rake libraries:setup
+$ docker-compose run --rm rake compile
 ```
 
 And install to Google Chrome.

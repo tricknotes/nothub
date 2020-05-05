@@ -14,7 +14,7 @@
     "build": "bundle exec rake"
   },
   "dependencies": {
-    "jquery": "~> 3.2",
+    "jquery": "~> 3.5",
     "socket.io-client": "~> 0.9.17",
     "wolfy87-eventemitter": "~> 5.0"
   }

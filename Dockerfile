@@ -1,5 +1,5 @@
-FROM node:12.16.3 as node-base
-FROM ruby:2.6.6
+FROM node:14.1.0 as node-base
+FROM ruby:2.7.1
 
 COPY --from=node-base /usr/local /usr/local
 COPY --from=node-base /opt /opt
@@ -13,6 +13,7 @@ RUN yarn install
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
+RUN bundle update --bundler
 RUN bundle install
 
 COPY . /app

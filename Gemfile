@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'crxmake'
+gem 'extensionator'
 gem 'uglifier'
 gem 'coffee-script'
 gem 'haml'

@@ -1,0 +1,34 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ruby:2.7.1
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          bundle config set path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: Upgrade yarn
+        run: npm install yarn -g
+      - name: Install node modules
+        uses: bahmutov/npm-install@v1
+      - name: Build
+        run: |
+          bundle exec rake extension

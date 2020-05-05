@@ -1,7 +1,7 @@
 # NotHub
-NotHub is a notification client for [GitHub](http://github.com).
+NotHub is a notification client for [GitHub](https://github.com).
 
-Web: http://nothub.org/
+Web: https://nothub.org/
 
 ## Setup
 ``` sh

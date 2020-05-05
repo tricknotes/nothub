@@ -13,9 +13,6 @@ $ docker-compose run --rm yarn install
 ```
 
 ## Compile
-Requirements:
-
-* [CoffeeScript](http://jashkenas.github.com/coffee-script/) (>= 1.4.0)
 
 ``` sh
 $ docker-compose up app

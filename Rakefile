@@ -1,18 +1,19 @@
 require 'fileutils'
 
 require 'bundler/setup'
-require 'crxmake'
+require 'extensionator'
 
 task :default => 'extension'
 
 task :extension => 'extension:package'
 namespace :extension do
   PACKAGE_OPTION = {
-    :ex_dir => './',
-    :zip_output => './package/nothub.zip',
-    :verbose => true,
-    :ignorefile => /(?:\.watchr)|Rakefile|Gemfile|\.git|\.swp|\.pem/,
-    :ignoredir => /(?:\.git|src|package|submodules|\.sass-cache|node_modules)/
+    inject_key: false,
+    exclude:
+      Regexp.union(
+        *%w(Rakefile Gemfile Gemfile.lock package.json yarn.lock docker-compose.yml Dockerfile .swp),
+        *%w(.git src package .sass-cache node_modules) #.map {|dir| Regexp.escape(dir) }
+      )
   }
 
   desc 'Setup resources for packaging'
@@ -20,7 +21,7 @@ namespace :extension do
 
   desc 'Package extension as zip'
   task :package => %w(setup js:compress) do
-    CrxMake.zip(PACKAGE_OPTION)
+    Extensionator.zip('.', 'package/nothub.zip', PACKAGE_OPTION)
   end
 
   desc 'Clean up packaged archives'

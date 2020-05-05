@@ -22,7 +22,7 @@ $ docker-compose up app
 ```
 
 ## Install
-Open `./package/nothub.crx` using Google Chrome.
+Launch nothub directory from chrome://extensions/ .
 
 ## For developers
 ### Install without packaging

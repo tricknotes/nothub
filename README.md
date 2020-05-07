@@ -8,8 +8,8 @@ Web: https://nothub.org/
 $ git clone git://github.com/tricknotes/nothub.git ./nothub
 $ cd nothub
 $ docker-compose build app
-$ docker-compose run --rm bundle install
-$ docker-compose run --rm yarn install
+$ docker-compose run --rm app bundle install
+$ docker-compose run --rm app yarn install
 ```
 
 ## Compile
@@ -24,8 +24,8 @@ Launch nothub directory from chrome://extensions/ .
 ## For developers
 ### Install without packaging
 ``` sh
-$ docker-compose run --rm rake libraries:setup
-$ docker-compose run --rm rake compile
+$ docker-compose run --rm app rake libraries:setup
+$ docker-compose run --rm app rake compile
 ```
 
 And install to Google Chrome.

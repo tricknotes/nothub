@@ -6,7 +6,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     execjs (2.8.1)
-    extensionator (2.3.0)
+    extensionator (2.3.1)
       rubyzip (>= 1.2, < 3)
       slop (~> 4.4)
     ffi (1.15.5)
@@ -17,7 +17,7 @@ GEM
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
-    slop (4.9.1)
+    slop (4.10.1)
     temple (0.8.2)
     tilt (2.0.10)
     uglifier (4.2.0)

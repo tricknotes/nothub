@@ -11,7 +11,7 @@ namespace :extension do
     inject_key: false,
     exclude:
       Regexp.union(
-        *%w(Rakefile Gemfile Gemfile.lock package.json yarn.lock docker-compose.yml Dockerfile .swp),
+        *%w(Rakefile Gemfile Gemfile.lock package.json yarn.lock compose.yml Dockerfile .swp),
         *%w(.git src package .sass-cache node_modules) #.map {|dir| Regexp.escape(dir) }
       )
   }
